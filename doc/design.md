@@ -3,12 +3,13 @@
 This document describes how to set up a simple Flask microservices 
 application and run it on a Kubernetes cluster. 
 
-## Authentication
+## Authentication service
 
-Handled in a centralized authentication service.
+Handles authentication of users and tokens.
 
-## Access control
+## Storage service
 
-Handled in each microservice separately because it's tightly coupled to
-the specific endpoints a microservice exposes, that is, permission
-checking requires knowledge about the URIs of a microservice. 
+The storage service includes a Flask application as well as an Nginx 
+web server to handle file uploads.
+
+## Compute service

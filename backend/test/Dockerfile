@@ -10,7 +10,7 @@ COPY requirements.txt /tmp
 
 RUN pip install -r /tmp/requirements.txt && rm /tmp/requirements.txt
 
-ENV AUTH_SERVICE_SETTINGS /var/www/backend/settings.py
+ENV TEST_SERVICE_SETTINGS /var/www/backend/settings.py
 
 WORKDIR /var/www/backend
 

@@ -1,4 +1,4 @@
-FROM brecheisen/backend:v1
+FROM brecheisen/base:v1
 
 MAINTAINER Ralph Brecheisen <ralph.brecheisen@gmail.com>
 

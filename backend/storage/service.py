@@ -41,6 +41,6 @@ def output_json(data, code, headers=None):
 
 if __name__ == '__main__':
     host = os.getenv('STORAGE_SERVICE_HOST', '0.0.0.0')
-    port = os.getenv('STORAGE_SERVICE_PORT', '5000')
+    port = os.getenv('STORAGE_SERVICE_PORT', '5002')
     port = int(port)
     app.run(host=host, port=port)
