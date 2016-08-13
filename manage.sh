@@ -19,6 +19,12 @@ elif [ "${1}" == "build" ]; then
     docker build -t brecheisen/storage:v1 ./backend/storage
     docker build -t brecheisen/test:v1 ./backend/test
 
+elif [ "${1}" == "update" ]; then
+
+    kubectl delete -f ./backend/${2}
+    docker build -t brecheisen/${2}:v1 ./backend/${2}
+    kubectl create -f ./backend/${2}
+
 elif [ "${1}" == "test" ]; then
 
     curl $(minikube service test --url)/tests

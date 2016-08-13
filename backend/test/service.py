@@ -11,6 +11,25 @@ else:
     pass
 
 
+def test_auth_service():
+    return {'test_auth_service': 'SUCCESS'}
+
+
+def test_storage_service():
+    return {'test_storage_service': 'SUCCESS'}
+
+
+def test_compute_service():
+    return {'test_compute_service': 'SUCCESS'}
+
+
+TESTS = [
+    test_auth_service,
+    test_storage_service,
+    test_compute_service,
+]
+
+
 class RootResource(Resource):
     def get(self):
         return {
@@ -23,8 +42,10 @@ class RootResource(Resource):
 
 class TestsResource(Resource):
     def get(self):
-        print('Running tests.... SUCCESS!!')
-        return [{'test1': 'SUCCESS'}], 200
+        results = []
+        for test in TESTS:
+            results.append(test())
+        return results, 200
 
 
 api = Api(app)
