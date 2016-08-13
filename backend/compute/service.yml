@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: compute
+  labels:
+    name: compute
+spec:
+  ports:
+    - port: 5001
+  selector:
+    name: auth
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: compute
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: compute
+    spec:
+      containers:
+        - name: compute
+          image: brecheisen/compute:v1
+          ports:
+            - containerPort: 5001
+  selector:
+    matchLabels:
+      name: compute
