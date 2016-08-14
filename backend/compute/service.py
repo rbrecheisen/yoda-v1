@@ -11,6 +11,15 @@ else:
     pass
 
 
+def init_env():
+    port = 5000
+    for service in ['AUTH', 'COMPUTE', 'STORAGE', 'TEST']:
+        if os.getenv('{}_SERVICE_HOST'.format(service), None) is None:
+            os.environ['{}_SERVICE_HOST'.format(service)] = '0.0.0.0'
+            os.environ['{}_SERVICE_PORT'.format(service)] = str(port)
+            port += 1
+
+
 class RootResource(Resource):
     def get(self):
         return {
@@ -39,7 +48,8 @@ def output_json(data, code, headers=None):
 
 
 if __name__ == '__main__':
-    host = os.getenv('COMPUTE_SERVICE_HOST', '0.0.0.0')
-    port = os.getenv('COMPUTE_SERVICE_PORT', '5001')
+    init_env()
+    host = os.getenv('COMPUTE_SERVICE_HOST')
+    port = os.getenv('COMPUTE_SERVICE_PORT')
     port = int(port)
     app.run(host=host, port=port)
