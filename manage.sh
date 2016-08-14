@@ -31,6 +31,12 @@ elif [ "${1}" == "update" ]; then
     docker build -t brecheisen/${2}:v1 ./backend/${2}
     kubectl create -f ./backend/${2}
 
+elif [ "${1}" == "logs" ]; then
+
+    SERVICE=${2}
+    POD=$(kc list ps | awk '{print $1,$3}' | grep "Running" | awk '{print $1}' | grep ${SERVICE})
+    kc logs ${POD}
+
 elif [ "${1}" == "test" ]; then
 
     curl $(minikube service test --url)/tests

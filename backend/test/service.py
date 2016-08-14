@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import requests
 from flask import Flask, make_response
@@ -12,32 +13,26 @@ else:
     pass
 
 
+def get_uri(service):
+    return 'http://{}:{}'.format(
+        os.getenv('{}_SERVICE_HOST'.format(service.upper())),
+        os.getenv('{}_SERVICE_PORT'.format(service.upper())))
+
+
 def test_auth_service():
-    host = os.getenv('AUTH_SERVICE_HOST')
-    port = os.getenv('AUTH_SERVICE_PORT')
-    uri = 'http://{}:{}'.format(host, port)
-    print(uri)
-    response = requests.get(uri)
+    response = requests.get(get_uri('auth'))
     result = 'SUCCESS' if response.status_code == 200 else 'FAIL'
     return {'test_auth_service': result}
 
 
 def test_compute_service():
-    host = os.getenv('COMPUTE_SERVICE_HOST')
-    port = os.getenv('COMPUTE_SERVICE_PORT')
-    uri = 'http://{}:{}'.format(host, port)
-    print(uri)
-    response = requests.get(uri)
+    response = requests.get(get_uri('compute'))
     result = 'SUCCESS' if response.status_code == 200 else 'FAIL'
     return {'test_compute_service': result}
 
 
 def test_storage_service():
-    host = os.getenv('STORAGE_SERVICE_HOST')
-    port = os.getenv('STORAGE_SERVICE_PORT')
-    uri = 'http://{}:{}'.format(host, port)
-    print(uri)
-    response = requests.get(uri)
+    response = requests.get(get_uri('storage'))
     result = 'SUCCESS' if response.status_code == 200 else 'FAIL'
     return {'test_storage_service': result}
 
@@ -47,6 +42,22 @@ TESTS = [
     test_compute_service,
     test_storage_service,
 ]
+
+
+def run_tests():
+    results = []
+    for test in TESTS:
+        results.append(test())
+    return results
+
+
+def init_env():
+    port = 5000
+    for service in ['AUTH', 'COMPUTE', 'STORAGE']:
+        if os.getenv('{}_SERVICE_HOST'.format(service), None) is None:
+            os.environ['{}_SERVICE_HOST'.format(service)] = '0.0.0.0'
+            os.environ['{}_SERVICE_PORT'.format(service)] = str(port)
+            port += 1
 
 
 class RootResource(Resource):
@@ -61,10 +72,7 @@ class RootResource(Resource):
 
 class TestsResource(Resource):
     def get(self):
-        results = []
-        for test in TESTS:
-            results.append(test())
-        return results, 200
+        return run_tests(), 200
 
 
 api = Api(app)
@@ -80,7 +88,12 @@ def output_json(data, code, headers=None):
 
 
 if __name__ == '__main__':
-    host = os.getenv('TEST_SERVICE_HOST', '0.0.0.0')
-    port = os.getenv('TEST_SERVICE_PORT', '5003')
-    port = int(port)
-    app.run(host=host, port=port)
+    if len(sys.argv) == 2 and sys.argv[1] == 'no-server':
+        init_env()
+        for result in run_tests():
+            print(result)
+    else:
+        host = os.getenv('TEST_SERVICE_HOST', '0.0.0.0')
+        port = os.getenv('TEST_SERVICE_PORT', '5003')
+        port = int(port)
+        app.run(host=host, port=port)
