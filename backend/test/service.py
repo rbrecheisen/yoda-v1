@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 from flask import Flask, make_response
 from flask_restful import Api, Resource
 
@@ -12,21 +13,39 @@ else:
 
 
 def test_auth_service():
-    return {'test_auth_service': 'SUCCESS'}
-
-
-def test_storage_service():
-    return {'test_storage_service': 'SUCCESS'}
+    host = os.getenv('AUTH_SERVICE_HOST')
+    port = os.getenv('AUTH_SERVICE_PORT')
+    uri = 'http://{}:{}'.format(host, port)
+    print(uri)
+    response = requests.get(uri)
+    result = 'SUCCESS' if response.status_code == 200 else 'FAIL'
+    return {'test_auth_service': result}
 
 
 def test_compute_service():
-    return {'test_compute_service': 'SUCCESS'}
+    host = os.getenv('COMPUTE_SERVICE_HOST')
+    port = os.getenv('COMPUTE_SERVICE_PORT')
+    uri = 'http://{}:{}'.format(host, port)
+    print(uri)
+    response = requests.get(uri)
+    result = 'SUCCESS' if response.status_code == 200 else 'FAIL'
+    return {'test_compute_service': result}
+
+
+def test_storage_service():
+    host = os.getenv('STORAGE_SERVICE_HOST')
+    port = os.getenv('STORAGE_SERVICE_PORT')
+    uri = 'http://{}:{}'.format(host, port)
+    print(uri)
+    response = requests.get(uri)
+    result = 'SUCCESS' if response.status_code == 200 else 'FAIL'
+    return {'test_storage_service': result}
 
 
 TESTS = [
     test_auth_service,
-    test_storage_service,
     test_compute_service,
+    test_storage_service,
 ]
 
 

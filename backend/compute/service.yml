@@ -8,7 +8,7 @@ spec:
   ports:
     - port: 5001
   selector:
-    name: auth
+    name: compute
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment

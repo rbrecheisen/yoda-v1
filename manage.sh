@@ -11,6 +11,12 @@ elif [ "${1}" == "down" ]; then
 
     kubectl delete -f ./backend --recursive
 
+elif [ "${1}" == "restart" ]; then
+
+    ./manage.sh down
+    ./manage.sh build
+    ./manage.sh up
+
 elif [ "${1}" == "build" ]; then
 
     docker build -t brecheisen/base:v1 ./backend
