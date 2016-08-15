@@ -1,5 +1,9 @@
 import os
 import json
+import string
+import random
+import base64
+import logging
 from flask import Flask, request, make_response
 from flask_restful import Api, Resource
 from jose import jwt
@@ -17,6 +21,16 @@ else:
         'admin': True,
     })
 
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s:%(lineno)s - [%(levelname)s] %(funcName)s() %(message)s')
+logger_handler = logging.StreamHandler()
+logger_handler.setLevel(logging.DEBUG)
+logger_handler.setFormatter(formatter)
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logger_handler)
+logger = logging.getLogger(__name__)
+
 
 def find_user(username):
     for user in app.config['USERS']:
@@ -32,6 +46,26 @@ def create_token(user):
 def check_token(token):
     data = jwt.decode(token, app.config['SECRET'], algorithms=['HS256'])
     return find_user(data['username'])
+
+
+def generate_id(n=16):
+    if n <= 8:
+        return ''.join(random.sample(string.digits, n))
+    k = int(n / 8)
+    r = n - 8 * k
+    nr = ''
+    for i in range(k):
+        nr += ''.join(random.sample(string.digits, 8))
+    nr += ''.join(random.sample(string.digits, r))
+    return nr
+
+
+def get_correlation_id(request):
+    if 'X-Correlation-ID' in request.headers:
+        correlation_id = request.headers['X-Correlation-ID']
+    else:
+        correlation_id = generate_id(8)
+    return correlation_id
 
 
 def init_env():
@@ -56,26 +90,37 @@ class RootResource(Resource):
 
 class TokensResource(Resource):
     def post(self):
+        correlation_id = get_correlation_id(request)
+        logging.info('{} calling tokens resource'.format(correlation_id))
         auth = request.authorization
         if auth is None:
+            logging.info('{} missing user credentials'.format(correlation_id))
             return {'message': 'Missing user credentials'}, 403
         user = find_user(auth.username)
         if user is None:
+            logging.info('{} unknown user'.format(correlation_id))
             return {'message': 'User not found'}, 403
         if user['password'] != auth.password:
+            logging.info('{} invalid password'.format(correlation_id))
             return {'message': 'Invalid password'}, 403
         token = create_token(user)
+        logging.info('{} token created'.format(correlation_id))
         return {'token': token}, 201
 
 
 class TokenChecksResource(Resource):
     def post(self):
-        data = request.get_json()
-        if 'token' not in data:
+        correlation_id = get_correlation_id(request)
+        logging.info('{} calling token checks resource'.format(correlation_id))
+        auth = request.authorization
+        if auth is None:
+            logging.info('{} missing token'.format(correlation_id))
             return {'message': 'Missing token'}
-        user = check_token(data['token'])
+        user = check_token(auth.username)
         if user is None:
+            logging.info('{} invalid token or unknown user'.format(correlation_id))
             return {'message': 'Invalid token or user not found'}, 403
+        logging.info('{} token ok'.format(correlation_id))
         return {'user': user}, 201
 
 
