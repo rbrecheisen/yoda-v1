@@ -5,11 +5,11 @@ export PYTHONPATH=$(pwd)
 
 if [ "${1}" == "up" ]; then
 
-    kubectl create -f ./backend --recursive
+    kubectl create -f ./backend/services --recursive
 
 elif [ "${1}" == "down" ]; then
 
-    kubectl delete -f ./backend --recursive
+    kubectl delete -f ./backend/services --recursive
 
 elif [ "${1}" == "restart" ]; then
 
@@ -19,23 +19,29 @@ elif [ "${1}" == "restart" ]; then
 
 elif [ "${1}" == "build" ]; then
 
-    docker build -t brecheisen/base:v1 ./backend
-    docker build -t brecheisen/auth:v1 ./backend/auth
-    docker build -t brecheisen/compute:v1 ./backend/compute
-    docker build -t brecheisen/storage:v1 ./backend/storage
-    docker build -t brecheisen/test:v1 ./backend/test
+    docker build -t brecheisen/base:v1 ./backend/services
+    docker build -t brecheisen/auth:v1 ./backend/services/auth
+    docker build -t brecheisen/compute:v1 ./backend/services/compute
+    docker build -t brecheisen/storage:v1 ./backend/services/storage
+    docker build -t brecheisen/test:v1 ./backend/services/test
 
 elif [ "${1}" == "update" ]; then
 
-    kubectl delete -f ./backend/${2}
-    docker build -t brecheisen/${2}:v1 ./backend/${2}
-    kubectl create -f ./backend/${2}
+    kubectl delete -f ./backend/services/${2}
+    docker build -t brecheisen/${2}:v1 ./backend/services/${2}
+    kubectl create -f ./backend/services/${2}
 
 elif [ "${1}" == "logs" ]; then
 
     SERVICE=${2}
     POD=$(kc list ps | awk '{print $1,$3}' | grep "Running" | awk '{print $1}' | grep ${SERVICE})
     kc logs ${POD}
+
+elif [ "${1}" == "exec" ]; then
+
+    SERVICE=${2}
+    CONTAINER_ID=$(docker ps | awk '{print $1,$2}' | grep "brecheisen/${SERVICE}" | awk '{print $1}')
+    docker exec -it ${CONTAINER_ID} bash
 
 elif [ "${1}" == "test" ]; then
 

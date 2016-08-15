@@ -2,15 +2,13 @@ FROM brecheisen/base:v1
 
 MAINTAINER Ralph Brecheisen <ralph.brecheisen@gmail.com>
 
-COPY service.py /var/www/backend/service.py
+COPY service /var/www/backend/service
+COPY requirements.txt /tmp/requirements.txt
 COPY run.sh /var/www/backend/run.sh
-COPY settings.py /var/www/backend/settings.py
-
-COPY requirements.txt /tmp
 
 RUN pip install -r /tmp/requirements.txt && rm /tmp/requirements.txt
 
-ENV COMPUTE_SERVICE_SETTINGS /var/www/backend/settings.py
+ENV AUTH_SERVICE_SETTINGS /var/www/backend/service/auth/service_settings.py
 
 WORKDIR /var/www/backend
 

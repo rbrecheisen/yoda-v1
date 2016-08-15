@@ -1,14 +1,7 @@
-import os, random, string, logging, base64
-
-
-formatter = logging.Formatter(
-    '%(asctime)s - %(name)s:%(lineno)s - [%(levelname)s] %(funcName)s() %(message)s')
-logger_handler = logging.StreamHandler()
-logger_handler.setLevel(logging.DEBUG)
-logger_handler.setFormatter(formatter)
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
-logger.addHandler(logger_handler)
+import os
+import random
+import string
+import base64
 
 
 def get_headers(token, correlation_id):

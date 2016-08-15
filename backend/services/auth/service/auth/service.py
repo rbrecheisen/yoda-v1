@@ -1,10 +1,10 @@
-import os
 import json
 import logging
+import os
 from flask import Flask, request, make_response
 from flask_restful import Api, Resource
 from jose import jwt
-from backend.lib import get_correlation_id, init_env
+from lib.util import get_correlation_id, init_env
 
 LOG = logging.getLogger(__name__)
 
@@ -20,6 +20,9 @@ else:
         'password': 'secret',
         'admin': True,
     })
+
+for key in app.config.keys():
+    print(app.config[key])
 
 
 def find_user(username):
@@ -81,7 +84,7 @@ class TokenChecksResource(Resource):
         if user is None:
             LOG.info('{} invalid token or unknown user'.format(correlation_id))
             return {'message': 'Invalid token or user not found'}, 403
-            LOG.info('{} token ok'.format(correlation_id))
+        LOG.info('{} token ok'.format(correlation_id))
         return {'user': user}, 201
 
 

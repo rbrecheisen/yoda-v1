@@ -9,3 +9,42 @@
  - [DONE] Setup debugging facilities
     - Provision environment variables to each service
     - Use compound run configuration
+
+# Directories
+
+    - flask-microservices
+        - backend
+            - services
+                - auth
+                    - auth
+                        - service.py
+                        - service-settings.py
+                    - Dockerfile
+                    - requirements.txt
+                    - run.sh
+                    - service.yaml
+                - compute
+                    - compute
+                        - service.py
+                        - service-settings.py
+                    - Dockerfile
+                    - requirements.txt
+                    - run.sh
+                    - service.yaml
+                - storage
+                    - storage
+                        - service.py
+                        - service-settings.py
+                    - Dockerfile
+                    - requirements.txt
+                    - run.sh
+                    - service.yaml
+            - lib
+                - lib
+                    - http.py
+                    - util.py
+                - Dockerfile
+                - requirements.txt                    
+        - nginx
+            - nginx-big-upload
+            - Dockerfile

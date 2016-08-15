@@ -1,10 +1,10 @@
 import os
 import json
-import requests
 import logging
+import requests
 from flask import Flask, make_response, request
 from flask_restful import Api, Resource
-from backend.lib import get_correlation_id, get_headers, init_env
+from lib.util import get_correlation_id, get_headers, init_env
 
 LOG = logging.getLogger(__name__)
 
@@ -14,6 +14,9 @@ if os.getenv('STORAGE_SERVICE_SETTINGS', None) is not None:
     app.config.from_envvar('STORAGE_SERVICE_SETTINGS')
 else:
     pass
+
+for key in app.config.keys():
+    print(app.config[key])
 
 
 class RootResource(Resource):

@@ -3,7 +3,7 @@ import json
 import logging
 from flask import Flask, make_response
 from flask_restful import Api, Resource
-from backend.lib import get_correlation_id, get_headers, init_env
+from lib.util import init_env
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +13,9 @@ if os.getenv('COMPUTE_SERVICE_SETTINGS', None) is not None:
     app.config.from_envvar('COMPUTE_SERVICE_SETTINGS')
 else:
     pass
+
+for key in app.config.keys():
+    print(app.config[key])
 
 
 class RootResource(Resource):
