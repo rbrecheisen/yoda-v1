@@ -9,6 +9,7 @@ spec:
     - port: 5000
   selector:
     name: auth
+  type: NodePort
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment

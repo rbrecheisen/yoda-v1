@@ -6,9 +6,10 @@ metadata:
     name: storage
 spec:
   ports:
-    - port: 5002
+    - port: 80
   selector:
     name: storage
+  type: NodePort
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -22,10 +23,12 @@ spec:
         name: storage
     spec:
       containers:
+        - name: nginx
+          image: brecheisen/storage-nginx:v1
+          ports:
+            - containerPort: 80
         - name: storage
           image: brecheisen/storage:v1
-          ports:
-            - containerPort: 5002
   selector:
     matchLabels:
       name: storage

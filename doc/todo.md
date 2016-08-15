@@ -1,14 +1,16 @@
 # TODO
 
- - Implement simple web UI
- - Setup file upload testing without Kubernetes
+ - Get Nginx running with storage container in a single pod
+   - Get Nginx to connect to storage container
+   - Get file upload running
+   - Get file upload (simulated) running without Kubernetes
  - Setup Celery compute service
  
- - [DONE] Implement correlation IDs (put them in headers?)
- - [DONE] Add other services to compound run configuration for debugging
- - [DONE] Setup debugging facilities
-    - Provision environment variables to each service
-    - Use compound run configuration
+# DONE
+
+ - Implement correlation IDs (put them in headers?)
+ - Add other services to compound run configuration for debugging
+ - Setup debugging facilities
 
 # Directories
 
@@ -16,29 +18,41 @@
         - backend
             - services
                 - auth
-                    - auth
-                        - service.py
-                        - service-settings.py
+                    - service
+                        - auth
+                            - service.py
+                            - service_settings.py
                     - Dockerfile
                     - requirements.txt
                     - run.sh
                     - service.yaml
                 - compute
-                    - compute
-                        - service.py
-                        - service-settings.py
+                    - service
+                        - compute
+                            - service.py
+                            - service_settings.py
                     - Dockerfile
                     - requirements.txt
                     - run.sh
                     - service.yaml
                 - storage
-                    - storage
-                        - service.py
-                        - service-settings.py
+                    - service
+                        - storage
+                            - service.py
+                            - service_settings.py
                     - Dockerfile
                     - requirements.txt
                     - run.sh
                     - service.yaml
+                - test
+                    - service
+                        - test
+                            - service.py
+                            - service_settings.py
+                    - Dockerfile
+                    - requirements.txt
+                    - run.sh
+                    - service.yaml                    
             - lib
                 - lib
                     - http.py

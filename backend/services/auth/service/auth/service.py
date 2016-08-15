@@ -21,8 +21,7 @@ else:
         'admin': True,
     })
 
-for key in app.config.keys():
-    print(app.config[key])
+print(app.config)
 
 
 def find_user(username):

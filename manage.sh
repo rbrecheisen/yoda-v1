@@ -19,10 +19,12 @@ elif [ "${1}" == "restart" ]; then
 
 elif [ "${1}" == "build" ]; then
 
-    docker build -t brecheisen/base:v1 ./backend/services
+    docker build -t brecheisen/nginx:v1 ./nginx
+    docker build -t brecheisen/base:v1 ./backend
     docker build -t brecheisen/auth:v1 ./backend/services/auth
     docker build -t brecheisen/compute:v1 ./backend/services/compute
     docker build -t brecheisen/storage:v1 ./backend/services/storage
+    docker build -t brecheisen/storage-nginx:v1 ./backend/services/storage/ngx
     docker build -t brecheisen/test:v1 ./backend/services/test
 
 elif [ "${1}" == "update" ]; then
@@ -34,8 +36,13 @@ elif [ "${1}" == "update" ]; then
 elif [ "${1}" == "logs" ]; then
 
     SERVICE=${2}
+    CONTAINER=${3}
     POD=$(kc list ps | awk '{print $1,$3}' | grep "Running" | awk '{print $1}' | grep ${SERVICE})
-    kc logs ${POD}
+    if [ "${CONTAINER}" != "" ]; then
+        kc logs ${POD} -c ${CONTAINER}
+    else
+        kc logs ${POD}
+    fi
 
 elif [ "${1}" == "exec" ]; then
 

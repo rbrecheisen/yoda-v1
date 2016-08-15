@@ -9,6 +9,7 @@ spec:
     - port: 5001
   selector:
     name: compute
+  type: NodePort
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment

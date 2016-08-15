@@ -13,9 +13,7 @@ if os.getenv('TEST_SERVICE_SETTINGS', None) is not None:
 else:
     pass
 
-for key in app.config.keys():
-    print(app.config[key])
-
+print(app.config)
 
 
 def get_uri(service):
