@@ -1,12 +1,12 @@
 import os
 import json
-import string
-import random
-import base64
 import logging
 from flask import Flask, request, make_response
 from flask_restful import Api, Resource
 from jose import jwt
+from backend.lib import get_correlation_id, init_env
+
+LOG = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
@@ -20,16 +20,6 @@ else:
         'password': 'secret',
         'admin': True,
     })
-
-formatter = logging.Formatter(
-    '%(asctime)s - %(name)s:%(lineno)s - [%(levelname)s] %(funcName)s() %(message)s')
-logger_handler = logging.StreamHandler()
-logger_handler.setLevel(logging.DEBUG)
-logger_handler.setFormatter(formatter)
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
-logger.addHandler(logger_handler)
-logger = logging.getLogger(__name__)
 
 
 def find_user(username):
@@ -48,35 +38,6 @@ def check_token(token):
     return find_user(data['username'])
 
 
-def generate_id(n=16):
-    if n <= 8:
-        return ''.join(random.sample(string.digits, n))
-    k = int(n / 8)
-    r = n - 8 * k
-    nr = ''
-    for i in range(k):
-        nr += ''.join(random.sample(string.digits, 8))
-    nr += ''.join(random.sample(string.digits, r))
-    return nr
-
-
-def get_correlation_id(request):
-    if 'X-Correlation-ID' in request.headers:
-        correlation_id = request.headers['X-Correlation-ID']
-    else:
-        correlation_id = generate_id(8)
-    return correlation_id
-
-
-def init_env():
-    port = 5000
-    for service in ['AUTH', 'COMPUTE', 'STORAGE', 'TEST']:
-        if os.getenv('{}_SERVICE_HOST'.format(service), None) is None:
-            os.environ['{}_SERVICE_HOST'.format(service)] = '0.0.0.0'
-            os.environ['{}_SERVICE_PORT'.format(service)] = str(port)
-            port += 1
-
-
 class RootResource(Resource):
     def get(self):
         return {
@@ -91,36 +52,36 @@ class RootResource(Resource):
 class TokensResource(Resource):
     def post(self):
         correlation_id = get_correlation_id(request)
-        logging.info('{} calling tokens resource'.format(correlation_id))
+        LOG.info('{} calling tokens resource'.format(correlation_id))
         auth = request.authorization
         if auth is None:
-            logging.info('{} missing user credentials'.format(correlation_id))
+            LOG.info('{} missing user credentials'.format(correlation_id))
             return {'message': 'Missing user credentials'}, 403
         user = find_user(auth.username)
         if user is None:
-            logging.info('{} unknown user'.format(correlation_id))
+            LOG.info('{} unknown user'.format(correlation_id))
             return {'message': 'User not found'}, 403
         if user['password'] != auth.password:
-            logging.info('{} invalid password'.format(correlation_id))
+            LOG.info('{} invalid password'.format(correlation_id))
             return {'message': 'Invalid password'}, 403
         token = create_token(user)
-        logging.info('{} token created'.format(correlation_id))
+        LOG.info('{} token created'.format(correlation_id))
         return {'token': token}, 201
 
 
 class TokenChecksResource(Resource):
     def post(self):
         correlation_id = get_correlation_id(request)
-        logging.info('{} calling token checks resource'.format(correlation_id))
+        LOG.info('{} calling token checks resource'.format(correlation_id))
         auth = request.authorization
         if auth is None:
-            logging.info('{} missing token'.format(correlation_id))
+            LOG.info('{} missing token'.format(correlation_id))
             return {'message': 'Missing token'}
         user = check_token(auth.username)
         if user is None:
-            logging.info('{} invalid token or unknown user'.format(correlation_id))
+            LOG.info('{} invalid token or unknown user'.format(correlation_id))
             return {'message': 'Invalid token or user not found'}, 403
-        logging.info('{} token ok'.format(correlation_id))
+            LOG.info('{} token ok'.format(correlation_id))
         return {'user': user}, 201
 
 
