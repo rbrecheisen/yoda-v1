@@ -67,4 +67,10 @@ elif [ "${1}" == "test" ]; then
 
     curl $(minikube service test --url)/tests
 
+elif [ "${1}" == "clean" ]; then
+
+    docker stop $(docker ps -q)
+    docker rm -f $(docker ps -aq)
+    docker rmi -f $(docker images -q)
+
 fi
