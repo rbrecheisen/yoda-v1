@@ -2,13 +2,15 @@
 
  - Get Nginx running with storage container in a single pod
    - [DONE] Get Nginx to connect to storage container
-   - Setup file volumes
+   - [DONE] Setup file volumes
    - Get file upload running
+     - Get file upload test script running
    - Get file upload (simulated) running without Kubernetes
  - Setup PostgreSQL
  - Setup SSL and secrets
  - Setup liveliness and readiness checks
  - Setup Celery compute service
+ - Load files from S3 or EBS
  
 # DONE
 

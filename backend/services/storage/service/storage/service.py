@@ -1,12 +1,10 @@
 import os
 import json
-import logging
 import requests
 from flask import Flask, make_response, request
 from flask_restful import Api, Resource
-from lib.util import get_correlation_id, get_headers, init_env
-
-LOG = logging.getLogger(__name__)
+from lib.util import init_env
+from lib.resource import BaseResource
 
 app = Flask(__name__)
 
@@ -28,23 +26,19 @@ class RootResource(Resource):
         }
 
 
-class FilesResource(Resource):
+class FilesResource(BaseResource):
     def post(self):
-        correlation_id = get_correlation_id(request)
-        LOG.info('{} calling files resource'.format(correlation_id))
         auth = request.authorization
         if auth is None:
-            LOG.info('{} missing token'.format(correlation_id))
-            return {'message': 'Missing token'}, 403
-        LOG.info('{} calling auth service for authentication'.format(correlation_id))
+            return self.error_response('Missing token', 403)
+        self.log_info('Calling auth service for authentication')
         uri = 'http://{}:{}/token-checks'.format(os.getenv('AUTH_SERVICE_HOST'), os.getenv('AUTH_SERVICE_PORT'))
-        response = requests.post(uri, headers=get_headers(auth.username, correlation_id))
+        response = requests.post(uri, headers=self.headers(auth.username))
         if response.status_code != 201:
-            LOG.info('{} authentication failed'.format(correlation_id))
-            return {'message': 'POST /files not permitted ({})'.format(response.json())}, 403
-        LOG.info('{} authentication succeeded, uploading file'.format(correlation_id))
-        LOG.info('{} file uploaded'.format(correlation_id))
-        return {'files': []}, 201
+            return self.error_response('POST /files not permitted ({})'.format(response.json()), 403)
+        self.log_info('Authentication succeeded, uploading file')
+        self.log_info('File uploaded')
+        return self.response({'files': []}, 201)
 
 
 api = Api(app)
