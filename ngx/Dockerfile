@@ -35,7 +35,7 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get install -y build-essentia
     && make install \
     && cd .. \
     && mkdir -p /usr/local/nginx/modules \
-    # && mv nginx-big-upload /usr/local/nginx/modules \
+    # && mv ngx-big-upload /usr/local/ngx/modules \
 	&& ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log \
 	&& mkdir -p /mnt/shared/files \

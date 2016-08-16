@@ -1,5 +1,5 @@
 -- Copyright (C) 2013 Piotr Gaertig
--- SHA1 shortcut function handler for nginx-big-upload pipeline
+-- SHA1 shortcut function handler for ngx-big-upload pipeline
 -- This is stateless handler, it saves .sha1 file with SHA1 context data.
 
 local ffi = require('ffi')

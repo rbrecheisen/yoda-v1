@@ -37,7 +37,7 @@ function doUpload(url, extraParams, sessionID, file, progress, success) {
         var kbps = Math.round(chunkSize / duration);
         if (duration < 2000 && chunkSize < 8 * 1024 * 1024) {
             //faster, increase chunk size up to 8MB, there will be no more increases over 4MB/s
-            // Important: remember about client_max_body_size in nginx config if you alter max chunk size
+            // Important: remember about client_max_body_size in ngx config if you alter max chunk size
             chunkSize <<= 1;
             console.log("Increase chunkSize="+chunkSize+", kbps="+kbps);
         } else if (duration > 10000 && chunkSize > 32 * 1024) {

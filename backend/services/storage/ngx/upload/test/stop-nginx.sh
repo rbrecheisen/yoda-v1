@@ -1,6 +1,6 @@
 #!/bin/bash
 CDIR=`pwd`
-echo "Stoppin nginx"
+echo "Stoppin ngx"
 if [ -f ./nginx ]
 then
   NGINX_BIN=./nginx

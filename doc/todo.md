@@ -1,9 +1,13 @@
 # TODO
 
  - Get Nginx running with storage container in a single pod
-   - Get Nginx to connect to storage container
+   - [DONE] Get Nginx to connect to storage container
+   - Setup file volumes
    - Get file upload running
    - Get file upload (simulated) running without Kubernetes
+ - Setup PostgreSQL
+ - Setup SSL and secrets
+ - Setup liveliness and readiness checks
  - Setup Celery compute service
  
 # DONE

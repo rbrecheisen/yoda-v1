@@ -1,4 +1,4 @@
-FROM brecheisen/nginx:v1
+FROM brecheisen/ngx:v1
 
 MAINTAINER Ralph Brecheisen <ralph.brecheisen@gmail.com>
 

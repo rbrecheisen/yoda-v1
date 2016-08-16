@@ -19,12 +19,13 @@ elif [ "${1}" == "restart" ]; then
 
 elif [ "${1}" == "build" ]; then
 
-    docker build -t brecheisen/nginx:v1 ./nginx
+    docker build -t brecheisen/ngx:v1 ./ngx
     docker build -t brecheisen/base:v1 ./backend
+    docker build -t brecheisen/storage-files:v1 ./backend/services/storage/files
     docker build -t brecheisen/auth:v1 ./backend/services/auth
     docker build -t brecheisen/compute:v1 ./backend/services/compute
     docker build -t brecheisen/storage:v1 ./backend/services/storage
-    docker build -t brecheisen/storage-nginx:v1 ./backend/services/storage/ngx
+    docker build -t brecheisen/storage-ngx:v1 ./backend/services/storage/ngx
     docker build -t brecheisen/test:v1 ./backend/services/test
 
 elif [ "${1}" == "update" ]; then
