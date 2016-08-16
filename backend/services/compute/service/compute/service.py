@@ -1,20 +1,15 @@
 import os
 import json
-import logging
 from flask import Flask, make_response
 from flask_restful import Api
 from lib.util import init_env, token_required
 from lib.resource import BaseResource
 
-logger = logging.getLogger(__name__)
-
 app = Flask(__name__)
 
-if os.getenv('COMPUTE_SERVICE_SETTINGS', None) is not None:
-    app.config.from_envvar('COMPUTE_SERVICE_SETTINGS')
-else:
-    pass
-
+if os.getenv('COMPUTE_SERVICE_SETTINGS', None) is None:
+    os.environ['COMPUTE_SERVICE_SETTINGS'] = os.path.abspath('service/compute/service_settings.py')
+app.config.from_envvar('COMPUTE_SERVICE_SETTINGS')
 print(app.config)
 
 

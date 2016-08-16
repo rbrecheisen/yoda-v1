@@ -5,6 +5,7 @@ MAINTAINER Ralph Brecheisen <ralph.brecheisen@gmail.com>
 COPY service /var/www/backend/service
 COPY requirements.txt /tmp/requirements.txt
 COPY run.sh /var/www/backend/run.sh
+COPY data/data.nii.gz /tmp/data.nii.gz
 
 RUN pip install -r /tmp/requirements.txt && rm /tmp/requirements.txt
 

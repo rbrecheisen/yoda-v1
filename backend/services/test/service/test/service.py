@@ -2,16 +2,15 @@ import os
 import sys
 import json
 from flask import Flask, make_response
-from flask_restful import Api, Resource
+from flask_restful import Api
+from lib.resource import BaseResource
 from tests import TESTS
 
 app = Flask(__name__)
 
-if os.getenv('TEST_SERVICE_SETTINGS', None) is not None:
-    app.config.from_envvar('TEST_SERVICE_SETTINGS')
-else:
-    pass
-
+if os.getenv('TEST_SERVICE_SETTINGS', None) is None:
+    os.environ['TEST_SERVICE_SETTINGS'] = os.path.abspath('service/test/service_settings.py')
+app.config.from_envvar('TEST_SERVICE_SETTINGS')
 print(app.config)
 
 
@@ -31,7 +30,7 @@ def init_env():
             port += 1
 
 
-class RootResource(Resource):
+class RootResource(BaseResource):
     def get(self):
         return {
             'service': 'test',
@@ -41,7 +40,7 @@ class RootResource(Resource):
         }
 
 
-class TestsResource(Resource):
+class TestsResource(BaseResource):
     def get(self):
         return run_tests(), 200
 

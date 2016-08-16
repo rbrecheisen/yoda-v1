@@ -1,5 +1,4 @@
 import json
-import logging
 import os
 from flask import Flask, request, make_response
 from flask_restful import Api
@@ -7,21 +6,11 @@ from jose import jwt
 from lib.util import init_env
 from lib.resource import BaseResource
 
-LOG = logging.getLogger(__name__)
-
 app = Flask(__name__)
 
-if os.getenv('AUTH_SERVICE_SETTINGS', None) is not None:
-    app.config.from_envvar('AUTH_SERVICE_SETTINGS')
-else:
-    app.config['SECRET'] = os.urandom(64)
-    app.config['USERS'] = []
-    app.config['USERS'].append({
-        'username': 'ralph',
-        'password': 'secret',
-        'admin': True,
-    })
-
+if os.getenv('AUTH_SERVICE_SETTINGS', None) is None:
+    os.environ['AUTH_SERVICE_SETTINGS'] = os.path.abspath('service/auth/service_settings.py')
+app.config.from_envvar('AUTH_SERVICE_SETTINGS')
 print(app.config)
 
 

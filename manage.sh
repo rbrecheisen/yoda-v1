@@ -17,6 +17,8 @@ elif [ "${1}" == "restart" ]; then
     ./manage.sh build
     ./manage.sh up
 
+    kc list ps
+
 elif [ "${1}" == "build" ]; then
 
     docker build -t brecheisen/ngx:v1 ./ngx
@@ -28,11 +30,19 @@ elif [ "${1}" == "build" ]; then
     docker build -t brecheisen/storage-ngx:v1 ./backend/services/storage/ngx
     docker build -t brecheisen/test:v1 ./backend/services/test
 
+    docker rmi -f $(docker images -qf "dangling=true")
+
 elif [ "${1}" == "update" ]; then
 
     kubectl delete -f ./backend/services/${2}
     docker build -t brecheisen/${2}:v1 ./backend/services/${2}
     kubectl create -f ./backend/services/${2}
+
+elif [ "${1}" == "describe" ]; then
+
+    SERVICE=${2}
+    POD=$(kc list ps | awk '{print $1,$3}' | grep "Running" | awk '{print $1}' | grep ${SERVICE})
+    kc describe pod ${POD}
 
 elif [ "${1}" == "logs" ]; then
 
