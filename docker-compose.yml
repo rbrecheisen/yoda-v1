@@ -1,0 +1,98 @@
+version: '2'
+
+services:
+
+  base:
+    build: ./backend
+    image: brecheisen/base:v1
+    container_name: "base"
+    command: "true"
+
+  ngx:
+    build: ./ngx
+    image: brecheisen/ngx:v1
+    container_name: "ngx"
+    command: "true"
+
+  storage-ngx:
+    build: ./backend/services/storage/ngx
+    image: brecheisen/storage-ngx:v1
+    container_name: "storage-ngx"
+    command: "nginx"
+    volumes:
+      - ./backend/services/storage/ngx/upload:/usr/local/nginx/modules/nginx-big-upload
+      - ./backend/services/storage/ngx/nginx.conf:/usr/local/nginx/conf/nginx.conf
+    volumes_from:
+      - files
+    depends_on:
+      - ngx
+
+  auth:
+    build: ./backend/services/auth
+    image: brecheisen/auth:v1
+    container_name: "auth"
+    command: ./run.sh
+    expose:
+      - "5000"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend/services/auth:/var/www/backend
+      - ./backend/lib:/var/www/backend/lib
+    depends_on:
+      - base
+
+  compute:
+    build: ./backend/services/compute
+    image: brecheisen/compute:v1
+    container_name: "compute"
+    command: ./run.sh
+    expose:
+      - "5001"
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./backend/services/compute:/var/www/backend
+      - ./backend/lib:/var/www/backend/lib
+    depends_on:
+      - base
+
+  storage:
+    build: ./backend/services/storage
+    image: brecheisen/storage:v1
+    container_name: "storage"
+    command: ./run.sh
+    expose:
+      - "5002"
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./backend/services/storage:/var/www/backend
+      - ./backend/lib:/var/www/backend/lib
+    volumes_from:
+      - files
+    depends_on:
+      - base
+
+  test:
+    build: ./backend/services/test
+    image: brecheisen/test:v1
+    container_name: "test"
+    command: ./run.sh
+    expose:
+      - "5003"
+    ports:
+      - "5003:5003"
+    volumes:
+      - ./backend/services/test:/var/www/backend
+      - ./backend/lib:/var/www/backend/lib
+    depends_on:
+      - base
+
+  files:
+    build: ./backend/services/storage/files
+    image: brecheisen/storage-files:v1
+    container_name: "files"
+    command: "true"
+    volumes:
+      - /mnt/shared/files
