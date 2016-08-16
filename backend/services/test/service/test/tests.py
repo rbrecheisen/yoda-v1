@@ -21,10 +21,18 @@ def token_header(token):
 def test_auth_service():
     response = requests.get(get_uri('auth'))
     if response.status_code != 200:
-        result = 'FAIL: {}'.format(response.json())
-    else:
-        result = 'SUCCESS'
-    return {'test_auth_service': result}
+        return {'test_auth_service': 'FAIL {}'.format(response.json())}
+    response = requests.post('{}/tokens'.format(get_uri('auth')), headers=login_header('ralph', 'secret'))
+    if response.status_code != 201:
+        return {'test_auth_service': 'FAIL {}'.format(response.json())}
+    token = response.json()['token']
+    response = requests.post('{}/token-checks'.format(get_uri('auth')), headers=token_header(token))
+    if response.status_code != 201:
+        return {'test_auth_service': 'FAIL {}'.format(response.json())}
+    user = response.json()['user']
+    if user['username'] != 'ralph':
+        return {'test_auth_service': 'FAIL username != ralph'}
+    return {'test_auth_service': 'SUCCESS'}
 
 
 def test_compute_service():

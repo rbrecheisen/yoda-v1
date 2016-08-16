@@ -1,8 +1,7 @@
 import logging
 
 
-formatter = logging.Formatter(
-    '%(asctime)s - %(name)s:%(lineno)s - [%(levelname)s] %(funcName)s() %(message)s')
+formatter = logging.Formatter('%(asctime)s - [%(levelname)s] %(message)s')
 
 handler = logging.StreamHandler()
 handler.setLevel(logging.DEBUG)

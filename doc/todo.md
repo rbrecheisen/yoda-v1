@@ -6,17 +6,18 @@
    - Get file upload running
      - Get file upload test script running
    - Get file upload (simulated) running without Kubernetes
+ - Setup permission checking in each service
  - Setup PostgreSQL
  - Setup SSL and secrets
  - Setup liveliness and readiness checks
  - Setup Celery compute service
  - Load files from S3 or EBS
- 
-# DONE
+ - [DONE] Refactored authentication to wrapper in BaseResource
+ - [DONE] Moved logging to BaseResource
+ - [DONE] Implement correlation IDs (put them in headers?)
+ - [DONE] Add other services to compound run configuration for debugging
+ - [DONE] Setup debugging facilities
 
- - Implement correlation IDs (put them in headers?)
- - Add other services to compound run configuration for debugging
- - Setup debugging facilities
 
 # Directories
 

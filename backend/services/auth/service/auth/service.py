@@ -2,9 +2,10 @@ import json
 import logging
 import os
 from flask import Flask, request, make_response
-from flask_restful import Api, Resource
+from flask_restful import Api
 from jose import jwt
-from lib.util import get_correlation_id, init_env
+from lib.util import init_env
+from lib.resource import BaseResource
 
 LOG = logging.getLogger(__name__)
 
@@ -40,7 +41,7 @@ def check_token(token):
     return find_user(data['username'])
 
 
-class RootResource(Resource):
+class RootResource(BaseResource):
     def get(self):
         return {
             'service': 'auth',
@@ -51,40 +52,31 @@ class RootResource(Resource):
         }
 
 
-class TokensResource(Resource):
+class TokensResource(BaseResource):
     def post(self):
-        correlation_id = get_correlation_id(request)
-        LOG.info('{} calling tokens resource'.format(correlation_id))
         auth = request.authorization
         if auth is None:
-            LOG.info('{} missing user credentials'.format(correlation_id))
-            return {'message': 'Missing user credentials'}, 403
+            return self.error_response('Missing user credentials', 403)
         user = find_user(auth.username)
         if user is None:
-            LOG.info('{} unknown user'.format(correlation_id))
-            return {'message': 'User not found'}, 403
+            return self.error_response('Unknown user', 403)
         if user['password'] != auth.password:
-            LOG.info('{} invalid password'.format(correlation_id))
-            return {'message': 'Invalid password'}, 403
+            return self.error_response('Invalid password', 403)
         token = create_token(user)
-        LOG.info('{} token created'.format(correlation_id))
-        return {'token': token}, 201
+        self.log_info('Token created')
+        return self.response({'token': token}, 201)
 
 
-class TokenChecksResource(Resource):
+class TokenChecksResource(BaseResource):
     def post(self):
-        correlation_id = get_correlation_id(request)
-        LOG.info('{} calling token checks resource'.format(correlation_id))
         auth = request.authorization
         if auth is None:
-            LOG.info('{} missing token'.format(correlation_id))
-            return {'message': 'Missing token'}
+            return self.error_response('Missing token', 403)
         user = check_token(auth.username)
         if user is None:
-            LOG.info('{} invalid token or unknown user'.format(correlation_id))
-            return {'message': 'Invalid token or user not found'}, 403
-        LOG.info('{} token ok'.format(correlation_id))
-        return {'user': user}, 201
+            return self.error_response('Invalid token or user not found', 403)
+        self.log_info('Token accepted')
+        return self.response({'user': user}, 201)
 
 
 api = Api(app)

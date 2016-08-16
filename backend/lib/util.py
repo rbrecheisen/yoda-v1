@@ -2,13 +2,30 @@ import os
 import random
 import string
 import base64
+import requests
+from functools import wraps
+from flask import request, g
 
 
-def get_headers(token, correlation_id):
-    return {
-        'Authorization': 'Basic {}'.format(base64.b64encode('{}:unused'.format(token))),
-        'X-Correlation-ID': correlation_id,
-    }
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if not getattr(f, 'token_required', True):
+            return f(*args, **kwargs)
+        auth = request.authorization
+        if auth is None:
+            raise RuntimeError('Missing authorization header')
+        headers = {
+            'Authorization': 'Basic {}'.format(base64.b64encode('{}:unused'.format(auth.username))),
+            'X-Correlation-ID': get_correlation_id()}
+        response = requests.post('http://{}:{}/token-checks'.format(
+            os.getenv('AUTH_SERVICE_HOST'),
+            os.getenv('AUTH_SERVICE_PORT')), headers=headers)
+        if response.status_code != 201:
+            raise RuntimeError('Authentication failed ({})'.format(response.json()))
+        g.current_user = response.json()['user']
+        return f(*args, **kwargs)
+    return decorated
 
 
 def generate_id(n=16):
@@ -23,7 +40,7 @@ def generate_id(n=16):
     return nr
 
 
-def get_correlation_id(request):
+def get_correlation_id():
     if 'X-Correlation-ID' in request.headers:
         correlation_id = request.headers['X-Correlation-ID']
     else:

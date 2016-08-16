@@ -2,8 +2,9 @@ import os
 import json
 import logging
 from flask import Flask, make_response
-from flask_restful import Api, Resource
-from lib.util import init_env
+from flask_restful import Api
+from lib.util import init_env, token_required
+from lib.resource import BaseResource
 
 logger = logging.getLogger(__name__)
 
@@ -17,19 +18,20 @@ else:
 print(app.config)
 
 
-class RootResource(Resource):
+class RootResource(BaseResource):
     def get(self):
-        return {
+        return self.response({
             'service': 'compute',
             'resources': {
                 'tasks': {},
             }
-        }
+        }, 200)
 
 
-class TasksResource(Resource):
+class TasksResource(BaseResource):
+    @token_required
     def post(self):
-        return {}, 201
+        return self.response({}, 201)
 
 
 api = Api(app)

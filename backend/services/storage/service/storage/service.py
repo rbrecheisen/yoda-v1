@@ -1,9 +1,8 @@
 import os
 import json
-import requests
-from flask import Flask, make_response, request
+from flask import Flask, make_response
 from flask_restful import Api, Resource
-from lib.util import init_env
+from lib.util import init_env, token_required
 from lib.resource import BaseResource
 
 app = Flask(__name__)
@@ -27,18 +26,11 @@ class RootResource(Resource):
 
 
 class FilesResource(BaseResource):
+    @token_required
     def post(self):
-        auth = request.authorization
-        if auth is None:
-            return self.error_response('Missing token', 403)
-        self.log_info('Calling auth service for authentication')
-        uri = 'http://{}:{}/token-checks'.format(os.getenv('AUTH_SERVICE_HOST'), os.getenv('AUTH_SERVICE_PORT'))
-        response = requests.post(uri, headers=self.headers(auth.username))
-        if response.status_code != 201:
-            return self.error_response('POST /files not permitted ({})'.format(response.json()), 403)
         self.log_info('Authentication succeeded, uploading file')
         self.log_info('File uploaded')
-        return self.response({'files': []}, 201)
+        return {'files': []}, 201
 
 
 api = Api(app)

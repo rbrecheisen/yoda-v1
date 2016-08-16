@@ -1,7 +1,7 @@
 import logging
-from flask import request
+from flask import g
 from flask_restful import Resource
-from lib.util import get_correlation_id, get_headers
+from lib.util import get_correlation_id
 
 
 class BaseResource(Resource):
@@ -12,11 +12,12 @@ class BaseResource(Resource):
         self._logging = logging.getLogger(__name__)
 
     def dispatch_request(self, *args, **kwargs):
-        self._correlation_id = get_correlation_id(request)
+        self._correlation_id = get_correlation_id()
         return super(BaseResource, self).dispatch_request(*args, **kwargs)
 
-    def headers(self, token):
-        return get_headers(token, self.correlation_id)
+    @staticmethod
+    def current_user():
+        return g.current_user
 
     def log_info(self, message):
         self._logging.info('{} {}'.format(self.correlation_id, message))
@@ -33,7 +34,7 @@ class BaseResource(Resource):
         return {'message': message}, status_code
 
     @staticmethod
-    def response(data, status_code, headers=None):
+    def response(data, status_code=200, headers=None):
         return data, status_code, headers
 
     @property
