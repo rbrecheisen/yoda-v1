@@ -24,9 +24,13 @@ class RootResource(Resource):
 
 
 class FilesResource(BaseResource):
+
+    @token_required
+    def get(self):
+        return {}, 200
+
     @token_required
     def post(self):
-        self.log_info('Authentication succeeded, uploading file')
         data = request.data
         self.log_info('File uploaded {} bytes'.format(len(data)))
         return {'files': []}, 201

@@ -17,8 +17,6 @@ elif [ "${1}" == "restart" ]; then
     ./manage.sh build
     ./manage.sh up
 
-    kc list ps
-
 elif [ "${1}" == "build" ]; then
 
     docker build -t brecheisen/ngx:v1 ./ngx
@@ -37,6 +35,10 @@ elif [ "${1}" == "update" ]; then
     kubectl delete -f ./backend/services/${2}
     docker build -t brecheisen/${2}:v1 ./backend/services/${2}
     kubectl create -f ./backend/services/${2}
+
+    kubectl delete -f ./backend/services/test
+    docker build -t brecheisen/test:v1 ./backend/services/test
+    kubectl create -f ./backend/services/test
 
 elif [ "${1}" == "describe" ]; then
 

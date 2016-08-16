@@ -12,6 +12,7 @@ spec:
   - ReadWriteOnce
   hostPath:
     path: /tmp/files
+  persistentVolumeReclaimPolicy: Recycle
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -57,9 +58,9 @@ spec:
           image: brecheisen/storage-ngx:v1
           ports:
             - containerPort: 80
-          # Before stopping the pod, make sure Nginx gracefully terminates by
-          # finishing ongoing requests.
           lifecycle:
+            # Before stopping the pod, make sure Nginx gracefully terminates by
+            # finishing ongoing requests.
             preStop:
               exec:
                 command: ["/usr/local/sbin/nginx", "-s", "quit"]

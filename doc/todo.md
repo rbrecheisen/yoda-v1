@@ -1,17 +1,19 @@
 # TODO
 
- - Get Nginx running with storage container in a single pod
-   - [DONE] Get Nginx to connect to storage container
-   - [DONE] Setup file volumes
-   - Get file upload running
-     - Get file upload test script running
-   - Get file upload (simulated) running without Kubernetes
+ - Setup Docker Swarm
  - Setup permission checking in each service
  - Setup PostgreSQL
  - Setup SSL and secrets
  - Setup liveliness and readiness checks
  - Setup Celery compute service
  - Load files from S3 or EBS
+ - [DONE] Get Nginx running with storage container in a single pod
+   - [DONE] Get Nginx to connect to storage container
+   - [DONE] Setup file volumes
+   - [DONE] Get file upload running
+     - [DONE] File upload directly to Flask service
+     - [DONE] File upload via Nginx
+     - [DONE] Resumable file upload via Nginx
  - [DONE] Refactored authentication to wrapper in BaseResource
  - [DONE] Moved logging to BaseResource
  - [DONE] Implement correlation IDs (put them in headers?)
