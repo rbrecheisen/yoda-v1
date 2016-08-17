@@ -1,4 +1,18 @@
-# Docker Swarm
+# Docker Engine in swarm mode
+
+ - https://docs.docker.com/engine/swarm
+ 
+## VMs
+
+ - docker-machine stop default
+ - docker-machine create -d virtualbox manager
+ - docker-machine create -d virtualbox worker1
+ - docker-machine create -d virtualbox worker2
+ 
+## 
+ 
+
+# Docker Swarm (obsolete)
 
  - https://docs.docker.com/swarm/install-w-machine
  

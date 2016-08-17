@@ -15,13 +15,13 @@ services:
     command: "true"
 
   storage-ngx:
-    build: ./backend/services/storage/ngx
-    image: brecheisen/storage-ngx:v1
+    build: ./backend/services/ngx
+    image: brecheisen/ngx:v1
     container_name: "storage-ngx"
     command: "nginx"
     volumes:
-      - ./backend/services/storage/ngx/upload:/usr/local/nginx/modules/nginx-big-upload
-      - ./backend/services/storage/ngx/nginx.conf:/usr/local/nginx/conf/nginx.conf
+      - ./nginx/nginx-big-upload:/usr/local/nginx/modules/nginx-big-upload
+      - ./nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
     volumes_from:
       - files
     depends_on:

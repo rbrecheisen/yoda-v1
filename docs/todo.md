@@ -1,12 +1,15 @@
 # TODO
 
- - Setup Docker Swarm
+ - Setup Docker Engine in swarm mode
+ -   - Setup local image registry
+       - Check how to connect to localhost from VM environment (use IP?)
+   
  - Setup permission checking in each service
  - Setup PostgreSQL
  - Setup SSL and secrets
  - Setup liveliness and readiness checks
  - Setup Celery compute service
- - Load files from S3 or EBS
+ - Load files from S3 or EBS (look into volume drivers like flocker)
  - [DONE] Get Nginx running with storage container in a single pod
    - [DONE] Get Nginx to connect to storage container
    - [DONE] Setup file volumes
