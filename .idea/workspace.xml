@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9bf9d827-0921-426b-bc3b-ca97e1944684" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/swarm/v1.12-manage.sh" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kubernetes/auth.yml" afterPath="$PROJECT_DIR$/backend/services/auth/service.yml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kubernetes/compute.yml" afterPath="$PROJECT_DIR$/backend/services/compute/service.yml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kubernetes/storage.yml" afterPath="$PROJECT_DIR$/backend/services/storage/service.yml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kubernetes/test.yml" afterPath="$PROJECT_DIR$/backend/services/test/service.yml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kubernetes/test/Dockerfile" afterPath="$PROJECT_DIR$/backend/services/test/Dockerfile" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kubernetes/test/requirements.txt" afterPath="$PROJECT_DIR$/backend/services/test/requirements.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kubernetes/test/run.sh" afterPath="$PROJECT_DIR$/backend/services/test/run.sh" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kubernetes/test/service/__init__.py" afterPath="$PROJECT_DIR$/backend/services/test/service/test/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kubernetes/test/service/test/__init__.py" afterPath="$PROJECT_DIR$/backend/services/test/service/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kubernetes/test/service/test/service.py" afterPath="$PROJECT_DIR$/backend/services/test/service/test/service.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kubernetes/test/service/test/service_settings.py" afterPath="$PROJECT_DIR$/backend/services/test/service/test/service_settings.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/kubernetes/test/service/test/tests.py" afterPath="$PROJECT_DIR$/backend/services/test/service/test/tests.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/manage.sh" afterPath="$PROJECT_DIR$/swarm/manage-swarm-mode.sh" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/swarm/v1.11-manage.sh" afterPath="$PROJECT_DIR$/swarm/manage-swarm.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/flask-microservices.iml" afterPath="$PROJECT_DIR$/.idea/flask-microservices.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/tests/test_auth.py" afterPath="$PROJECT_DIR$/backend/tests/test_auth.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kubernetes/manage.sh" afterPath="$PROJECT_DIR$/kubernetes/manage.sh" />
-    </list>
+    <list default="true" id="9bf9d827-0921-426b-bc3b-ca97e1944684" name="Default" comment="" />
     <ignored path="flask-microservices.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -696,7 +676,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32971507" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2261185" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2261185" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32769045" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2734375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
