@@ -5,11 +5,11 @@ export PYTHONPATH=$(pwd)
 
 if [ "${1}" == "up" ]; then
 
-    kubectl create -f ./backend/services --recursive
+    kc create -f ./backend/services --recursive
 
 elif [ "${1}" == "down" ]; then
 
-    kubectl delete -f ./backend/services --recursive
+    kc delete -f ./backend/services --recursive
 
 elif [ "${1}" == "restart" ]; then
 
@@ -17,28 +17,34 @@ elif [ "${1}" == "restart" ]; then
     ./manage.sh build
     ./manage.sh up
 
+elif [ "${1}" == "list" ]; then
+
+    kc list ${2}
+
 elif [ "${1}" == "build" ]; then
 
-    docker build -t brecheisen/ngx:v1 ./ngx
     docker build -t brecheisen/base:v1 ./backend
-    docker build -t brecheisen/storage-files:v1 ./backend/services/storage/files
+    docker build -t brecheisen/ngx-base:v1 ./ngx/base
+    docker build -t brecheisen/ngx:v1 ./ngx
     docker build -t brecheisen/auth:v1 ./backend/services/auth
     docker build -t brecheisen/compute:v1 ./backend/services/compute
     docker build -t brecheisen/storage:v1 ./backend/services/storage
-    docker build -t brecheisen/storage-ngx:v1 ./backend/services/storage/ngx
     docker build -t brecheisen/test:v1 ./backend/services/test
 
-    docker rmi -f $(docker images -qf "dangling=true")
+    dangling=$(docker images -qf "dangling=true")
+    if [ "${dangling}" != "" ]; then
+        docker rmi -f ${dangling}
+    fi
 
 elif [ "${1}" == "update" ]; then
 
-    kubectl delete -f ./backend/services/${2}
+    kc delete -f ./backend/services/${2}
     docker build -t brecheisen/${2}:v1 ./backend/services/${2}
-    kubectl create -f ./backend/services/${2}
+    kc create -f ./backend/services/${2}
 
-    kubectl delete -f ./backend/services/test
+    kc delete -f ./backend/services/test
     docker build -t brecheisen/test:v1 ./backend/services/test
-    kubectl create -f ./backend/services/test
+    kc create -f ./backend/services/test
 
 elif [ "${1}" == "describe" ]; then
 

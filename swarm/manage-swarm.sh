@@ -89,9 +89,7 @@ elif [ "${1}" == "up" ]; then
         -v $(pwd)/ngx/nginx.conf:/usr/local/nginx/conf/nginx.conf \
         brecheisen/ngx:v1
 
-
     docker run -d --name storage -p 5002:5002 \
-        --volumes-from files \
         -v $(pwd)/backend/services/storage:/var/www/backend \
         -v$(pwd)/backend/lib:/var/www/backend/lib \
         -w /var/www/backend \
@@ -115,15 +113,11 @@ elif [ "${1}" == "down" ]; then
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "clean" ]; then
 
-    vm=$(docker-machine ls | grep "virtualbox" | awk '{print $1,$4}' | grep "manager")
-    running=$(echo ${vm} | awk '{print $2}' | grep "Running")
-
-    if [ "${vm}" != "" ]; then
-        if [ "${running}" != "" ]; then
-            docker-machine stop manager worker1 worker2
+    for host in $(docker-machine ls | awk '{print $1}'); do
+        if [ "${host}" != "default" ] && [ "${host}" != "NAME" ]; then
+            docker-machine stop ${host}; docker-machine rm ${host}
         fi
-        docker-machine rm -y manager worker1 worker2
-    fi
+    done
 
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "" ] || [ "${1}" == "help" ]; then

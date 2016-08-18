@@ -55,7 +55,7 @@ spec:
     spec:
       containers:
         - name: ngx
-          image: brecheisen/storage-ngx:v1
+          image: brecheisen/ngx:v1
           ports:
             - containerPort: 80
           lifecycle:
@@ -69,9 +69,7 @@ spec:
             mountPath: /mnt/shared/files
         - name: storage
           image: brecheisen/storage:v1
-          volumeMounts:
-          - name: files
-            mountPath: /mnt/shared/files
+          command: ["./run.sh"]
       volumes:
       - name: files
         persistentVolumeClaim:

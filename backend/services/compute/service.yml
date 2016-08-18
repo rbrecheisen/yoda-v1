@@ -27,6 +27,7 @@ spec:
           image: brecheisen/compute:v1
           ports:
             - containerPort: 5001
+          command: ["./run.sh"]
   selector:
     matchLabels:
       name: compute

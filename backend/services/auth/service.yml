@@ -27,6 +27,7 @@ spec:
           image: brecheisen/auth:v1
           ports:
             - containerPort: 5000
+          command: ["./run.sh"]
   selector:
     matchLabels:
       name: auth
