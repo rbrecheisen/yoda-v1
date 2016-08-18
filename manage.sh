@@ -1,1 +1,1 @@
-./swarm/manage-swarm2.sh
+./swarm/manage-swarm-mode.sh
