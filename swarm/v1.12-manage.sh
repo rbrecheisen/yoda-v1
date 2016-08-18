@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "${1}" == "up" ]; then
+if [ "${1}" == "setup" ]; then
 
     # Figure out if default machine is running. If it is, stop it
     running=$(docker-machine ls | grep "virtualbox" | awk '{print $1,$4}' | grep "default" | awk '{print $2}' | grep "Running")
@@ -13,7 +13,7 @@ if [ "${1}" == "up" ]; then
     vm=$(docker-machine ls | grep "virtualbox" | awk '{print $1}' | grep "manager")
     if [ "${vm}" == "" ]; then
         echo "Creating host manager"
-        docker-machine create -d virtualbox manager
+        docker-machine create -d virtualbox --engine-insecure-registry localhost:5000 manager
     fi
 
     vm=$(docker-machine ls | grep "virtualbox" | awk '{print $1}' | grep "worker1")
@@ -70,79 +70,46 @@ if [ "${1}" == "up" ]; then
         docker network create --driver overlay --opt secure my-network
     fi
 
-#    # Build images for each node. This is a workaround because we don't have a
-#    # central image registry yet
-#    for node in manager worker1 worker2; do
-#
-#        # Switch to node's Docker environment
-#        eval $(docker-machine env ${node})
-#
-#        # Build images (if necessary)
-#        docker build -t brecheisen/base:v1 ./backend
-#        docker build -t brecheisen/ngx-base:v1 ./ngx/base
-#        docker build -t brecheisen/ngx:v1 ./ngx
-#        docker build -t brecheisen/auth:v1 ./backend/services/auth
-#        docker build -t brecheisen/compute:v1 ./backend/services/compute
-#        docker build -t brecheisen/storage:v1 ./backend/services/storage
-#
-#        # Clean up resulting dangling images
-#        dangling=$(docker images -qf "dangling=true")
-#        if [ "${dangling}" != "" ]; then
-#            docker rmi -f ${dangling}
-#        fi
-#    done
-
-    # Build the images on the manager node. Then push them to the local image
-    # registry. Then iterate through the worker node environments and pull the
-    # images explicitly from the local registry.
+    # Build the images on the manager node. Then save them to a temporary
+    # folder so we can load them in each worker node. In production settings
+    # we need to push the images to the official Docker Registry or setup a
+    # registry of our own.
     eval $(docker-machine env manager)
-
-    # Start local Docker registry (if not already running)
-    registry=$(docker ps | grep "registry:2")
-    if [ "${registry}" == "" ]; then
-        docker run -d -p 5000:5000 --restart=always --name registry registry:2
-    fi
 
     image=$(docker images | grep "brecheisen/base:v1")
     if [ "${image}" == "" ]; then
         docker build -t brecheisen/base:v1 ./backend
-        docker tag brecheisen/base:v1 localhost:5000/brecheisen/base:v1
-        docker push localhost:5000/brecheisen/base:v1
+        docker save --output /tmp/brecheisen-base-v1.tar brecheisen/base:v1
     fi
 
     image=$(docker images | grep "brecheisen/ngx-base:v1")
     if [ "${image}" == "" ]; then
         docker build -t brecheisen/ngx-base:v1 ./ngx/base
-        docker tag brecheisen/ngx-base:v1 localhost:5000/brecheisen/ngx-base:v1
-        docker push localhost:5000/brecheisen/ngx-base:v1
+        docker save --output /tmp/brecheisen-ngx-base-v1.tar brecheisen/ngx-base:v1
     fi
 
     image=$(docker images | grep "brecheisen/ngx:v1")
     if [ "${image}" == "" ]; then
         docker build -t brecheisen/ngx:v1 ./ngx
-        docker tag brecheisen/ngx:v1 localhost:5000/brecheisen/ngx:v1
-        docker push localhost:5000/brecheisen/ngx:v1
+        docker save --output /tmp/brecheisen-ngx-v1.tar brecheisen/ngx:v1
     fi
 
     image=$(docker images | grep "brecheisen/auth:v1")
     if [ "${image}" == "" ]; then
         docker build -t brecheisen/auth:v1 ./backend/services/auth
-        docker tag brecheisen/auth:v1 localhost:5000/brecheisen/auth:v1
-        docker push localhost:5000/brecheisen/auth:v1
+        docker save --output /tmp/brecheisen-auth-v1.tar brecheisen/auth:v1
     fi
 
     image=$(docker images | grep "brecheisen/compute:v1")
     if [ "${image}" == "" ]; then
         docker build -t brecheisen/compute:v1 ./backend/services/compute
-        docker tag brecheisen/compute:v1 localhost:5000/brecheisen/compute:v1
-        docker push localhost:5000/brecheisen/compute:v1
+        docker save --output /tmp/brecheisen-compute-v1.tar brecheisen/compute:v1
     fi
 
     image=$(docker images | grep "brecheisen/storage:v1")
     if [ "${image}" == "" ]; then
         docker build -t brecheisen/storage:v1 ./backend/services/storage
-        docker tag brecheisen/storage:v1 localhost:5000/brecheisen/storage:v1
-        docker push localhost:5000/brecheisen/storage:v1
+        docker save --output /tmp/brecheisen-storage-v1.tar brecheisen/storage:v1
     fi
 
     # Clean up resulting dangling images
@@ -151,19 +118,40 @@ if [ "${1}" == "up" ]; then
         docker rmi -f ${dangling}
     fi
 
-    # Iterate through the worker nodes and pull the built images from
-    # the locally setup registry.
+    # Iterate through the worker nodes and load the saved images from file
     for worker in worker1 worker2; do
 
         eval $(docker-machine env ${worker})
 
-        # TODO: Only pull if image not already cached
-        docker pull localhost:5000/brecheisen:base:v1
-        docker pull localhost:5000/brecheisen:ngx-base:v1
-        docker pull localhost:5000/brecheisen:ngx:v1
-        docker pull localhost:5000/brecheisen:auth:v1
-        docker pull localhost:5000/brecheisen:compute:v1
-        docker pull localhost:5000/brecheisen:storage:v1
+        image=$(docker images | grep "brecheisen/base:v1")
+        if [ "${image}" == "" ]; then
+            docker load -i /tmp/brecheisen-base-v1.tar
+        fi
+
+        image=$(docker images | grep "brecheisen/ngx-base:v1")
+        if [ "${image}" == "" ]; then
+            docker load -i /tmp/brecheisen-ngx-base-v1.tar
+        fi
+
+        image=$(docker images | grep "brecheisen/ngx:v1")
+        if [ "${image}" == "" ]; then
+            docker load -i /tmp/brecheisen-ngx-v1.tar
+        fi
+
+        image=$(docker images | grep "brecheisen/auth:v1")
+        if [ "${image}" == "" ]; then
+            docker load -i /tmp/brecheisen-auth-v1.tar
+        fi
+
+        image=$(docker images | grep "brecheisen/compute:v1")
+        if [ "${image}" == "" ]; then
+            docker load -i /tmp/brecheisen-compute-v1.tar
+        fi
+
+        image=$(docker images | grep "brecheisen/storage:v1")
+        if [ "${image}" == "" ]; then
+            docker load -i /tmp/brecheisen-storage-v1.tar
+        fi
     done
 
     # Switch to manager node
