@@ -50,8 +50,8 @@ if [ "${1}" == "setup" ]; then
         eval $(docker-machine env ${host})
 
         docker build -t brecheisen/base:v1 ./backend
-        docker build -t brecheisen/ngx-base:v1 ./ngx/base
-        docker build -t brecheisen/ngx:v1 ./ngx
+        docker build -t brecheisen/files-base:v1 ./backend/services/files/base
+        docker build -t brecheisen/files:v1 ./backend/services/files
         docker build -t brecheisen/auth:v1 ./backend/services/auth
         docker build -t brecheisen/compute:v1 ./backend/services/compute
         docker build -t brecheisen/storage:v1 ./backend/services/storage
@@ -81,9 +81,9 @@ elif [ "${1}" == "up" ]; then
 
     if [ "${2}" == "" ] || [ "${2}" == "auth" ]; then
 
-        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/auth" | awk '{print $1}')
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/auth:v1" | awk '{print $1}')
         if [ "${service}" != "" ]; then
-            docker service rm auth auth-ngx
+            docker service rm auth
             sleep 1
         fi
 
@@ -95,25 +95,13 @@ elif [ "${1}" == "up" ]; then
             --publish 8000:5000 \
             --replicas 1 \
             brecheisen/auth:v1
-
-#        sleep 3
-#
-#        docker service create \
-#            --name auth-ngx \
-#            --network my-network \
-#            --mount type=volume,source=files,target=/mnt/shared/files \
-#            --mount type=bind,source=$(pwd)/ngx/nginx-auth.conf,target=/usr/local/nginx/conf/nginx.conf \
-#            --mount type=bind,source=$(pwd)/ngx/big-upload,target=/usr/local/nginx/modules/nginx-big-upload \
-#            --publish 8000:80 \
-#            --replicas 1 \
-#            brecheisen/ngx:v1
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "compute" ]; then
 
-        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/compute" | awk '{print $1}')
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/compute:v1" | awk '{print $1}')
         if [ "${service}" != "" ]; then
-            docker service rm compute compute-ngx
+            docker service rm compute
             sleep 1
         fi
 
@@ -125,25 +113,13 @@ elif [ "${1}" == "up" ]; then
             --publish 8001:5001 \
             --replicas 1 \
             brecheisen/compute:v1
-
-#        sleep 3
-#
-#        docker service create \
-#            --name compute-ngx \
-#            --network my-network \
-#            --mount type=volume,source=files,target=/mnt/shared/files \
-#            --mount type=bind,source=$(pwd)/ngx/nginx-compute.conf,target=/usr/local/nginx/conf/nginx.conf \
-#            --mount type=bind,source=$(pwd)/ngx/big-upload,target=/usr/local/nginx/modules/nginx-big-upload \
-#            --publish 8001:80 \
-#            --replicas 1 \
-#            brecheisen/ngx:v1
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "storage" ]; then
 
-        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/storage" | awk '{print $1}')
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/storage:v1" | awk '{print $1}')
         if [ "${service}" != "" ]; then
-            docker service rm storage storage-ngx
+            docker service rm storage
             sleep 1
         fi
 
@@ -152,19 +128,28 @@ elif [ "${1}" == "up" ]; then
             --network my-network \
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
+            --publish 8002:5002 \
             --replicas 1 \
             brecheisen/storage:v1
-        sleep 3
+    fi
+
+    if [ "${2}" == "" ] || [ "${2}" == "files" ]; then
+
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/files:v1" | awk '{print $1}')
+        if [ "${service}" != "" ]; then
+            docker service rm files
+            sleep 1
+        fi
 
         docker service create \
-            --name storage-ngx \
+            --name files \
             --network my-network \
             --mount type=volume,source=files,target=/mnt/shared/files \
-            --mount type=bind,source=$(pwd)/ngx/nginx-storage.conf,target=/usr/local/nginx/conf/nginx.conf \
+            --mount type=bind,source=$(pwd)/ngx/nginx.conf,target=/usr/local/nginx/conf/nginx.conf \
             --mount type=bind,source=$(pwd)/ngx/big-upload,target=/usr/local/nginx/modules/nginx-big-upload \
-            --publish 8002:80 \
+            --publish 8003:80 \
             --replicas 1 \
-            brecheisen/ngx:v1
+            brecheisen/files:v1
     fi
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -172,19 +157,24 @@ elif [ "${1}" == "down" ]; then
 
     eval $(docker-machine env manager)
 
-    service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/storage" | awk '{print $1}')
+    service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/auth:v1" | awk '{print $1}')
     if [ "${service}" != "" ]; then
-        docker service rm storage storage-ngx
+        docker service rm auth
     fi
 
-    service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/auth" | awk '{print $1}')
+    service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/compute:v1" | awk '{print $1}')
     if [ "${service}" != "" ]; then
-        docker service rm auth auth-ngx
+        docker service rm compute
     fi
 
-    service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/compute" | awk '{print $1}')
+    service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/files:v1" | awk '{print $1}')
     if [ "${service}" != "" ]; then
-        docker service rm compute compute-ngx
+        docker service rm files
+    fi
+
+    service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/storage:v1" | awk '{print $1}')
+    if [ "${service}" != "" ]; then
+        docker service rm storage
     fi
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -221,6 +211,11 @@ elif [ "${1}" == "test" ]; then
 
     if [ "${2}" == "" ] || [ "${2}" == "storage" ]; then
         curl $(docker-machine ip manager):8002
+        echo ""
+    fi
+
+    if [ "${2}" == "" ] || [ "${2}" == "files" ]; then
+        curl $(docker-machine ip manager):8003
         echo ""
     fi
 
