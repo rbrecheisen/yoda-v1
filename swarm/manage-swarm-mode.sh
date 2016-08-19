@@ -45,22 +45,19 @@ if [ "${1}" == "setup" ]; then
         docker network create --driver overlay --opt secure my-network
     fi
 
-    for host in manager worker1 worker2; do
+    eval $(docker-machine env manager)
 
-        eval $(docker-machine env ${host})
+    docker build -t brecheisen/base:v1 ./backend
+    docker build -t brecheisen/file-base:v1 ./backend/services/file/base
+    docker build -t brecheisen/file:v1 ./backend/services/file
+    docker build -t brecheisen/auth:v1 ./backend/services/auth
+    docker build -t brecheisen/compute:v1 ./backend/services/compute
+    docker build -t brecheisen/storage:v1 ./backend/services/storage
 
-        docker build -t brecheisen/base:v1 ./backend
-        docker build -t brecheisen/files-base:v1 ./backend/services/files/base
-        docker build -t brecheisen/files:v1 ./backend/services/files
-        docker build -t brecheisen/auth:v1 ./backend/services/auth
-        docker build -t brecheisen/compute:v1 ./backend/services/compute
-        docker build -t brecheisen/storage:v1 ./backend/services/storage
-
-        dangling=$(docker images -qf "dangling=true")
-        if [ "${dangling}" != "" ]; then
-            docker rmi -f ${dangling}
-        fi
-    done
+    dangling=$(docker images -qf "dangling=true")
+    if [ "${dangling}" != "" ]; then
+        docker rmi -f ${dangling}
+    fi
 
     eval $(docker-machine env manager)
 
@@ -74,82 +71,68 @@ if [ "${1}" == "setup" ]; then
         docker volume create -d local --name postgres
     fi
 
+    docker login --username=brecheisen
+
+    docker push brecheisen/base:v1
+    docker push brecheisen/file-base:v1
+    docker push brecheisen/file:v1
+    docker push brecheisen/auth:v1
+    docker push brecheisen/compute:v1
+    docker push brecheisen/storage:v1
+
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "up" ]; then
 
     eval $(docker-machine env manager)
 
+    ./manage.sh down ${2}
+
     if [ "${2}" == "" ] || [ "${2}" == "auth" ]; then
-
-        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/auth:v1" | awk '{print $1}')
-        if [ "${service}" != "" ]; then
-            docker service rm auth
-            sleep 1
-        fi
-
         docker service create \
             --name auth \
             --network my-network \
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
+            --mount type=bind,source=$(pwd)/backend/services/auth/service,target=/var/www/backend/service \
             --publish 8000:5000 \
             --replicas 1 \
             brecheisen/auth:v1
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "compute" ]; then
-
-        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/compute:v1" | awk '{print $1}')
-        if [ "${service}" != "" ]; then
-            docker service rm compute
-            sleep 1
-        fi
-
         docker service create \
             --name compute \
             --network my-network \
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
+            --mount type=bind,source=$(pwd)/backend/services/compute/service,target=/var/www/backend/service \
             --publish 8001:5001 \
             --replicas 1 \
             brecheisen/compute:v1
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "storage" ]; then
-
-        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/storage:v1" | awk '{print $1}')
-        if [ "${service}" != "" ]; then
-            docker service rm storage
-            sleep 1
-        fi
-
         docker service create \
             --name storage \
             --network my-network \
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
+            --mount type=bind,source=$(pwd)/backend/services/storage/service,target=/var/www/backend/service \
             --publish 8002:5002 \
             --replicas 1 \
             brecheisen/storage:v1
     fi
 
-    if [ "${2}" == "" ] || [ "${2}" == "files" ]; then
-
-        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/files:v1" | awk '{print $1}')
-        if [ "${service}" != "" ]; then
-            docker service rm files
-            sleep 1
-        fi
-
+    if [ "${2}" == "" ] || [ "${2}" == "file" ]; then
         docker service create \
-            --name files \
+            --name file \
             --network my-network \
             --mount type=volume,source=files,target=/mnt/shared/files \
-            --mount type=bind,source=$(pwd)/ngx/nginx.conf,target=/usr/local/nginx/conf/nginx.conf \
-            --mount type=bind,source=$(pwd)/ngx/big-upload,target=/usr/local/nginx/modules/nginx-big-upload \
+            --mount type=bind,source=$(pwd)/backend/services/file/nginx.conf,target=/usr/local/nginx/conf/nginx.conf \
+            --mount type=bind,source=$(pwd)/backend/services/file/big-upload,target=/usr/local/nginx/modules/nginx-big-upload \
             --publish 8003:80 \
             --replicas 1 \
-            brecheisen/files:v1
+            brecheisen/file:v1
     fi
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -157,24 +140,42 @@ elif [ "${1}" == "down" ]; then
 
     eval $(docker-machine env manager)
 
-    service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/auth:v1" | awk '{print $1}')
-    if [ "${service}" != "" ]; then
-        docker service rm auth
+    wait=0
+
+    if [ "${2}" == "" ] || [ "${2}" == "auth" ]; then
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/auth:v1" | awk '{print $1}')
+        if [ "${service}" != "" ]; then
+            docker service rm auth
+            wait=1
+        fi
     fi
 
-    service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/compute:v1" | awk '{print $1}')
-    if [ "${service}" != "" ]; then
-        docker service rm compute
+    if [ "${2}" == "" ] || [ "${2}" == "compute" ]; then
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/compute:v1" | awk '{print $1}')
+        if [ "${service}" != "" ]; then
+            docker service rm compute
+            wait=1
+        fi
     fi
 
-    service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/files:v1" | awk '{print $1}')
-    if [ "${service}" != "" ]; then
-        docker service rm files
+    if [ "${2}" == "" ] || [ "${2}" == "storage" ]; then
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/storage:v1" | awk '{print $1}')
+        if [ "${service}" != "" ]; then
+            docker service rm storage
+            wait=1
+        fi
     fi
 
-    service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/storage:v1" | awk '{print $1}')
-    if [ "${service}" != "" ]; then
-        docker service rm storage
+    if [ "${2}" == "" ] || [ "${2}" == "file" ]; then
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/file:v1" | awk '{print $1}')
+        if [ "${service}" != "" ]; then
+            docker service rm file
+            wait=1
+        fi
+    fi
+
+    if [ ${wait} == 1 ]; then
+        sleep 20
     fi
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -187,7 +188,11 @@ elif [ "${1}" == "service" ] || [ "${1}" == "sv" ]; then
     elif [ "${2}" == "more" ]; then
         for service in $(docker service ls | awk '{print $2}'); do
             if [ "${service}" != "NAME" ]; then
+                echo "------------------------------------------------------------------------------"
+                echo " ${service}"
+                echo "------------------------------------------------------------------------------"
                 docker service ps ${service}
+                echo ""
             fi
         done
     else
@@ -199,25 +204,25 @@ elif [ "${1}" == "test" ]; then
 
     eval $(docker-machine env manager)
 
-    if [ "${2}" == "" ] || [ "${2}" == "auth" ]; then
-        curl $(docker-machine ip manager):8000
-        echo ""
-    fi
+    export AUTH_SERVICE_HOST=$(docker-machine ip manager)
+    export AUTH_SERVICE_PORT=8000
+    export COMPUTE_SERVICE_HOST=$(docker-machine ip manager)
+    export COMPUTE_SERVICE_PORT=8001
+    export STORAGE_SERVICE_HOST=$(docker-machine ip manager)
+    export STORAGE_SERVICE_HOST=8002
+    export FILE_SERVICE_HOST=$(docker-machine ip manager)
+    export FILE_SERVICE_PORT=8003
 
-    if [ "${2}" == "" ] || [ "${2}" == "compute" ]; then
-        curl $(docker-machine ip manager):8001
-        echo ""
-    fi
+    ${PYTHON} ./backend/tests/run.py
 
-    if [ "${2}" == "" ] || [ "${2}" == "storage" ]; then
-        curl $(docker-machine ip manager):8002
-        echo ""
-    fi
-
-    if [ "${2}" == "" ] || [ "${2}" == "files" ]; then
-        curl $(docker-machine ip manager):8003
-        echo ""
-    fi
+    unset AUTH_SERVICE_HOST
+    unset AUTH_SERVICE_PORT
+    unset COMPUTE_SERVICE_HOST
+    unset COMPUTE_SERVICE_PORT
+    unset STORAGE_SERVICE_HOST
+    unset STORAGE_SERVICE_PORT
+    unset FILE_SERVICE_HOST
+    unset FILE_SERVICE_PORT
 
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "clean" ]; then

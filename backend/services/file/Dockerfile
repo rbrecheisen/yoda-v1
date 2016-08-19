@@ -1,4 +1,4 @@
-FROM brecheisen/ngx-base:v1
+FROM brecheisen/file-base:v1
 
 MAINTAINER Ralph Brecheisen <ralph.brecheisen@gmail.com>
 

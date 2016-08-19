@@ -1,7 +1,7 @@
 import os
 import logging
 
-SECRET = os.urandom(64)
+SECRET_KEY = os.urandom(64)
 
 USERS = [
     {

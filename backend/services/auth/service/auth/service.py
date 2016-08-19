@@ -2,7 +2,7 @@ import json
 import os
 from flask import Flask, request, make_response
 from flask_restful import Api
-from jose import jwt
+from jose import jwt, JWTError
 from lib.util import init_env
 from lib.resource import BaseResource
 
@@ -22,12 +22,18 @@ def find_user(username):
 
 
 def create_token(user):
-    return jwt.encode(user, app.config['SECRET'], algorithm='HS256')
+    try:
+        return jwt.encode(user, app.config['SECRET_KEY'], algorithm='HS256')
+    except JWTError:
+        return None
 
 
 def check_token(token):
-    data = jwt.decode(token, app.config['SECRET'], algorithms=['HS256'])
-    return find_user(data['username'])
+    try:
+        data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+        return find_user(data['username'])
+    except JWTError:
+        return None
 
 
 class RootResource(BaseResource):
@@ -52,6 +58,8 @@ class TokensResource(BaseResource):
         if user['password'] != auth.password:
             return self.error_response('Invalid password', 403)
         token = create_token(user)
+        if token is None:
+            return self.error_response('Failed to create token', 500)
         self.log_info('Token created')
         return self.response({'token': token}, 201)
 
