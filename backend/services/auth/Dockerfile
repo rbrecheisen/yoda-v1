@@ -8,7 +8,7 @@ COPY run.sh /var/www/backend/run.sh
 
 RUN pip install -r /tmp/requirements.txt && rm /tmp/requirements.txt
 
-ENV AUTH_SERVICE_SETTINGS /var/www/backend/service/auth/service_settings.py
+ENV AUTH_SERVICE_SETTINGS /var/www/backend/service/auth/settings.py
 
 WORKDIR /var/www/backend
 

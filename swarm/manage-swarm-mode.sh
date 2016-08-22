@@ -7,43 +7,103 @@ export PYTHONPATH=$(pwd)
 # ----------------------------------------------------------------------------------------------------------------------
 if [ "${1}" == "setup" ]; then
 
-    vm=$(docker-machine ls | grep "virtualbox" | awk '{print $1}' | grep "manager")
-    if [ "${vm}" == "" ]; then
-        docker-machine create -d virtualbox manager
-    fi
+    # Get list of nodes
+    shift
+    nodes="$@"
 
-    vm=$(docker-machine ls | grep "virtualbox" | awk '{print $1}' | grep "worker1")
-    if [ "${vm}" == "" ]; then
-        docker-machine create -d virtualbox worker1
-    fi
+    # Create virtual machine for each node
+    first=1
+    manager=
+    for node in ${nodes}; do
+        docker-machine create -d virtualbox ${node}
+        if [ ${first} == 1 ]; then
+            manager=${node}
+            first=0
+        fi
+    done
 
-    vm=$(docker-machine ls | grep "virtualbox" | awk '{print $1}' | grep "worker2")
-    if [ "${vm}" == "" ]; then
-        docker-machine create -d virtualbox worker2
-    fi
+    # Initialize swarm
+    token=
+    for node in ${nodes}; do
+        eval $(docker-machine env ${node})
+        if [ "${node}" == "${manager}" ]; then
+            docker swarm init --advertise-addr $(docker-machine ip ${manager})
+            token=$(docker swarm join-token --quiet worker)
+        else
+            docker swarm join --token ${token} $(docker-machine ip ${manager}):2377
+        fi
+    done
 
-    eval $(docker-machine env manager)
-    manager=$(docker swarm join-token --quiet manager)
+#    # Create secure overlay network
+#    docker network create --driver overlay --opt secure my-network
+#
+#    # Create volumes
+#    docker volume create -d local --name files
+#    docker volume create -d local --name postgres
 
-    if [ "${manager}" == "" ]; then
+#    vm=$(docker-machine ls | grep "virtualbox" | awk '{print $1}' | grep "manager")
+#    if [ "${vm}" == "" ]; then
+#        docker-machine create -d virtualbox manager
+#    fi
+#
+#    vm=$(docker-machine ls | grep "virtualbox" | awk '{print $1}' | grep "worker1")
+#    if [ "${vm}" == "" ]; then
+#        docker-machine create -d virtualbox worker1
+#    fi
+#
+#    vm=$(docker-machine ls | grep "virtualbox" | awk '{print $1}' | grep "worker2")
+#    if [ "${vm}" == "" ]; then
+#        docker-machine create -d virtualbox worker2
+#    fi
+#
+#    eval $(docker-machine env manager)
+#    manager=$(docker swarm join-token --quiet manager)
+#
+#    if [ "${manager}" == "" ]; then
+#
+#        eval $(docker-machine env manager)
+#        docker swarm init --advertise-addr $(docker-machine ip manager)
+#
+#        token=$(docker swarm join-token --quiet worker)
+#
+#        eval $(docker-machine env worker1)
+#        docker swarm join --token ${token} $(docker-machine ip manager):2377
+#
+#        eval $(docker-machine env worker2)
+#        docker swarm join --token ${token} $(docker-machine ip manager):2377
+#    fi
+#
+#    eval $(docker-machine env manager)
+#
+#    network=$(docker network ls | awk '{print $2,$3}' | grep "my-network")
+#    if [ "${network}" == "" ]; then
+#        docker network create --driver overlay --opt secure my-network
+#    fi
+#
+#    files=$(docker volume ls | awk '{print $2}' | grep "files")
+#    if [ "${files}" == "" ]; then
+#        docker volume create -d local --name files
+#    fi
+#
+#    postgres=$(docker volume ls | awk '{print $2}' | grep "postgres")
+#    if [ "${postgres}" == "" ]; then
+#        docker volume create -d local --name postgres
+#    fi
 
-        eval $(docker-machine env manager)
-        docker swarm init --advertise-addr $(docker-machine ip manager)
+    echo "Finished setting up environment for the following nodes:"
+    echo ""
+    for node in ${nodes}; do
+        echo " - ${node}"
+    done
+    echo ""
+    echo "If only 1 node was created all you need to do is run 'manage.sh build'"
+    echo "and then 'manage.sh up' to start the services. If you created multiple"
+    echo "nodes you must first push the built images to the Docker Hub, otherwise"
+    echo "the nodes will not be able to find the images."
+    echo ""
 
-        token=$(docker swarm join-token --quiet worker)
-
-        eval $(docker-machine env worker1)
-        docker swarm join --token ${token} $(docker-machine ip manager):2377
-
-        eval $(docker-machine env worker2)
-        docker swarm join --token ${token} $(docker-machine ip manager):2377
-    fi
-
-    eval $(docker-machine env manager)
-    network=$(docker network ls | awk '{print $2,$3}' | grep "my-network")
-    if [ "${network}" == "" ]; then
-        docker network create --driver overlay --opt secure my-network
-    fi
+# ----------------------------------------------------------------------------------------------------------------------
+elif [ "${1}" == "build" ]; then
 
     eval $(docker-machine env manager)
 
@@ -59,17 +119,10 @@ if [ "${1}" == "setup" ]; then
         docker rmi -f ${dangling}
     fi
 
+# ----------------------------------------------------------------------------------------------------------------------
+elif [ "${1}" == "push" ]; then
+
     eval $(docker-machine env manager)
-
-    files=$(docker volume ls | awk '{print $2}' | grep "files")
-    if [ "${files}" == "" ]; then
-        docker volume create -d local --name files
-    fi
-
-    postgres=$(docker volume ls | awk '{print $2}' | grep "postgres")
-    if [ "${postgres}" == "" ]; then
-        docker volume create -d local --name postgres
-    fi
 
     docker login --username=brecheisen
 
@@ -87,12 +140,22 @@ elif [ "${1}" == "up" ]; then
 
     ./manage.sh down ${2}
 
+    if [ "${2}" == "" ] || [ "${2}" == "redis" ]; then
+        docker service create \
+            --name redis \
+            --network my-network \
+            --publish 6379:6379 \
+            --replicas 1 \
+            redis:3.0.7
+    fi
+
     if [ "${2}" == "" ] || [ "${2}" == "auth" ]; then
         docker service create \
             --name auth \
             --network my-network \
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
+            --mount type=bind,source=$(pwd)/backend/lib,target=/var/www/backend/lib \
             --mount type=bind,source=$(pwd)/backend/services/auth/service,target=/var/www/backend/service \
             --publish 8000:5000 \
             --replicas 1 \
@@ -105,6 +168,7 @@ elif [ "${1}" == "up" ]; then
             --network my-network \
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
+            --mount type=bind,source=$(pwd)/backend/lib,target=/var/www/backend/lib \
             --mount type=bind,source=$(pwd)/backend/services/compute/service,target=/var/www/backend/service \
             --publish 8001:5001 \
             --replicas 1 \
@@ -117,6 +181,7 @@ elif [ "${1}" == "up" ]; then
             --network my-network \
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
+            --mount type=bind,source=$(pwd)/backend/lib,target=/var/www/backend/lib \
             --mount type=bind,source=$(pwd)/backend/services/storage/service,target=/var/www/backend/service \
             --publish 8002:5002 \
             --replicas 1 \
@@ -133,6 +198,17 @@ elif [ "${1}" == "up" ]; then
             --publish 8003:80 \
             --replicas 1 \
             brecheisen/file:v1
+    fi
+
+    if [ "${2}" == "" ] || [ "${2}" == "worker" ]; then
+        docker service create \
+            --name worker \
+            --network my-network \
+            --workdir /var/www/backend \
+            --mount type=bind,source=$(pwd)/backend/lib,target=/var/www/backend/lib \
+            --mount type=bind,source=$(pwd)/backend/services/compute/service,target=/var/www/backend/service \
+            --replicas 1 \
+            brecheisen/compute:v1 ./run_worker.sh
     fi
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -153,7 +229,7 @@ elif [ "${1}" == "down" ]; then
     if [ "${2}" == "" ] || [ "${2}" == "compute" ]; then
         service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/compute:v1" | awk '{print $1}')
         if [ "${service}" != "" ]; then
-            docker service rm compute
+            docker service rm compute worker
             wait=1
         fi
     fi
@@ -170,6 +246,14 @@ elif [ "${1}" == "down" ]; then
         service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/file:v1" | awk '{print $1}')
         if [ "${service}" != "" ]; then
             docker service rm file
+            wait=1
+        fi
+    fi
+
+    if [ "${2}" == "" ] || [ "${2}" == "redis" ]; then
+        service=$(docker service ls | awk '{print $2,$4}' | grep "redis:3" | awk '{print $1}')
+        if [ "${service}" != "" ]; then
+            docker service rm redis
             wait=1
         fi
     fi
@@ -227,8 +311,11 @@ elif [ "${1}" == "test" ]; then
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "clean" ]; then
 
-    for host in manager worker1 worker2; do
-        docker-machine stop ${host}; docker-machine rm -y ${host}
+    nodes=$(docker-machine ls | grep "virtualbox" | awk '{print $1}')
+    for node in ${nodes}; do
+        if [ "${node}" != "default" ]; then
+            docker machine stop ${node}; docker-machine rm -y ${node}
+        fi
     done
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -252,10 +339,12 @@ elif [ "${1}" == "" ] || [ "${1}" == "help" ]; then
     echo "Commands:"
     echo ""
     echo "setup    Creates VMs to simulate swarm hosts and builds Docker images"
+    echo "build    Builds all Docker images"
+    echo "push     Pushes Docker images to Docker Hub"
     echo "up       Starts Docker services using Docker Compose"
     echo "down     Shuts down Docker services"
     echo "service  Shows list of running services or single service if <name> is given"
-    echo "test     Performs basic tests"
+    echo "test     Runs python test scripts"
     echo "clean    Cleans Docker swarm cluster and deletes VMs"
     echo "logs     Shows logs for a given service (and container)"
     echo "help     Shows this help"

@@ -1,15 +1,13 @@
 # TODO
 
- - Setup Docker Engine in swarm mode
- -   - Setup local image registry
-       - Check how to connect to localhost from VM environment (use IP?)
-   
+ - Setup Celery compute service with Docker swarm mode
+   - 
  - Setup permission checking in each service
  - Setup PostgreSQL
- - Setup SSL and secrets
- - Setup liveliness and readiness checks
- - Setup Celery compute service
  - Load files from S3 or EBS (look into volume drivers like flocker)
+ - [DONE] Use alpine linux images as much as possible
+   - [DONE] Solve Lua errors (cannot find libgcc library)
+ - [DONE] Setup Docker Engine in swarm mode   
  - [DONE] Get Nginx running with storage container in a single pod
    - [DONE] Get Nginx to connect to storage container
    - [DONE] Setup file volumes
