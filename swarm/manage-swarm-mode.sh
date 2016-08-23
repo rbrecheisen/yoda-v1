@@ -117,9 +117,6 @@ elif [ "${1}" == "up" ]; then
             --network my-network \
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
-            --mount type=bind,source=$(pwd)/backend/lib,target=/var/www/backend/lib \
-            --mount type=bind,source=$(pwd)/backend/services/auth/service,target=/var/www/backend/service \
-            --mount type=bind,source=$(pwd)/backend/services/auth/run.sh,target=/var/www/backend/run.sh \
             --env AUTH_SERVICE_SETTINGS=/var/www/backend/service/auth/settings.py \
             --publish 8000:5000 \
             --replicas 1 \
@@ -128,19 +125,18 @@ elif [ "${1}" == "up" ]; then
 
     if [ "${2}" == "" ] || [ "${2}" == "compute" ]; then
 
+        # TODO: Get rid of C_FORCE_ROOT option
+        # TODO: Find solution for hard-coded AUTH_SERVICE_HOST/PORT options
         docker service create \
             --name worker \
             --network my-network \
             --workdir /var/www/backend \
-            --mount type=bind,source=$(pwd)/backend/lib,target=/var/www/backend/lib \
-            --mount type=bind,source=$(pwd)/backend/services/compute/service,target=/var/www/backend/service \
-            --mount type=bind,source=$(pwd)/backend/services/compute/run_worker.sh,target=/var/www/backend/run_worker.sh \
             --env COMPUTE_SERVICE_SETTINGS=/var/www/backend/service/compute/settings.py \
             --env BROKER_URL=redis://redis:6379/0 \
             --env AUTH_SERVICE_HOST=auth \
             --env AUTH_SERVICE_PORT=5000 \
             --env C_FORCE_ROOT=1 \
-            --replicas 1 \
+            --replicas 2 \
             brecheisen/compute:v1 ./run_worker.sh
 
         docker service create \
@@ -148,9 +144,6 @@ elif [ "${1}" == "up" ]; then
             --network my-network \
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
-            --mount type=bind,source=$(pwd)/backend/lib,target=/var/www/backend/lib \
-            --mount type=bind,source=$(pwd)/backend/services/compute/service,target=/var/www/backend/service \
-            --mount type=bind,source=$(pwd)/backend/services/compute/run.sh,target=/var/www/backend/run.sh \
             --env COMPUTE_SERVICE_SETTINGS=/var/www/backend/service/compute/settings.py \
             --env BROKER_URL=redis://redis:6379/0 \
             --env AUTH_SERVICE_HOST=auth \
@@ -166,9 +159,6 @@ elif [ "${1}" == "up" ]; then
             --network my-network \
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
-            --mount type=bind,source=$(pwd)/backend/lib,target=/var/www/backend/lib \
-            --mount type=bind,source=$(pwd)/backend/services/storage/service,target=/var/www/backend/service \
-            --mount type=bind,source=$(pwd)/backend/services/storage/run.sh,target=/var/www/backend/run.sh \
             --env STORAGE_SERVICE_SETTINGS=/var/www/backend/service/storage/settings.py \
             --env AUTH_SERVICE_HOST=auth \
             --env AUTH_SERVICE_PORT=5000 \
@@ -182,8 +172,6 @@ elif [ "${1}" == "up" ]; then
             --name file \
             --network my-network \
             --mount type=volume,source=files,target=/mnt/shared/files \
-            --mount type=bind,source=$(pwd)/backend/services/file/nginx.conf,target=/usr/local/nginx/conf/nginx.conf \
-            --mount type=bind,source=$(pwd)/backend/services/file/big-upload,target=/usr/local/nginx/modules/nginx-big-upload \
             --publish 8003:80 \
             --replicas 1 \
             brecheisen/file:v1
@@ -274,6 +262,7 @@ elif [ "${1}" == "test" ]; then
     export STORAGE_SERVICE_PORT=8002
     export FILE_SERVICE_HOST=$(docker-machine ip manager)
     export FILE_SERVICE_PORT=8003
+    export DATA_DIR=./backend/tests/data
 
     ${PYTHON} ./backend/tests/run.py
 
@@ -285,6 +274,7 @@ elif [ "${1}" == "test" ]; then
     unset STORAGE_SERVICE_PORT
     unset FILE_SERVICE_HOST
     unset FILE_SERVICE_PORT
+    unset DATA_DIR
 
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "clean" ]; then

@@ -31,9 +31,7 @@ class FilesResource(BaseResource):
 
     @token_required
     def post(self):
-        data = request.data
-        self.log_info('File uploaded {} bytes'.format(len(data)))
-        return {'files': []}, 201
+        return {}, 201
 
 
 api = Api(app)
