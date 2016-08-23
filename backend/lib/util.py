@@ -18,9 +18,9 @@ def token_required(f):
         headers = {
             'Authorization': 'Basic {}'.format(base64.b64encode('{}:unused'.format(auth.username))),
             'X-Correlation-ID': get_correlation_id()}
-        response = requests.post('http://{}:{}/token-checks'.format(
-            os.getenv('AUTH_SERVICE_HOST'),
-            os.getenv('AUTH_SERVICE_PORT')), headers=headers)
+        auth_uri = 'http://{}:{}/token-checks'.format(os.getenv('AUTH_SERVICE_HOST'), os.getenv('AUTH_SERVICE_PORT'))
+        print('token_required: {}'.format(auth_uri))
+        response = requests.post(auth_uri, headers=headers)
         if response.status_code != 201:
             raise RuntimeError('Authentication failed ({})'.format(response.json()))
         g.current_user = response.json()['user']

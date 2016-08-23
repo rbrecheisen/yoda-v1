@@ -8,7 +8,7 @@ from lib.resource import BaseResource
 app = Flask(__name__)
 
 if os.getenv('STORAGE_SERVICE_SETTINGS', None) is None:
-    os.environ['STORAGE_SERVICE_SETTINGS'] = os.path.abspath('service/storage/service_settings.py')
+    os.environ['STORAGE_SERVICE_SETTINGS'] = os.path.abspath('service/storage/settings.py')
 app.config.from_envvar('STORAGE_SERVICE_SETTINGS')
 print(app.config)
 

@@ -9,7 +9,7 @@ from lib.resource import BaseResource
 app = Flask(__name__)
 
 if os.getenv('AUTH_SERVICE_SETTINGS', None) is None:
-    os.environ['AUTH_SERVICE_SETTINGS'] = os.path.abspath('service/auth/service_settings.py')
+    os.environ['AUTH_SERVICE_SETTINGS'] = os.path.abspath('service/auth/settings.py')
 app.config.from_envvar('AUTH_SERVICE_SETTINGS')
 print(app.config)
 

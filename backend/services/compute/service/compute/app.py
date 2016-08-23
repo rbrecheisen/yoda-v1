@@ -9,7 +9,7 @@ from service.compute.worker import run_task
 app = Flask(__name__)
 
 if os.getenv('COMPUTE_SERVICE_SETTINGS', None) is None:
-    os.environ['COMPUTE_SERVICE_SETTINGS'] = os.path.abspath('service/compute/service_settings.py')
+    os.environ['COMPUTE_SERVICE_SETTINGS'] = os.path.abspath('service/compute/settings.py')
 app.config.from_envvar('COMPUTE_SERVICE_SETTINGS')
 print(app.config)
 
