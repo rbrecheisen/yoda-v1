@@ -23,20 +23,22 @@ def test_upload_file():
         j = 1
         n = os.path.getsize(f_path)
         for chunk in read_chunks(f, 1024*1024):
+            content_length = len(chunk)
             content_range = 'bytes {}-{}/{}'.format(i, i + len(chunk) - 1, n)
+            print('sending range {} (length {})'.format(content_range, content_length))
             headers = token_header(token)
             headers.update({
-                'Content-Length': '{}'.format(len(chunk)),
+                'Content-Length': '{}'.format(content_length),
                 'Content-Type': 'application/octet-stream',
                 'Content-Disposition': 'attachment; filename={}'.format(f_name),
                 'X-Content-Range': content_range,
                 'X-Session-ID': session_id,
             })
             response = requests.post(uri('file', '/files'), headers=headers, data=chunk)
-            if response.status_code == 200:
+            if response.status_code == 201:
                 break
             print('sent chunk {}'.format(j))
-            assert response.status_code == 201
+            assert response.status_code == 202
             session_id = response.headers['X-Session-ID']
             i += len(chunk)
             j += 1

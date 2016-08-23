@@ -2,39 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9bf9d827-0921-426b-bc3b-ca97e1944684" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/backend_file_storage_handler.lua" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/big-upload.lua" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/crc32.lua" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/devutil.lua" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/example/html/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/example/nginx-big-upload-example.conf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/example/run-nginx.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/file_storage_handler.lua" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/request_processor.lua" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/sha1_handler.lua" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/test/backend_file_storage_upload_test.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/test/crc32_handler_test.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/test/file_storage_upload_test.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/test/nginx-big-upload-test.conf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/test/performance_test.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/test/sha1_handler_test.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/test/start-nginx.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/test/stop-nginx.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/test/test_helper.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/test/test_suite.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/big-upload/util.lua" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/Dockerfile" afterPath="$PROJECT_DIR$/backend/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/auth/Dockerfile" afterPath="$PROJECT_DIR$/backend/services/auth/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/compute/Dockerfile" afterPath="$PROJECT_DIR$/backend/services/compute/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/file/Dockerfile" afterPath="$PROJECT_DIR$/backend/services/file/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/file/base/Dockerfile" afterPath="$PROJECT_DIR$/backend/services/file/base/Dockerfile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/file/nginx.conf" afterPath="$PROJECT_DIR$/backend/services/file/nginx.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/storage/Dockerfile" afterPath="$PROJECT_DIR$/backend/services/storage/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/storage/service/storage/app.py" afterPath="$PROJECT_DIR$/backend/services/storage/service/storage/app.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/tests/test_storage.py" afterPath="$PROJECT_DIR$/backend/tests/test_storage.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/swarm/manage-swarm-mode.sh" afterPath="$PROJECT_DIR$/swarm/manage-swarm-mode.sh" />
     </list>
     <ignored path="flask-microservices.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -62,7 +31,18 @@
     <favorites_list name="flask-microservices" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf>
+      <file leaf-file-name="test_storage.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/backend/tests/test_storage.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="259">
+              <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -77,9 +57,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/backend/services/compute/service.yml" />
-        <option value="$PROJECT_DIR$/backend/services/auth/service.yml" />
-        <option value="$PROJECT_DIR$/swarm/manage-swarm.sh" />
         <option value="$PROJECT_DIR$/swarm/manage-swarm2.sh" />
         <option value="$PROJECT_DIR$/ngx/nginx.conf" />
         <option value="$PROJECT_DIR$/swarm/manage-swarm-mode.sh" />
@@ -117,7 +94,6 @@
         <option value="$PROJECT_DIR$/backend/services/compute/service/compute/settings.py" />
         <option value="$PROJECT_DIR$/backend/services/compute/service/compute/worker.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/backend/services/file/nginx.conf" />
         <option value="$PROJECT_DIR$/backend/services/storage/service/storage/app.py" />
         <option value="$PROJECT_DIR$/manage.sh" />
         <option value="$PROJECT_DIR$/backend/Dockerfile" />
@@ -125,9 +101,13 @@
         <option value="$PROJECT_DIR$/backend/services/compute/Dockerfile" />
         <option value="$PROJECT_DIR$/backend/services/storage/Dockerfile" />
         <option value="$PROJECT_DIR$/docs/compute.md" />
-        <option value="$PROJECT_DIR$/backend/tests/test_storage.py" />
         <option value="$PROJECT_DIR$/backend/services/file/base/Dockerfile" />
         <option value="$PROJECT_DIR$/backend/services/file/Dockerfile" />
+        <option value="$PROJECT_DIR$/backend/services/file/nginx.conf" />
+        <option value="$PROJECT_DIR$/backend/services/file/nginx-big-upload/request_processor.lua" />
+        <option value="$PROJECT_DIR$/backend/services/file/nginx-big-upload/file_storage_handler.lua" />
+        <option value="$PROJECT_DIR$/backend/services/file/nginx-big-upload/backend_file_storage_handler.lua" />
+        <option value="$PROJECT_DIR$/backend/tests/test_storage.py" />
       </list>
     </option>
   </component>
@@ -138,9 +118,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="31" />
-    <option name="width" value="1450" />
-    <option name="height" value="919" />
+    <option name="y" value="23" />
+    <option name="width" value="1376" />
+    <option name="height" value="829" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -509,7 +489,7 @@
       <module name="flask-microservices" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/tests/run.py" />
-      <option name="PARAMETERS" value="no-server" />
+      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
@@ -597,10 +577,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="31" width="1450" height="919" extended-state="0" />
+    <frame x="0" y="23" width="1376" height="829" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30539772" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3095952" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -665,22 +645,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/swarm/manage-swarm2.sh" />
-    <entry file="file://$PROJECT_DIR$/swarm/manage-swarm-mode.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/tests/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/kubernetes/manage.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/kubernetes/auth.yml" />
     <entry file="file://$PROJECT_DIR$/kubernetes/test/service/test/tests.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -727,9 +691,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/todo.md">
-      <provider editor-type-id="MarkdownFxPreviewEditor">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="FIRST">
           <first_editor relative-caret-position="330">
@@ -737,6 +698,9 @@
           </first_editor>
           <second_editor />
         </state>
+      </provider>
+      <provider editor-type-id="MarkdownFxPreviewEditor">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/tests/test_auth.py">
@@ -746,20 +710,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/tests/scripts/redis.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/tests/scripts/run_redis.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/tests/scripts/redis.conf" />
+    <entry file="file://$PROJECT_DIR$/backend/tests/scripts/run_redis.sh" />
     <entry file="file://$PROJECT_DIR$/backend/services/compute/run_worker.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -767,13 +719,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/tests/scripts/run_test.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/tests/scripts/run_test.sh" />
     <entry file="file://$PROJECT_DIR$/backend/services/compute/run.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -862,14 +808,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="870">
           <caret line="58" column="63" selection-start-line="58" selection-start-column="63" selection-end-line="58" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/storage/service/storage/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="31" column="19" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
         </state>
       </provider>
     </entry>
@@ -877,7 +815,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -885,7 +822,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-341">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -893,7 +829,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-645">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -901,7 +836,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -909,7 +843,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -917,37 +850,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/compute.md">
-      <provider editor-type-id="MarkdownFxPreviewEditor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="120">
-            <caret line="8" column="63" selection-start-line="8" selection-start-column="63" selection-end-line="8" selection-end-column="63" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/file/nginx.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="14" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/compute.md" />
     <entry file="file://$PROJECT_DIR$/backend/services/file/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="32" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -955,15 +865,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/tests/test_storage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="35" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -971,6 +872,61 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="120" column="33" selection-start-line="120" selection-start-column="33" selection-end-line="120" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/file/nginx-big-upload/big-upload.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="34" column="33" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/file/nginx.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49">
+          <caret line="12" column="57" selection-start-line="12" selection-start-column="57" selection-end-line="12" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/file/nginx-big-upload/file_storage_handler.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="81" column="4" selection-start-line="81" selection-start-column="4" selection-end-line="81" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/file/nginx-big-upload/backend_file_storage_handler.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="43" column="19" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/storage/service/storage/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="33" column="22" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/file/nginx-big-upload/request_processor.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-326">
+          <caret line="196" column="0" selection-start-line="194" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/tests/test_storage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
           <folding />
         </state>
       </provider>
