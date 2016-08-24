@@ -74,6 +74,7 @@ elif [ "${1}" == "build" ]; then
     docker build -t brecheisen/file:v1 ./backend/services/file
     docker build -t brecheisen/auth:v1 ./backend/services/auth
     docker build -t brecheisen/compute:v1 ./backend/services/compute
+    docker build -t brecheisen/worker:v1 ./backend/services/worker
     docker build -t brecheisen/storage:v1 ./backend/services/storage
 
     dangling=$(docker images -qf "dangling=true")
@@ -93,6 +94,7 @@ elif [ "${1}" == "push" ]; then
     docker push brecheisen/file:v1
     docker push brecheisen/auth:v1
     docker push brecheisen/compute:v1
+    docker push brecheisen/worker:v1
     docker push brecheisen/storage:v1
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -123,8 +125,7 @@ elif [ "${1}" == "up" ]; then
             brecheisen/auth:v1
     fi
 
-    if [ "${2}" == "" ] || [ "${2}" == "compute" ]; then
-
+    if [ "${2}" == "" ] || [ "${2}" == "worker" ]; then
         # TODO: Get rid of C_FORCE_ROOT option
         # TODO: Find solution for hard-coded AUTH_SERVICE_HOST/PORT options
         docker service create \
@@ -137,8 +138,10 @@ elif [ "${1}" == "up" ]; then
             --env AUTH_SERVICE_PORT=5000 \
             --env C_FORCE_ROOT=1 \
             --replicas 2 \
-            brecheisen/compute:v1 ./run_worker.sh
+            brecheisen/worker:v1
+    fi
 
+    if [ "${2}" == "" ] || [ "${2}" == "compute" ]; then
         docker service create \
             --name compute \
             --network my-network \
@@ -192,10 +195,18 @@ elif [ "${1}" == "down" ]; then
         fi
     fi
 
-    if [ "${2}" == "" ] || [ "${2}" == "compute" ] || [ "${2}" == "worker" ]; then
+    if [ "${2}" == "" ] || [ "${2}" == "worker" ]; then
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/worker:v1" | awk '{print $1}')
+        if [ "${service}" != "" ]; then
+            docker service rm worker
+            wait=1
+        fi
+    fi
+
+    if [ "${2}" == "" ] || [ "${2}" == "compute" ]; then
         service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/compute:v1" | awk '{print $1}')
         if [ "${service}" != "" ]; then
-            docker service rm compute worker
+            docker service rm compute
             wait=1
         fi
     fi
@@ -262,7 +273,7 @@ elif [ "${1}" == "test" ]; then
     export STORAGE_SERVICE_PORT=8002
     export FILE_SERVICE_HOST=$(docker-machine ip manager)
     export FILE_SERVICE_PORT=8003
-    export DATA_DIR=./backend/tests/data
+    export DATA_DIR=$HOME/download
 
     ${PYTHON} ./backend/tests/run.py
 
@@ -295,6 +306,16 @@ elif [ "${1}" == "logs" ]; then
     eval $(docker-machine env ${node})
     container=$(docker ps | awk '{print $1,$2}' | grep "${service}" | awk '{print $1}')
     docker logs ${container}
+
+# ----------------------------------------------------------------------------------------------------------------------
+elif [ "${1}" == "bash" ]; then
+
+    service=${2}
+    eval $(docker-machine env manager)
+    node=$(docker service ps ${service} | awk '{print $2,$4,$5}' | grep "${service}" | grep "Running" | awk '{print $2}')
+    eval $(docker-machine env ${node})
+    container=$(docker ps | awk '{print $1,$2}' | grep "${service}" | awk '{print $1}')
+    docker exec -it ${container} bash
 
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "" ] || [ "${1}" == "help" ]; then

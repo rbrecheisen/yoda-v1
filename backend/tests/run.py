@@ -9,6 +9,8 @@ def init_env():
             os.environ['{}_SERVICE_HOST'.format(service)] = '0.0.0.0'
             os.environ['{}_SERVICE_PORT'.format(service)] = str(port)
             port += 1
+    if os.getenv('DATA_DIR', None) is None:
+        os.environ['DATA_DIR'] = '/Users/Ralph/download'
 
 
 if __name__ == '__main__':
