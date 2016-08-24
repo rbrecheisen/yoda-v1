@@ -106,12 +106,57 @@ class UserResource(BaseResource):
 
     @token_required
     def get(self, id):
-        return self.response({})
+
+        user_dao = UserDao(self.db_session())
+        user = user_dao.retrieve(id=id)
+        if user is None:
+            return self.error_response('User not found', http.NOT_FOUND_404)
+
+        return self.response(user.to_dict())
 
     @token_required
     def put(self, id):
-        return self.response({})
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('username', type=str, location='json')
+        parser.add_argument('password', type=str, location='json')
+        parser.add_argument('email', type=str, location='json')
+        parser.add_argument('first_name', type=str, location='json')
+        parser.add_argument('last_name', type=str, location='json')
+        parser.add_argument('is_admin', type=bool, location='json')
+        parser.add_argument('is_active', type=bool, location='json')
+        args = parser.parse_args()
+
+        user_dao = UserDao(self.db_session())
+        user = user_dao.retrieve(id=id)
+
+        if args.get('username'):
+            user.username = args['username']
+        if args.get('password'):
+            user.password = args['password']
+        if args.get('email'):
+            user.email = args['email']
+        if args.get('first_name'):
+            user.first_name = args['first_name']
+        if args.get('last_name'):
+            user.last_name = args['last_name']
+        if args.get('is_admin'):
+            user.is_admin = args['is_admin']
+        if args.get('is_active'):
+            user.is_active = args['is_active']
+
+        user = user_dao.save(user)
+
+        return self.response(user.to_dict())
 
     @token_required
     def delete(self, id):
+
+        user_dao = UserDao(self.db_session())
+        user = user_dao.retrieve(id=id)
+        if user is None:
+            return self.error_response('User not found', http.NOT_FOUND_404)
+
+        user_dao.delete(user)
+
         return self.response({}, http.NO_CONTENT_204)
