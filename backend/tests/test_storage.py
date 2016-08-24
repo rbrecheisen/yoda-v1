@@ -7,7 +7,7 @@ from lib.authentication import login_header, token_header
 
 # --------------------------------------------------------------------------------------------------------------------
 def test_root():
-    response = requests.get(uri('storage'))
+    response = requests.get(uri('file'))
     assert response.status_code == 200
     pass
 
@@ -15,16 +15,16 @@ def test_root():
 # --------------------------------------------------------------------------------------------------------------------
 def get_file_type_scan_type_and_repository(token):
 
-    response = requests.get(uri('storage', '/file-types?name=txt'), headers=token_header(token))
+    response = requests.get(uri('file', '/file-types?name=txt'), headers=token_header(token))
     assert response.status_code == 200
     file_type_id = response.json()[0]['id']
 
-    response = requests.get(uri('storage', '/scan-types?name=none'), headers=token_header(token))
+    response = requests.get(uri('file', '/scan-types?name=none'), headers=token_header(token))
     assert response.status_code == 200
     scan_type_id = response.json()[0]['id']
 
     name = generate_string()
-    response = requests.post(uri('storage', '/repositories'), json={'name': name}, headers=token_header(token))
+    response = requests.post(uri('file', '/repositories'), json={'name': name}, headers=token_header(token))
     assert response.status_code == 201
     repository_id = response.json()['id']
 

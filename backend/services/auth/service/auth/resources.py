@@ -110,7 +110,7 @@ class UserResource(BaseResource):
         user_dao = UserDao(self.db_session())
         user = user_dao.retrieve(id=id)
         if user is None:
-            return self.error_response('User not found', http.NOT_FOUND_404)
+            return self.error_response('User {} not found'.format(id), http.NOT_FOUND_404)
 
         return self.response(user.to_dict())
 
@@ -129,6 +129,8 @@ class UserResource(BaseResource):
 
         user_dao = UserDao(self.db_session())
         user = user_dao.retrieve(id=id)
+        if user is None:
+            return self.error_response('User {} not found'.format(id), http.NOT_FOUND_404)
 
         if args.get('username'):
             user.username = args['username']
@@ -155,8 +157,7 @@ class UserResource(BaseResource):
         user_dao = UserDao(self.db_session())
         user = user_dao.retrieve(id=id)
         if user is None:
-            return self.error_response('User not found', http.NOT_FOUND_404)
-
+            return self.error_response('User {} not found'.format(id), http.NOT_FOUND_404)
         user_dao.delete(user)
 
         return self.response({}, http.NO_CONTENT_204)

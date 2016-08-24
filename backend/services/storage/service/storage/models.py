@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Table
-from sqlalchemy.orm import relationship
+import json
+from sqlalchemy import Column, Integer, String, ForeignKey, Table, Boolean, Text
+from sqlalchemy.orm import relationship, validates
 from lib.models import Base, BaseModel
 
 
@@ -159,6 +160,12 @@ class FileSet(BaseModel):
     name = Column(String(255), nullable=False)
     # Files inside this file set
     files = relationship('File', secondary=FileSetFiles, backref='file_sets')
+    # File set schema ID
+    schema_id = Column(Integer, ForeignKey('file_set_schema.id'))
+    # File set schema
+    schema = relationship('FileSetSchema', foreign_keys=[schema_id])
+    # File set schema enabled
+    schema_enabled = Column(Boolean, default=False)
 
     def to_dict(self):
         files = []
@@ -167,6 +174,77 @@ class FileSet(BaseModel):
         obj = super(FileSet, self).to_dict()
         obj.update({
             'name': self.name,
+            'schema': self.schema_id,
+            'schema_enabled': self.schema_enabled,
             'files': files,
+        })
+        return obj
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class FileSetSchema(BaseModel):
+
+    __tablename__ = 'file_set_schema'
+    __mapper_args__ = {
+        'polymorphic_identity': 'file_set_schema',
+    }
+
+    # File set ID
+    id = Column(Integer, ForeignKey('base.id'), primary_key=True)
+    # File set schema name
+    name = Column(String(255), nullable=False)
+    # Schema version
+    version = Column(String(16), default='v1')
+    # Schema file specification
+    _specification = Column(Text, nullable=False)
+
+    @property
+    def specification(self):
+        return json.loads(self._specification)
+
+    @specification.setter
+    def specification(self, specification):
+        self._specification = json.dumps(specification)
+
+    def to_dict(self):
+        obj = super(FileSetSchema, self).to_dict()
+        obj.update({
+            'name': self.name,
+            'version': self.version,
+            'specification': self.specification,
+        })
+        return obj
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class FileQualityCheck(BaseModel):
+
+    __tablename__ = 'file_quality_check'
+
+    PASS = 'pass'
+    FAIL = 'fail'
+
+    # File quality check ID
+    id = Column(Integer, ForeignKey('base.id'), primary_key=True)
+    # File to which quality check corresponds
+    file_id = Column(Integer, ForeignKey('file.id'), nullable=False)
+    # File object
+    file = relationship('File', backref='quality_check', foreign_keys=[file_id])
+    # Status field
+    status = Column(String(4), nullable=False)
+    # Comments about the quality check
+    comments = Column(Text)
+
+    @validates('status')
+    def validate_status(self, key, status):
+        if status not in [self.PASS, self.FAIL]:
+            raise ValueError('Invalid status {}'.format(status))
+        return status
+
+    def to_dict(self):
+        obj = super(FileQualityCheck, self).to_dict()
+        obj.update({
+            'status': self.status,
+            'comments': self.comments,
         })
         return obj

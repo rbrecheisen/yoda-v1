@@ -1,9 +1,10 @@
 import logging
-from flask import g
+from flask import g, request
 from flask_restful import Resource
 from lib.util import get_correlation_id
 
 
+# --------------------------------------------------------------------------------------------------------------------
 class BaseResource(Resource):
 
     def __init__(self):

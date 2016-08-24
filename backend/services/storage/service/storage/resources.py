@@ -99,6 +99,8 @@ class RepositoryResource(BaseResource):
 
         repository_dao = RepositoryDao(self.db_session())
         repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
 
         return self.response(repository.to_dict())
 
@@ -111,6 +113,8 @@ class RepositoryResource(BaseResource):
 
         repository_dao = RepositoryDao(self.db_session())
         repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
         repository.name = args['name']
         repository_dao.save(repository)
 
@@ -121,6 +125,8 @@ class RepositoryResource(BaseResource):
 
         repository_dao = RepositoryDao(self.db_session())
         repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
         repository_dao.delete(repository)
 
         return self.response({}, http.NO_CONTENT_204)
@@ -158,12 +164,19 @@ class FilesResource(BaseResource):
         # Retrieve file and scan types for this file
         file_type_dao = FileTypeDao(self.db_session())
         file_type = file_type_dao.retrieve(id=args['X-File-Type'])
+        if file_type is None:
+            return self.error_response('File type {} not found'.format(args['X-File-Type']), http.NOT_FOUND_404)
+
         scan_type_dao = ScanTypeDao(self.db_session())
         scan_type = scan_type_dao.retrieve(id=args['X-Scan-Type'])
+        if scan_type is None:
+            return self.error_response('Scan type {} not found'.format(args['X-Scan-Type']), http.NOT_FOUND_404)
 
         # Retrieve repository for this file
         repository_dao = RepositoryDao(self.db_session())
         repository = repository_dao.retrieve(id=args['X-Repository-ID'])
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(args['X-Repository-ID']), http.NOT_FOUND_404)
 
         # Set content type to something generic if it was not specified
         if args['Content-Type'] is None:
@@ -189,9 +202,10 @@ class FileResource(BaseResource):
         # Retrieve file meta data from the database
         f_dao = FileDao(self.db_session())
         f = f_dao.retrieve(id=id)
+        if f is None:
+            return self.error_response('File {} not found'.format(id), http.NOT_FOUND_404)
 
-        # Return file meta information. To download the actual file contents use
-        # the /file-contents/{} endpoint
+        # Return file meta information
         return self.response(f.to_dict())
 
 
@@ -238,6 +252,8 @@ class FileSetResource(BaseResource):
 
         file_set_dao = FileSetDao(self.db_session())
         file_set = file_set_dao.retrieve(id=id)
+        if file_set is None:
+            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
 
         return self.response(file_set.to_dict())
 
@@ -250,6 +266,8 @@ class FileSetResource(BaseResource):
 
         file_set_dao = FileSetDao(self.db_session())
         file_set = file_set_dao.retrieve(id=id)
+        if file_set is None:
+            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
         file_set.name = args['name']
         file_set_dao.save(file_set)
 
@@ -260,6 +278,8 @@ class FileSetResource(BaseResource):
 
         file_set_dao = FileSetDao(self.db_session())
         file_set = file_set_dao.retrieve(id=id)
+        if file_set is None:
+            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
         file_set_dao.delete(file_set)
 
         return self.response({}, http.NO_CONTENT_204)
@@ -274,6 +294,8 @@ class FileSetFilesResource(BaseResource):
 
         file_set_dao = FileSetDao(self.db_session())
         file_set = file_set_dao.retrieve(id=id)
+        if file_set is None:
+            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
         files = [f.to_dict() for f in file_set.files]
 
         return self.response(files)
@@ -289,8 +311,13 @@ class FileSetFileResource(BaseResource):
         # Get file set DAO and retrieve file in question
         file_set_dao = FileSetDao(self.db_session())
         file_set = file_set_dao.retrieve(id=id)
+        if file_set is None:
+            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
+
         f_dao = FileDao(self.db_session())
         f = f_dao.retrieve(id=file_id)
+        if f is None:
+            return self.error_response('File {} not found'.format(file_id), http.NOT_FOUND_404)
 
         if f not in file_set.files:
             # Verify that given file complies with file set schema. This requires that
@@ -298,7 +325,8 @@ class FileSetFileResource(BaseResource):
             # specifies which additional arguments should be provided for each file, e.g.,
             # subject ID, session ID, etc.
             # TODO: Implement file set schemas or something similar...
-            pass
+            if file_set.schema_enabled:
+                pass
 
             # Schema seems to be satisfied so add the file to the set and save.
             file_set.files.append(f)
@@ -310,8 +338,13 @@ class FileSetFileResource(BaseResource):
 
         file_set_dao = FileSetDao(self.db_session())
         file_set = file_set_dao.retrieve(id=id)
+        if file_set is None:
+            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
+
         f_dao = FileDao(self.db_session())
         f = f_dao.retrieve(id=file_id)
+        if f is None:
+            return self.error_response('File {} not found'.format(file_id), http.NOT_FOUND_404)
 
         if f in file_set.files:
             file_set.remove(f)

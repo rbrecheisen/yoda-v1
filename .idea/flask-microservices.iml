@@ -7,6 +7,9 @@
       <sourceFolder url="file://$MODULE_DIR$/backend/services/compute" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backend/services/storage" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/kubernetes/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/services/database" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/services/file" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/services/worker" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
