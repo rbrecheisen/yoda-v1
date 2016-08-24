@@ -211,7 +211,7 @@ elif [ "${1}" == "up" ]; then
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
             --publish 5432:5432 \
             --replicas 1 \
-            postgres:latest
+            brecheisen/database:v1
     fi
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -363,6 +363,9 @@ elif [ "${1}" == "bash" ]; then
     eval $(docker-machine env manager)
     node=$(docker service ps ${service} | awk '{print $2,$4,$5}' | grep "${service}" | grep "Running" | awk '{print $2}')
     eval $(docker-machine env ${node})
+    if [ "${service}" == "database" ]; then
+        service="postgres"
+    fi
     container=$(docker ps | awk '{print $1,$2}' | grep "${service}" | awk '{print $1}')
     docker exec -it ${container} bash
 

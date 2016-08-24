@@ -1,5 +1,3 @@
-FROM kiasaki/alpine-postgres
+FROM postgres:latest
 
 MAINTAINER Ralph Brecheisen <ralph.brecheisen@gmail.com>
-
-CMD ["true"]

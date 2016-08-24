@@ -77,7 +77,7 @@ def test_upload_file():
             i += len(chunk)
             j += 1
 
-    response = requests.get(uri('file', '/private/{}'.format(storage_id)), headers=token_header(token))
+    response = requests.get(uri('file', '/downloads/{}'.format(storage_id)), headers=token_header(token))
     assert response.status_code == 200
     assert response.content
 
