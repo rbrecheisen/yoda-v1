@@ -36,6 +36,7 @@ api.add_resource(FileSetFileResource, FileSetFileResource.URI.format('<int:id>',
 db = SQLAlchemy(app)
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 def init_file_and_scan_types():
     file_type_dao = FileTypeDao(db.session)
     for name in FileType.ALL:
@@ -49,6 +50,7 @@ def init_file_and_scan_types():
             scan_type_dao.create(name=name)
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 @api.representation('application/json')
 def output_json(data, code, headers=None):
     response = make_response(json.dumps(data), code)
@@ -56,6 +58,7 @@ def output_json(data, code, headers=None):
     return response
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 @app.before_first_request
 def init_db(drop=False):
     Base.query = db.session.query_property()
@@ -65,12 +68,14 @@ def init_db(drop=False):
     init_file_and_scan_types()
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 @app.before_request
 def before_request():
     g.config = app.config
     g.db_session = db.session
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 @app.teardown_appcontext
 def shutdown_database(e):
     db.session.remove()

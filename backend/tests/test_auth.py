@@ -6,6 +6,7 @@ from util import uri, login_header, token_header
 def test_root():
     response = requests.get(uri('auth'))
     assert response.status_code == 200
+    pass
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -25,3 +26,4 @@ def test_check_token():
     assert response.status_code == 201
     response = requests.post(uri('auth', '/token-checks'), headers=token_header('1234'))
     assert response.status_code == 403
+    pass

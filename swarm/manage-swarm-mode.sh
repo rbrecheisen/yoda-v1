@@ -270,7 +270,7 @@ elif [ "${1}" == "down" ]; then
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "database" ]; then
-        service=$(docker service ls | awk '{print $2,$4}' | grep "postgres:latest" | awk '{print $1}')
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/database:v1" | awk '{print $1}')
         if [ "${service}" != "" ]; then
             docker service rm database
             wait=1
