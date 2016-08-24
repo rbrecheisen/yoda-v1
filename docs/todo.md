@@ -1,9 +1,12 @@
 # TODO
 
- - Setup Celery compute service with Docker swarm mode
+ - Figure out how to version URIs
+ - Setup SSL connection
  - Setup permission checking in each service
  - Setup PostgreSQL
  - Load files from S3 or EBS (look into volume drivers like flocker)
+ 
+ - [DONE] Setup Celery compute service with Docker swarm mode
  - [DONE] Use alpine linux images as much as possible
    - [DONE] Solve Lua errors (cannot find libgcc library)
  - [DONE] Setup Docker Engine in swarm mode   

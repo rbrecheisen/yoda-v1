@@ -3,7 +3,7 @@ import sys
 import json
 from flask import Flask, make_response
 from flask_restful import Api
-from lib.resource import BaseResource
+from lib.resources import BaseResource
 from tests import TESTS
 
 app = Flask(__name__)

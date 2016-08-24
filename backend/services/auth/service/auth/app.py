@@ -4,7 +4,7 @@ from flask import Flask, request, make_response
 from flask_restful import Api
 from jose import jwt, JWTError
 from lib.util import init_env
-from lib.resource import BaseResource
+from lib.resources import BaseResource
 
 app = Flask(__name__)
 

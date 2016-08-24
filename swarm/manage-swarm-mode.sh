@@ -76,6 +76,7 @@ elif [ "${1}" == "build" ]; then
     docker build -t brecheisen/compute:v1 ./backend/services/compute
     docker build -t brecheisen/worker:v1 ./backend/services/worker
     docker build -t brecheisen/storage:v1 ./backend/services/storage
+    docker build -t brecheisen/database:v1 ./backend/services/database
 
     dangling=$(docker images -qf "dangling=true")
     if [ "${dangling}" != "" ]; then
@@ -96,6 +97,7 @@ elif [ "${1}" == "push" ]; then
     docker push brecheisen/compute:v1
     docker push brecheisen/worker:v1
     docker push brecheisen/storage:v1
+    docker push brecheisen/database:v1
 
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "up" ]; then
@@ -120,6 +122,11 @@ elif [ "${1}" == "up" ]; then
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
             --env AUTH_SERVICE_SETTINGS=/var/www/backend/service/auth/settings.py \
+            --env DB_NAME=postgres \
+            --env DB_USER=postgres \
+            --env DB_PASS=postgres \
+            --env DB_HOST=database \
+            --env DB_PORT=5432 \
             --publish 8000:5000 \
             --replicas 1 \
             brecheisen/auth:v1
@@ -137,6 +144,11 @@ elif [ "${1}" == "up" ]; then
             --env AUTH_SERVICE_HOST=auth \
             --env AUTH_SERVICE_PORT=5000 \
             --env C_FORCE_ROOT=1 \
+            --env DB_NAME=postgres \
+            --env DB_USER=postgres \
+            --env DB_PASS=postgres \
+            --env DB_HOST=database \
+            --env DB_PORT=5432 \
             --replicas 2 \
             brecheisen/worker:v1
     fi
@@ -151,6 +163,11 @@ elif [ "${1}" == "up" ]; then
             --env BROKER_URL=redis://redis:6379/0 \
             --env AUTH_SERVICE_HOST=auth \
             --env AUTH_SERVICE_PORT=5000 \
+            --env DB_NAME=postgres \
+            --env DB_USER=postgres \
+            --env DB_PASS=postgres \
+            --env DB_HOST=database \
+            --env DB_PORT=5432 \
             --publish 8001:5001 \
             --replicas 1 \
             brecheisen/compute:v1
@@ -165,6 +182,13 @@ elif [ "${1}" == "up" ]; then
             --env STORAGE_SERVICE_SETTINGS=/var/www/backend/service/storage/settings.py \
             --env AUTH_SERVICE_HOST=auth \
             --env AUTH_SERVICE_PORT=5000 \
+            --env FILE_SERVICE_HOST=file \
+            --env FILE_SERVICE_PORT=8003 \
+            --env DB_NAME=postgres \
+            --env DB_USER=postgres \
+            --env DB_PASS=postgres \
+            --env DB_HOST=database \
+            --env DB_PORT=5432 \
             --publish 8002:5002 \
             --replicas 1 \
             brecheisen/storage:v1
@@ -178,6 +202,16 @@ elif [ "${1}" == "up" ]; then
             --publish 8003:80 \
             --replicas 1 \
             brecheisen/file:v1
+    fi
+
+    if [ "${2}" == "" ] || [ "${2}" == "database" ]; then
+        docker service create \
+            --name database \
+            --network my-network \
+            --mount type=volume,source=postgres,target=/var/lib/postgres/data \
+            --publish 5432:5432 \
+            --replicas 1 \
+            postgres:latest
     fi
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -235,9 +269,24 @@ elif [ "${1}" == "down" ]; then
         fi
     fi
 
-    if [ ${wait} == 1 ]; then
-        sleep 20
+    if [ "${2}" == "" ] || [ "${2}" == "database" ]; then
+        service=$(docker service ls | awk '{print $2,$4}' | grep "postgres:latest" | awk '{print $1}')
+        if [ "${service}" != "" ]; then
+            docker service rm database
+            wait=1
+        fi
     fi
+
+    if [ ${wait} == 1 ]; then
+        sleep 10
+    fi
+
+# ----------------------------------------------------------------------------------------------------------------------
+elif [ "${1}" == "restart" ]; then
+
+    ./manage.sh down ${2}
+    ./manage.sh build
+    ./manage.sh up ${2}
 
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "service" ] || [ "${1}" == "sv" ]; then

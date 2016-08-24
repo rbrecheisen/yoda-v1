@@ -2,8 +2,9 @@ import os
 import json
 from flask import Flask, make_response
 from flask_restful import Api
-from lib.util import init_env, token_required
-from lib.resource import BaseResource
+from lib.util import init_env
+from lib.authentication import token_required
+from lib.resources import BaseResource
 from service.compute.worker import run_task
 
 app = Flask(__name__)

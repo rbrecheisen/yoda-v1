@@ -1,6 +1,11 @@
 flask
 flask-restful
+flask-restful-swagger
+flask-sqlalchemy
+sqlalchemy-utils
+passlib
 requests
 uwsgi
 python-jose
 pytest
+psycopg2

@@ -16,8 +16,16 @@ class BaseResource(Resource):
         return super(BaseResource, self).dispatch_request(*args, **kwargs)
 
     @staticmethod
+    def db_session():
+        return g.db_session
+
+    @staticmethod
     def current_user():
         return g.current_user
+
+    @staticmethod
+    def config():
+        return g.config
 
     def log_info(self, message):
         self._logging.info('{} {}'.format(self.correlation_id, message))
