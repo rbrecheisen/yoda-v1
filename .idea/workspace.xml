@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9bf9d827-0921-426b-bc3b-ca97e1944684" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/file/nginx-big-upload" afterPath="" />
-    </list>
+    <list default="true" id="9bf9d827-0921-426b-bc3b-ca97e1944684" name="Default" comment="" />
     <ignored path="flask-microservices.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
