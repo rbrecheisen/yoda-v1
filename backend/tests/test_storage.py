@@ -34,6 +34,9 @@ def get_file_type_scan_type_and_repository(token):
 # --------------------------------------------------------------------------------------------------------------------
 def test_upload_file():
 
+    if os.getenv('DATA_DIR', None) is None:
+        return
+
     response = requests.post(uri('auth', '/tokens'), headers=login_header('ralph', 'secret'))
     assert response.status_code == 201
     token = response.json()['token']
