@@ -1,13 +1,16 @@
 # TODO
 
+ - Figure out where duplicate auth calls come from
+ 
  - Setup workflow where users can upload CSV file and train a classifier
    on it and then save the classifier for predictions
    
  - Setup workflow where users can upload multiple MR images and perform
    segmentation on each one. Each image should be submitted to a different
    worker for parallel processing
- - 
- Clear out postgres database and files volumes when testing (not working)
+   
+ - Test resumable uploads
+ - Clear out postgres database and files volumes when testing (not working)
  - Figure out how to version URIs
  - Setup SSL connection
  - Setup logging

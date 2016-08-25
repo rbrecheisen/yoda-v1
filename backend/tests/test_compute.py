@@ -1,5 +1,8 @@
 import requests
-from util import uri, login_header, token_header
+import os
+import time
+from util import uri, login_header, token_header, upload_file
+from lib.util import generate_string
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -9,8 +12,61 @@ def test_root():
 
 
 # --------------------------------------------------------------------------------------------------------------------
-def test_tasks():
+def test_train_classifier():
+
+    if os.getenv('DATA_DIR', None) is None:
+        return
+
+    # Get access token
     response = requests.post(uri('auth', '/tokens'), headers=login_header('ralph', 'secret'))
     assert response.status_code == 201
-    response = requests.post(uri('compute', '/tasks'), headers=token_header(response.json()['token']))
+    token = response.json()['token']
+
+    # Create storage repository
+    name = generate_string()
+    response = requests.post(uri('storage', '/repositories'), headers=token_header(token), json={'name': name})
     assert response.status_code == 201
+    repository_id = response.json()['id']
+
+    # Get CSV file type ID
+    response = requests.get(uri('storage', '/file-types?name=csv'), headers=token_header(token))
+    assert response.status_code == 200
+    file_type_id = response.json()[0]['id']
+
+    # Get scan type ID
+    response = requests.get(uri('storage', '/scan-types?name=none'), headers=token_header(token))
+    assert response.status_code == 200
+    scan_type_id = response.json()[0]['id']
+
+    # Upload CSV file with brain features
+    file_id = upload_file(
+        os.path.join(os.getenv('DATA_DIR'), 'features_ext_multi_center.csv'),
+        file_type_id, scan_type_id, repository_id, token)
+    assert file_id
+
+    # Train classifier using the uploaded CSV file
+    response = requests.post(uri('compute', '/tasks'), headers=token_header(token), json={
+        'pipeline': 1, 'params': {'file_id': file_id}, 'duration': 5})
+    assert response.status_code == 201
+    task_id = response.json()['id']
+
+    # Retrieve task status periodically until it finishes
+    while True:
+        response = requests.get(uri('compute', '/tasks/{}'.format(task_id)), headers=token_header(token))
+        assert response.status_code == 200
+        status = response.json()['status']
+        print(status)
+        if status == 'SUCCESS':
+            response = requests.get(uri('compute', '/tasks/{}'.format(task_id)), headers=token_header(token))
+            assert response.status_code == 200
+            result = response.json()['result']
+            assert result == 1
+            break
+        time.sleep(2)
+
+
+# --------------------------------------------------------------------------------------------------------------------
+def test_segment_brains():
+
+    if os.getenv('DATA_DIR', None) is None:
+        return

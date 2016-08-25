@@ -141,6 +141,7 @@ elif [ "${1}" == "up" ]; then
             --workdir /var/www/backend \
             --env COMPUTE_SERVICE_SETTINGS=/var/www/backend/service/compute/settings.py \
             --env BROKER_URL=redis://redis:6379/0 \
+            --env CELERY_RESULT_BACKEND=redis://redis:6379/0 \
             --env AUTH_SERVICE_HOST=auth \
             --env AUTH_SERVICE_PORT=5000 \
             --env C_FORCE_ROOT=1 \
@@ -161,6 +162,7 @@ elif [ "${1}" == "up" ]; then
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
             --env COMPUTE_SERVICE_SETTINGS=/var/www/backend/service/compute/settings.py \
             --env BROKER_URL=redis://redis:6379/0 \
+            --env CELERY_RESULT_BACKEND=redis://redis:6379/0 \
             --env AUTH_SERVICE_HOST=auth \
             --env AUTH_SERVICE_PORT=5000 \
             --env DB_NAME=postgres \
@@ -350,10 +352,17 @@ elif [ "${1}" == "logs" ]; then
     service=${2}
     eval $(docker-machine env manager)
     node=$(docker service ps ${service} | awk '{print $2,$4,$5}' | grep "${service}" | grep "Running" | awk '{print $2}')
+    for n in ${node}; do
+        node=${n}
+        break
+    done
     eval $(docker-machine env ${node})
     container=$(docker ps | awk '{print $1,$2}' | grep "${service}:v1" | awk '{print $1}')
-    echo ${container}
-    docker logs ${container}
+    for c in ${container}; do
+        echo " - ${service} - ${c} -----------------------------------------"
+        docker logs ${c}
+        echo ""
+    done
 
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "bash" ]; then
@@ -361,12 +370,25 @@ elif [ "${1}" == "bash" ]; then
     service=${2}
     eval $(docker-machine env manager)
     node=$(docker service ps ${service} | awk '{print $2,$4,$5}' | grep "${service}" | grep "Running" | awk '{print $2}')
+    for n in ${node}; do
+        node=${n}
+        break
+    done
     eval $(docker-machine env ${node})
     if [ "${service}" == "database" ]; then
         service="postgres"
     fi
     container=$(docker ps | awk '{print $1,$2}' | grep "${service}:v1" | awk '{print $1}')
-    docker exec -it ${container} bash
+    first=1
+    for c in ${container}; do
+        if [ ${first} == 0 ]; then
+            read -n1 -r -p "Press any key to continue..."
+        fi
+        echo " - ${service} - ${c} -----------------------------------------"
+        docker exec -it ${c} bash
+        echo ""
+        first=0
+    done
 
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "" ] || [ "${1}" == "help" ]; then

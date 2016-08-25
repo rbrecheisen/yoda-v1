@@ -19,7 +19,6 @@ if os.getenv('STORAGE_SERVICE_SETTINGS', None) is None:
 app.config.from_envvar('STORAGE_SERVICE_SETTINGS')
 print(app.config)
 
-
 api = Api(app)
 api.add_resource(RootResource, RootResource.URI)
 api.add_resource(FileTypesResource, FileTypesResource.URI)

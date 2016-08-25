@@ -1,11 +1,9 @@
 import os
 import json
-from flask import Flask, make_response
+from flask import Flask, make_response, g
 from flask_restful import Api
 from lib.util import init_env
-from lib.authentication import token_required
-from lib.resources import BaseResource
-from service.compute.worker import run_task
+from resources import RootResource, TasksResource, TaskResource
 
 app = Flask(__name__)
 
@@ -14,35 +12,24 @@ if os.getenv('COMPUTE_SERVICE_SETTINGS', None) is None:
 app.config.from_envvar('COMPUTE_SERVICE_SETTINGS')
 print(app.config)
 
-
-class RootResource(BaseResource):
-    def get(self):
-        return self.response({
-            'service': 'compute',
-            'resources': {
-                'tasks': {},
-            }
-        }, 200)
-
-
-class TasksResource(BaseResource):
-
-    @token_required
-    def post(self):
-        run_task.apply_async()
-        return self.response({}, 201)
-
-
 api = Api(app)
-api.add_resource(RootResource, '/')
-api.add_resource(TasksResource, '/tasks')
+api.add_resource(RootResource, RootResource.URI)
+api.add_resource(TasksResource, TasksResource.URI)
+api.add_resource(TaskResource, TaskResource.URI.format('<string:id>'))
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 @api.representation('application/json')
 def output_json(data, code, headers=None):
     response = make_response(json.dumps(data), code)
     response.headers.extend(headers or {})
     return response
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@app.before_request
+def before_request():
+    g.config = app.config
 
 
 if __name__ == '__main__':
