@@ -39,26 +39,8 @@
  - [DONE] Setup debugging facilities
 
 
-# File sets and schemas
+# Pipelines
 
-A file set contains one or more files. Users can add or remove files from
-a file set. A file set can be associated with a schema that specifies a
-number of rules, e.g.,
-
- - The minimum or maximum number of files
- - The type of files 
- - The minimum or maximum size of files
- 
-When a file is added to a file set, the schema checks whether the file 
-complies with the rules. If not, an error is raised. Rules can be file-
-level or file set-level, that is, some rules apply to individual files.
-For example, the maximum size of a file or its type. Other rules apply 
-to the file set itself, e.g., the maximum number of files is may contain.
-
-class FileSetSchema(object):
-    def check():
-        # Checks file set rules
-        pass
-    def check_file(file):
-        # Checks file
-        pass
+From the /tasks endpoint we call a Celery task 'run_pipeline' which internally
+retrieves a pipeline object and has it execute. The pipeline object may start
+additional sub-tasks, e.g., to process multiple MR images.

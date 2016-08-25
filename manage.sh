@@ -133,8 +133,7 @@ elif [ "${1}" == "up" ]; then
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "worker" ]; then
-        # TODO: Get rid of C_FORCE_ROOT option
-        # TODO: Find solution for hard-coded AUTH_SERVICE_HOST/PORT options
+
         docker service create \
             --name worker \
             --network my-network \
@@ -150,8 +149,26 @@ elif [ "${1}" == "up" ]; then
             --env DB_PASS=postgres \
             --env DB_HOST=database \
             --env DB_PORT=5432 \
+            --replicas 1 \
+            brecheisen/worker:v1 ./run.sh
+
+        docker service create \
+            --name worker-subtasks \
+            --network my-network \
+            --workdir /var/www/backend \
+            --env COMPUTE_SERVICE_SETTINGS=/var/www/backend/service/compute/settings.py \
+            --env BROKER_URL=redis://redis:6379/0 \
+            --env CELERY_RESULT_BACKEND=redis://redis:6379/0 \
+            --env AUTH_SERVICE_HOST=auth \
+            --env AUTH_SERVICE_PORT=5000 \
+            --env C_FORCE_ROOT=1 \
+            --env DB_NAME=postgres \
+            --env DB_USER=postgres \
+            --env DB_PASS=postgres \
+            --env DB_HOST=database \
+            --env DB_PORT=5432 \
             --replicas 2 \
-            brecheisen/worker:v1
+            brecheisen/worker:v1 ./run.sh subtasks
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "compute" ]; then
@@ -233,7 +250,7 @@ elif [ "${1}" == "down" ]; then
     if [ "${2}" == "" ] || [ "${2}" == "worker" ]; then
         service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/worker:v1" | awk '{print $1}')
         if [ "${service}" != "" ]; then
-            docker service rm worker
+            docker service rm worker worker-subtasks
             wait=1
         fi
     fi

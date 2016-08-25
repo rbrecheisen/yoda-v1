@@ -23,27 +23,21 @@ def token_header(token):
 
 # ----------------------------------------------------------------------------------------------------------------------
 def token_required(f):
-    """
-    Service-oriented version of 'token_required' decorator. Should be used to
-    protect resources other than the 'auth' resource. It will automatically
-    connect with the auth resource passing a correlation ID for traceability.
-    :param f:
-    :return:
-    """
     @wraps(f)
     def decorated(*args, **kwargs):
         if not getattr(f, 'token_required', True):
             return f(*args, **kwargs)
         auth = request.authorization
         if auth is None:
-            raise RuntimeError('Missing authorization header')
-        headers = {
-            'Authorization': 'Basic {}'.format(base64.b64encode('{}:unused'.format(auth.username))),
-            'X-Correlation-ID': get_correlation_id()}
+            return {'message': 'Missing authorization header'}, 403
+        headers = token_header(auth.username)
+        headers.update({
+            'X-Correlation-ID': get_correlation_id()})
         auth_uri = 'http://{}:{}/token-checks'.format(os.getenv('AUTH_SERVICE_HOST'), os.getenv('AUTH_SERVICE_PORT'))
+        print('Sending authentication request to auth service...')
         response = requests.post(auth_uri, headers=headers)
         if response.status_code != 201:
-            raise RuntimeError('Authentication failed ({})'.format(response.json()))
+            return {'message': 'Authentication failed ({})'.format(response.json())}, 403
         g.current_user = response.json()['user']
         return f(*args, **kwargs)
     return decorated

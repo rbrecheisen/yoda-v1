@@ -46,11 +46,11 @@ def test_train_classifier():
 
     # Train classifier using the uploaded CSV file
     response = requests.post(uri('compute', '/tasks'), headers=token_header(token), json={
-        'pipeline': 1, 'params': {'file_id': file_id}, 'duration': 5})
+        'pipeline': 1, 'params': {'file_ids': [1, 2, 3, 4]}})
     assert response.status_code == 201
     task_id = response.json()['id']
 
-    # Retrieve task status periodically until it finishes
+    # Retrieve task status periodically until it finishes successfully
     while True:
         response = requests.get(uri('compute', '/tasks/{}'.format(task_id)), headers=token_header(token))
         assert response.status_code == 200

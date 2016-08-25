@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 
-celery worker -A service.compute.worker.celery --loglevel=INFO --queue=celery
+queue=celery
+
+if [ "${1}" != "" ]; then
+    queue=${1}
+fi
+
+celery worker -A service.compute.worker.celery --loglevel=INFO --queue=${queue}
