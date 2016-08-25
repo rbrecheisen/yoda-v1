@@ -2,7 +2,7 @@ import lib.http as http
 from flask_restful import reqparse
 from lib.resources import BaseResource
 from lib.authentication import token_required
-from service.compute.worker import run_smoothing, task_status, task_result
+from service.compute.worker import run_smoothing_pipeline, task_status, task_result
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -31,11 +31,11 @@ class TasksResource(BaseResource):
         parser.add_argument('params', type=dict, required=True, location='json')
         args = parser.parse_args()
 
-        result = run_smoothing.apply_async((args['params'],))
+        result = run_smoothing_pipeline.apply_async((args['params'],))
 
         return self.response({
             'id': result.task_id,
-            'status': task_status(run_smoothing, result.task_id),
+            'status': task_status(run_smoothing_pipeline, result.task_id),
         }, http.CREATED_201)
 
 
@@ -47,8 +47,8 @@ class TaskResource(BaseResource):
     @token_required
     def get(self, id):
         return self.response({
-            'status': task_status(run_smoothing, id),
-            'result': task_result(run_smoothing, id),
+            'status': task_status(run_smoothing_pipeline, id),
+            'result': task_result(run_smoothing_pipeline, id),
         })
 
     @token_required

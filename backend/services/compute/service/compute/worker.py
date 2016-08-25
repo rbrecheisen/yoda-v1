@@ -1,5 +1,5 @@
 import time
-from celery import Celery
+from celery import Celery, group, chord
 
 celery = Celery('compute')
 celery.config_from_object('service.compute.settings')
@@ -7,44 +7,35 @@ celery.config_from_object('service.compute.settings')
 
 # ----------------------------------------------------------------------------------------------------------------------
 @celery.task(name='classification')
-def run_classification(params):
+def run_classification_pipeline(params):
     print('Running classification pipeline with parameters {}'.format(params))
     time.sleep(1)
     return True
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-@celery.task(name='smoothing-single')
-def run_smoothing_single(file_id):
-    print('Running smoothing of file {}'.format(file_id))
+@celery.task(name='smoothing')
+def run_smoothing(file_id, params):
+    print('Running smoothing of file {} with parameters {}'.format(file_id, params))
     time.sleep(1)
     return file_id + 100
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+@celery.task(name='ids')
+def get_ids(file_ids):
+    return file_ids
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 @celery.task(name='smoothing')
-def run_smoothing(params):
+def run_smoothing_pipeline(params):
 
-    print('Running smoothing with parameters {}'.format(params))
-    task_ids = []
+    tasks = []
     for file_id in params['file_ids']:
-        result = run_smoothing_single.apply_async((file_id,), queue='subtasks')
-        task_ids.append(result.task_id)
-
-    print('Waiting for smoothing to finish')
-    while True:
-        finished = True
-        for task_id in task_ids:
-            status = run_smoothing_single.AsyncResult(task_id).status
-            if status != 'SUCCESS':
-                finished = False
-                break
-        if finished:
-            break
-        time.sleep(2)
-
-    print('Finished smoothing')
-    return True
+        tasks.append(run_smoothing.s(file_id, params))
+    task = chord(tasks)(get_ids.s())
+    return task.apply_async()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
