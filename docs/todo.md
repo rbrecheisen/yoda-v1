@@ -1,7 +1,13 @@
 # TODO
 
- - Handle all storage-related requests via Nginx file service
- - Clear out postgres database and files volumes when testing
+ - Setup workflow where users can upload CSV file and train a classifier
+   on it and then save the classifier for predictions
+   
+ - Setup workflow where users can upload multiple MR images and perform
+   segmentation on each one. Each image should be submitted to a different
+   worker for parallel processing
+ - 
+ Clear out postgres database and files volumes when testing (not working)
  - Figure out how to version URIs
  - Setup SSL connection
  - Setup logging
@@ -9,6 +15,7 @@
  - Load files from S3 or EBS (look into volume drivers like flocker)
  - Move back to Alpine Linux images
  
+ - [DONE] Handle all storage-related requests via Nginx file service
  - [DONE] Setup PostgreSQL
  - [DONE] Use response() and error_response() in each resource
  - [DONE] Setup Celery compute service with Docker swarm mode

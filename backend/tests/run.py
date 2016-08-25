@@ -1,14 +1,8 @@
 import os
+import sys
 import pytest
-
-
-def init_env():
-    port = 5000
-    for service in ['AUTH', 'COMPUTE', 'STORAGE', 'FILE']:
-        if os.getenv('{}_SERVICE_HOST'.format(service), None) is None:
-            os.environ['{}_SERVICE_HOST'.format(service)] = '0.0.0.0'
-            os.environ['{}_SERVICE_PORT'.format(service)] = str(port)
-            port += 1
+sys.path.insert(0, os.path.join(os.curdir, 'backend'))
+from lib.util import init_env
 
 
 if __name__ == '__main__':

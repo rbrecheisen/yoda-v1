@@ -70,12 +70,12 @@ elif [ "${1}" == "build" ]; then
     eval $(docker-machine env manager)
 
     docker build -t brecheisen/base:v1 ./backend
-    docker build -t brecheisen/file-base:v1 ./backend/services/file/base
-    docker build -t brecheisen/file:v1 ./backend/services/file
+    docker build -t brecheisen/storage-base:v1 ./backend/services/storage/base
+    docker build -t brecheisen/storage:v1 ./backend/services/storage
+    docker build -t brecheisen/storage-app:v1 ./backend/services/storage-app
     docker build -t brecheisen/auth:v1 ./backend/services/auth
     docker build -t brecheisen/compute:v1 ./backend/services/compute
     docker build -t brecheisen/worker:v1 ./backend/services/worker
-    docker build -t brecheisen/storage:v1 ./backend/services/storage
     docker build -t brecheisen/database:v1 ./backend/services/database
 
     dangling=$(docker images -qf "dangling=true")
@@ -91,12 +91,12 @@ elif [ "${1}" == "push" ]; then
     docker login --username=brecheisen
 
     docker push brecheisen/base:v1
-    docker push brecheisen/file-base:v1
-    docker push brecheisen/file:v1
+    docker push brecheisen/storage-base:v1
+    docker push brecheisen/storage:v1
+    docker push brecheisen/storage-app:v1
     docker push brecheisen/auth:v1
     docker push brecheisen/compute:v1
     docker push brecheisen/worker:v1
-    docker push brecheisen/storage:v1
     docker push brecheisen/database:v1
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -173,34 +173,34 @@ elif [ "${1}" == "up" ]; then
             brecheisen/compute:v1
     fi
 
-    if [ "${2}" == "" ] || [ "${2}" == "storage" ]; then
+    if [ "${2}" == "" ] || [ "${2}" == "storage-app" ]; then
         docker service create \
-            --name storage \
+            --name storage-app \
             --network my-network \
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
             --env STORAGE_SERVICE_SETTINGS=/var/www/backend/service/storage/settings.py \
             --env AUTH_SERVICE_HOST=auth \
             --env AUTH_SERVICE_PORT=5000 \
-            --env FILE_SERVICE_HOST=file \
-            --env FILE_SERVICE_PORT=8003 \
+            --env STORAGE_SERVICE_HOST=storage \
+            --env STORAGE_SERVICE_PORT=8002 \
             --env DB_NAME=postgres \
             --env DB_USER=postgres \
             --env DB_PASS=postgres \
             --env DB_HOST=database \
             --env DB_PORT=5432 \
             --replicas 1 \
-            brecheisen/storage:v1
+            brecheisen/storage-app:v1
     fi
 
-    if [ "${2}" == "" ] || [ "${2}" == "file" ]; then
+    if [ "${2}" == "" ] || [ "${2}" == "storage" ]; then
         docker service create \
-            --name file \
+            --name storage \
             --network my-network \
             --mount type=volume,source=files,target=/mnt/shared/files \
-            --publish 8003:80 \
+            --publish 8002:80 \
             --replicas 1 \
-            brecheisen/file:v1
+            brecheisen/storage:v1
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "database" ]; then
@@ -244,18 +244,18 @@ elif [ "${1}" == "down" ]; then
         fi
     fi
 
-    if [ "${2}" == "" ] || [ "${2}" == "storage" ]; then
-        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/storage:v1" | awk '{print $1}')
+    if [ "${2}" == "" ] || [ "${2}" == "storage-app" ]; then
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/storage-app:v1" | awk '{print $1}')
         if [ "${service}" != "" ]; then
-            docker service rm storage
+            docker service rm storage-app
             wait=1
         fi
     fi
 
-    if [ "${2}" == "" ] || [ "${2}" == "file" ]; then
-        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/file:v1" | awk '{print $1}')
+    if [ "${2}" == "" ] || [ "${2}" == "storage" ]; then
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/storage:v1" | awk '{print $1}')
         if [ "${service}" != "" ]; then
-            docker service rm file
+            docker service rm storage
             wait=1
         fi
     fi
@@ -317,9 +317,12 @@ elif [ "${1}" == "test" ]; then
     export AUTH_SERVICE_PORT=8000
     export COMPUTE_SERVICE_HOST=$(docker-machine ip manager)
     export COMPUTE_SERVICE_PORT=8001
-    export FILE_SERVICE_HOST=$(docker-machine ip manager)
-    export FILE_SERVICE_PORT=8003
+    export STORAGE_SERVICE_HOST=$(docker-machine ip manager)
+    export STORAGE_SERVICE_PORT=8002
     export DATA_DIR=$HOME/download
+
+    # docker run -it --rm -v files:/mnt/shared/files ubuntu:14.04 rm -f /mnt/shared/files/*
+    # docker run -it --rm -v postgres:/var/lib/postgres/data ubuntu:14.04 rm -f /var/lib/postgres/data/*
 
     ${PYTHON} ./backend/tests/run.py
 
@@ -327,8 +330,8 @@ elif [ "${1}" == "test" ]; then
     unset AUTH_SERVICE_PORT
     unset COMPUTE_SERVICE_HOST
     unset COMPUTE_SERVICE_PORT
-    unset FILE_SERVICE_HOST
-    unset FILE_SERVICE_PORT
+    unset STORAGE_SERVICE_HOST
+    unset STORAGE_SERVICE_PORT
     unset DATA_DIR
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -348,7 +351,8 @@ elif [ "${1}" == "logs" ]; then
     eval $(docker-machine env manager)
     node=$(docker service ps ${service} | awk '{print $2,$4,$5}' | grep "${service}" | grep "Running" | awk '{print $2}')
     eval $(docker-machine env ${node})
-    container=$(docker ps | awk '{print $1,$2}' | grep "${service}" | awk '{print $1}')
+    container=$(docker ps | awk '{print $1,$2}' | grep "${service}:v1" | awk '{print $1}')
+    echo ${container}
     docker logs ${container}
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -361,7 +365,7 @@ elif [ "${1}" == "bash" ]; then
     if [ "${service}" == "database" ]; then
         service="postgres"
     fi
-    container=$(docker ps | awk '{print $1,$2}' | grep "${service}" | awk '{print $1}')
+    container=$(docker ps | awk '{print $1,$2}' | grep "${service}:v1" | awk '{print $1}')
     docker exec -it ${container} bash
 
 # ----------------------------------------------------------------------------------------------------------------------
