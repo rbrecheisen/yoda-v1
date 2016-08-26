@@ -6,8 +6,8 @@
  - Setup workflow where users can upload multiple MR images and perform
    segmentation on each one. Each image should be submitted to a different
    worker for parallel processing
-    - 
-   
+
+ - Use RabbitMQ as Celery broker and Redis as result backend
  - Test resumable uploads
  - Clear out postgres database and files volumes when testing (not working)
  - Figure out how to version URIs

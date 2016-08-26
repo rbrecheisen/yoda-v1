@@ -46,23 +46,30 @@ def test_train_classifier():
 
     # Train classifier using the uploaded CSV file
     response = requests.post(uri('compute', '/tasks'), headers=token_header(token), json={
-        'pipeline': 1, 'params': {'file_ids': [1, 2, 3, 4]}})
+        'pipeline_id': 1,
+        'params': {
+            'file_ids': [file_id],
+            'classifier': {
+                'name': 'svm-rbf',
+            }
+        }
+    })
     assert response.status_code == 201
     task_id = response.json()['id']
 
-    # Retrieve task status periodically until it finishes successfully
+    # Retrieve task status periodically until it finishes successfully. In practice,
+    # this means the task status == SUCCESS and result != None
     while True:
         response = requests.get(uri('compute', '/tasks/{}'.format(task_id)), headers=token_header(token))
         assert response.status_code == 200
         status = response.json()['status']
-        print(status)
-        if status == 'SUCCESS':
-            response = requests.get(uri('compute', '/tasks/{}'.format(task_id)), headers=token_header(token))
-            assert response.status_code == 200
-            result = response.json()['result']
-            assert result == 1
+        result = response.json()['result']
+        print(status.lower())
+        if status == 'SUCCESS' and result is not None:
+            assert len(result) == 1
+            assert result[0] == file_id + 100
             break
-        time.sleep(2)
+        time.sleep(1)
 
 
 # --------------------------------------------------------------------------------------------------------------------
