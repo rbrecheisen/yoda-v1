@@ -10,6 +10,9 @@ celery.config_from_object('service.compute.settings')
 @celery.task(name='pipeline')
 def run_pipeline(pipeline_id, params):
 
+    # Use pipeline ID to lookup the corresponding pipeline specification in the
+    # database. This specification will also contain a module/class name so we
+    # can instantiate the pipeline.
     if pipeline_id == 1:
         pipeline = ClassifierTrainingPipeline()
         task_id = pipeline.run(params)

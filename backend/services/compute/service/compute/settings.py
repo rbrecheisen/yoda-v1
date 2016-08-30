@@ -33,3 +33,9 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
 CELERY_CHORD_PROPAGATES = True
+
+# ------------------------------------------------------------------------------------------------------------------
+# Security settings
+# ------------------------------------------------------------------------------------------------------------------
+WORKER_USERNAME = 'worker'
+WORKER_PASSWORD = 'secret'

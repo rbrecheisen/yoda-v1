@@ -66,5 +66,11 @@ USERS = [
         'password': 'secret',
         'email': 'johnny@yoda.com',
         'is_admin': False,
+    },
+    {
+        'username': 'worker',
+        'password': 'secret',
+        'email': 'worker@yoda.com',
+        'is_admin': False,
     }
 ]

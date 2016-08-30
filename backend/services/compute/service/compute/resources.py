@@ -23,7 +23,7 @@ class TasksResource(BaseResource):
 
     URI = '/tasks'
 
-    # @token_required
+    @token_required
     def post(self):
 
         parser = reqparse.RequestParser()
@@ -44,7 +44,7 @@ class TaskResource(BaseResource):
 
     URI = '/tasks/{}'
 
-    # @token_required
+    @token_required
     def get(self, id):
         # Get status of the task
         status = task_status(id)

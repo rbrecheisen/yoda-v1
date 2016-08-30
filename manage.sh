@@ -72,8 +72,11 @@ elif [ "${1}" == "build" ]; then
     docker build -t brecheisen/base:v1 ./backend
     docker build -t brecheisen/storage-base:v1 ./backend/services/storage/base
     docker build -t brecheisen/storage:v1 ./backend/services/storage
+    docker build -t brecheisen/storage-app-base:v1 ./backend/services/storage-app/base
     docker build -t brecheisen/storage-app:v1 ./backend/services/storage-app
+    docker build -t brecheisen/auth-base:v1 ./backend/services/auth/base
     docker build -t brecheisen/auth:v1 ./backend/services/auth
+    docker build -t brecheisen/compute-base:v1 ./backend/services/compute/base
     docker build -t brecheisen/compute:v1 ./backend/services/compute
     docker build -t brecheisen/worker:v1 ./backend/services/worker
     docker build -t brecheisen/database:v1 ./backend/services/database
@@ -93,8 +96,11 @@ elif [ "${1}" == "push" ]; then
     docker push brecheisen/base:v1
     docker push brecheisen/storage-base:v1
     docker push brecheisen/storage:v1
+    docker push brecheisen/storage-app-base:v1
     docker push brecheisen/storage-app:v1
+    docker push brecheisen/auth-base:v1
     docker push brecheisen/auth:v1
+    docker push brecheisen/compute-base:v1
     docker push brecheisen/compute:v1
     docker push brecheisen/worker:v1
     docker push brecheisen/database:v1
@@ -127,7 +133,7 @@ elif [ "${1}" == "up" ]; then
             --env DB_PASS=postgres \
             --env DB_HOST=database \
             --env DB_PORT=5432 \
-            --publish 8000:5000 \
+            --publish 5000:5000 \
             --replicas 1 \
             brecheisen/auth:v1
     fi
@@ -143,24 +149,8 @@ elif [ "${1}" == "up" ]; then
             --env CELERY_RESULT_BACKEND=redis://redis:6379/0 \
             --env AUTH_SERVICE_HOST=auth \
             --env AUTH_SERVICE_PORT=5000 \
-            --env C_FORCE_ROOT=1 \
-            --env DB_NAME=postgres \
-            --env DB_USER=postgres \
-            --env DB_PASS=postgres \
-            --env DB_HOST=database \
-            --env DB_PORT=5432 \
-            --replicas 1 \
-            brecheisen/worker:v1 ./run.sh
-
-        docker service create \
-            --name worker-subtasks \
-            --network my-network \
-            --workdir /var/www/backend \
-            --env COMPUTE_SERVICE_SETTINGS=/var/www/backend/service/compute/settings.py \
-            --env BROKER_URL=redis://redis:6379/0 \
-            --env CELERY_RESULT_BACKEND=redis://redis:6379/0 \
-            --env AUTH_SERVICE_HOST=auth \
-            --env AUTH_SERVICE_PORT=5000 \
+            --env STORAGE_SERVICE_HOST=storage \
+            --env STORAGE_SERVICE_PORT=5002 \
             --env C_FORCE_ROOT=1 \
             --env DB_NAME=postgres \
             --env DB_USER=postgres \
@@ -168,7 +158,7 @@ elif [ "${1}" == "up" ]; then
             --env DB_HOST=database \
             --env DB_PORT=5432 \
             --replicas 2 \
-            brecheisen/worker:v1 ./run.sh subtasks
+            brecheisen/worker:v1
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "compute" ]; then
@@ -187,7 +177,7 @@ elif [ "${1}" == "up" ]; then
             --env DB_PASS=postgres \
             --env DB_HOST=database \
             --env DB_PORT=5432 \
-            --publish 8001:5001 \
+            --publish 5001:5001 \
             --replicas 1 \
             brecheisen/compute:v1
     fi
@@ -202,7 +192,7 @@ elif [ "${1}" == "up" ]; then
             --env AUTH_SERVICE_HOST=auth \
             --env AUTH_SERVICE_PORT=5000 \
             --env STORAGE_SERVICE_HOST=storage \
-            --env STORAGE_SERVICE_PORT=8002 \
+            --env STORAGE_SERVICE_PORT=5002 \
             --env DB_NAME=postgres \
             --env DB_USER=postgres \
             --env DB_PASS=postgres \
@@ -217,7 +207,7 @@ elif [ "${1}" == "up" ]; then
             --name storage \
             --network my-network \
             --mount type=volume,source=files,target=/mnt/shared/files \
-            --publish 8002:80 \
+            --publish 5002:5002 \
             --replicas 1 \
             brecheisen/storage:v1
     fi
@@ -250,7 +240,7 @@ elif [ "${1}" == "down" ]; then
     if [ "${2}" == "" ] || [ "${2}" == "worker" ]; then
         service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/worker:v1" | awk '{print $1}')
         if [ "${service}" != "" ]; then
-            docker service rm worker worker-subtasks
+            docker service rm worker
             wait=1
         fi
     fi
@@ -333,15 +323,12 @@ elif [ "${1}" == "test" ]; then
     eval $(docker-machine env manager)
 
     export AUTH_SERVICE_HOST=$(docker-machine ip manager)
-    export AUTH_SERVICE_PORT=8000
+    export AUTH_SERVICE_PORT=5000
     export COMPUTE_SERVICE_HOST=$(docker-machine ip manager)
-    export COMPUTE_SERVICE_PORT=8001
+    export COMPUTE_SERVICE_PORT=5001
     export STORAGE_SERVICE_HOST=$(docker-machine ip manager)
-    export STORAGE_SERVICE_PORT=8002
+    export STORAGE_SERVICE_PORT=5002
     export DATA_DIR=$HOME/download
-
-    # docker run -it --rm -v files:/mnt/shared/files ubuntu:14.04 rm -f /mnt/shared/files/*
-    # docker run -it --rm -v postgres:/var/lib/postgres/data ubuntu:14.04 rm -f /var/lib/postgres/data/*
 
     ${PYTHON} ./backend/tests/run.py
 

@@ -6,6 +6,13 @@ from flask import request, g
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+def service_uri(service):
+    return 'http://{}:{}'.format(
+        os.getenv('{}_SERVICE_HOST'.format(service.upper())),
+        os.getenv('{}_SERVICE_PORT'.format(service.upper())))
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 def generate_id(n=16):
     if n <= 8:
         return ''.join(random.sample(string.digits, n))

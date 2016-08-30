@@ -1,5 +1,3 @@
-import base64
-
 OK_200 = 200  # Request processed, entity returned
 CREATED_201 = 201  # Request processed, entity created
 ACCEPTED_202 = 202  # Request accepted for processing, not yet completed

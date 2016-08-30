@@ -67,13 +67,5 @@ def test_train_classifier():
         print(status.lower())
         if status == 'SUCCESS' and result is not None:
             assert len(result) == 1
-            assert result[0] == file_id + 100
             break
         time.sleep(1)
-
-
-# --------------------------------------------------------------------------------------------------------------------
-def test_segment_brains():
-
-    if os.getenv('DATA_DIR', None) is None:
-        return
