@@ -1,9 +1,7 @@
-import time
 import os
 import shutil
 import requests
 from flask import Config
-from billiard import current_process
 from celery import chord, shared_task
 from lib.util import generate_string, service_uri
 from lib.authentication import login_header, token_header
@@ -27,7 +25,7 @@ class ClassifierTrainingPipeline(Pipeline):
     """
     def run(self, params):
 
-        print('Running classifier training pipeline')
+        # Validate the pipeline parameters
         self.validate_params(params)
 
         # Create training task for each file ID (here only 1)
@@ -63,7 +61,6 @@ class ClassifierTrainingPipeline(Pipeline):
 
         try:
             # Request access token from authentication service
-            print('Requesting access token from auth service at {}'.format(service_uri('auth')))
             response = requests.post(
                 '{}/tokens'.format(service_uri('auth')), headers=login_header(
                     config['WORKER_USERNAME'],

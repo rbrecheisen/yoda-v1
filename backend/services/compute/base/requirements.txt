@@ -1,2 +1,6 @@
 celery
 redis
+scipy
+numpy
+pandas
+scikit-learn
