@@ -2,14 +2,14 @@ import pandas as pd
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def load_features(file_name_or_obj, **kwargs):
-    features = pd.read_csv(file_name_or_obj, **kwargs)
+def load_features(file_path, **kwargs):
+    features = pd.read_csv(file_path, **kwargs)
     return features
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def load_features_for(file_name_or_obj, target_column, values, **kwargs):
-    features = load_features(file_name_or_obj, **kwargs)
+def load_features_for(file_path, target_column, values, **kwargs):
+    features = load_features(file_path, **kwargs)
     tmp = []
     for i in range(len(values)):
         tmp.append(features[features[target_column] == values[i]])

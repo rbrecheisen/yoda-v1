@@ -49,11 +49,20 @@ class TaskResource(BaseResource):
         # Get status of the task
         status = task_status(id)
         result = None
-        # If task completed successfully, we retrieve the sub-task ID
+        # If task completed successfully, we check its output type. If it's a string
+        # then it's a sub-task ID and we retrieve the sub-task status. If it's a
+        # dictionary we already have the end result and return it.
         # and check its status
         if status == 'SUCCESS':
-            sub_task_id = task_result(id)
+            result = task_result(id)
+            # TODO: For some reason, the result is not recognized as dict()
+            if isinstance(result, dict):
+                # Result is dictionary end result
+                return self.response({'status': status, 'result': result})
+            # Result is sub-task ID so retrieve its status
+            sub_task_id = result
             status = task_status(sub_task_id)
+            result = None
             # If sub-task completed successfully, we retrieve its results
             if status == 'SUCCESS':
                 result = task_result(sub_task_id)

@@ -1,5 +1,6 @@
 # TODO
    
+ - Refactor pipeline code
  - Implement Gaussian Process classifier
  - Setup workflow where users can upload multiple MR images and perform
    segmentation on each one. Each image should be submitted to a different
