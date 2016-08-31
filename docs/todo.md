@@ -1,8 +1,6 @@
 # TODO
-
- - Setup workflow where users can upload CSV file and train a classifier
-   on it and then save the classifier for predictions
    
+ - Implement Gaussian Process classifier
  - Setup workflow where users can upload multiple MR images and perform
    segmentation on each one. Each image should be submitted to a different
    worker for parallel processing
@@ -17,6 +15,7 @@
  - Load files from S3 or EBS (look into volume drivers like flocker)
  - Move back to Alpine Linux images
  
+ - [DONE] Implement classifier training pipeline
  - [DONE] Handle all storage-related requests via Nginx file service
  - [DONE] Setup PostgreSQL
  - [DONE] Use response() and error_response() in each resource

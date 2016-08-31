@@ -1,21 +1,20 @@
 import os
 import shutil
 import requests
-import logging
 from flask import Config
 from celery import chord, shared_task
 from sklearn.svm import SVC
 from sklearn.grid_search import GridSearchCV
 from sklearn.cross_validation import StratifiedKFold
 from sklearn.metrics import accuracy_score
+from sklearn.externals import joblib
 from lib.util import generate_string, service_uri, timing_now, timing_elapsed_to_str
 from lib.authentication import login_header, token_header
+from lib.upload import upload_file
 from util import load_features, get_xy
 
 config = Config(None)
 config.from_object('service.compute.settings')
-
-logger = logging.getLogger(__name__)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -36,9 +35,9 @@ class ClassifierTrainingPipeline(Pipeline):
         # Validate the pipeline parameters
         self.validate_params(params)
         # Request access token from auth service
-        token = self.get_access_token()
+        token = get_access_token()
         # Get file storage ID from storage service
-        storage_id = self.get_file_storage_id(params['file_id'], token)
+        storage_id = get_file_storage_id(params['file_id'], token)
         # Columns to exclude (optional parameter)
         exclude_columns = []
         if 'exclude_columns' in params.keys():
@@ -54,27 +53,12 @@ class ClassifierTrainingPipeline(Pipeline):
 
         # Create chord job that trains a classifier for each file ID and at the
         # end builds a task result object containing the output results.
-        job = chord(header=tasks, body=self.build_task_result.subtask((params['nr_folds'],)))
+        job = chord(header=tasks, body=self.build_task_result.subtask((
+            storage_id, params['repository_id'], params['nr_folds'], params['index_column'],
+            params['target_column'], exclude_columns, token)))
         result = job.apply_async()
 
         return result.task_id
-
-    @staticmethod
-    def get_access_token():
-        logger.debug('Requesting access token')
-        response = requests.post(
-            '{}/tokens'.format(service_uri('auth')), headers=login_header(
-                config['WORKER_USERNAME'],
-                config['WORKER_PASSWORD']))
-        return response.json()['token']
-
-    @staticmethod
-    def get_file_storage_id(file_id, token):
-        logger.debug('Getting file storage ID')
-        response = requests.get('{}/files/{}'.format(service_uri('storage'), file_id), headers=token_header(token))
-        storage_id = response.json()['storage_id']
-        logger.debug('File storage ID found: {}'.format(storage_id))
-        return storage_id
 
     @staticmethod
     @shared_task
@@ -86,17 +70,10 @@ class ClassifierTrainingPipeline(Pipeline):
 
         try:
             # Download the file to local task directory
-            logger.debug('Downloading and saving file to local task directory')
-            response = requests.get(
-                '{}/downloads/{}'.format(service_uri('storage'), storage_id), headers=token_header(token))
-            file_path = os.path.join(task_dir, storage_id)
-            with open(file_path, 'wb') as f:
-                for chunk in response.iter_content(1024*1024):
-                    f.write(chunk)
-            logger.debug('File {} saved'.format(file_path))
+            file_path = download_file(storage_id, task_dir, token)
 
             # Load features into memory
-            logger.debug('Loading features')
+            print('Loading features')
             features = load_features(file_path, index_col=index_column)
             X, y = get_xy(features, target_column=target_column, exclude_columns=exclude_columns)
 
@@ -107,9 +84,9 @@ class ClassifierTrainingPipeline(Pipeline):
 
             # Start training the classifier using a grid search approach for determining
             # the optimal hyper-parameters.
-            logger.debug('Starting classifier training')
+            print('Starting classifier training')
             start = timing_now()
-            classifier = GridSearchCV(SVC(kernel='rbf'), param_grid=param_grid, scoring='accuracy', verbose=1)
+            classifier = GridSearchCV(SVC(kernel='rbf'), param_grid=param_grid, scoring='accuracy')
             classifier.fit(X[train], y[train])
             y_pred = classifier.predict(X[test])
             y_true = y[test]
@@ -118,25 +95,80 @@ class ClassifierTrainingPipeline(Pipeline):
             accuracy = accuracy_score(y_true, y_pred)
 
             # Log fold accuracy and time to complete
-            logger.debug('Classifier accuracy {}'.format(accuracy))
-            logger.debug('Fold finished after {}'.format(timing_elapsed_to_str(start)))
+            print('Classifier accuracy {}'.format(accuracy))
+            print('Fold finished after {}'.format(timing_elapsed_to_str(start)))
 
         finally:
             # Clean up task directory under any circumstances, even error
             delete_task_dir(task_dir)
 
-        # Return the accuracy of the classifier
-        return accuracy
+        # Return the accuracy and optimal hyper-parameters of the classifier
+        return {
+            'accuracy': accuracy,
+            'C': classifier.best_params_['C'],
+            'gamma': classifier.best_params_['gamma']
+        }
 
     @staticmethod
     @shared_task
-    def build_task_result(accuracies, nr_folds):
+    def build_task_result(outputs, storage_id, repository_id, nr_folds, index_column, target_column, exclude_columns, token):
+
+        # Extract accuracies, C and gamma values from the outputs
+        accuracies = []
+        Cs = []
+        gammas = []
+        for i in range(len(outputs)):
+            accuracies.append(outputs[i]['accuracy'])
+            Cs.append(outputs[i]['C'])
+            gammas.append(outputs[i]['gamma'])
+
+        # Average the accuracies
         accuracy = sum(accuracies) / nr_folds
-        logger.debug('Average accuracy: {}'.format(accuracy))
-        return accuracy
+        print('Average accuracy: {}'.format(accuracy))
+
+        # Figure out which hyper-parameters to choose
+        max_accuracy = 0.0
+        max_C = 0.0
+        max_gamma = 0.0
+        for i in range(len(accuracies)):
+            if accuracies[i] > max_accuracy:
+                max_accuracy = accuracies[i]
+                max_C = Cs[i]
+                max_gamma = gammas[i]
+        print('Max. accuracy: {}, max. C: {}, max. gamma: {}'.format(max_accuracy, max_C, max_gamma))
+
+        # Retrain classifier on all data using the optimal hyper-parameters
+        task_dir = create_task_dir()
+        try:
+            # Download the file and load its features
+            print('Downloading and save file')
+            file_path = download_file(storage_id, task_dir, token)
+            features = load_features(file_path, index_col=index_column)
+            X, y = get_xy(features, target_column=target_column, exclude_columns=exclude_columns)
+
+            # Train the classifier on all features with the optimal hyper-parameters
+            print('Training classifier on all features')
+            classifier = SVC(kernel='rbf', C=max_C, gamma=max_gamma)
+            classifier.fit(X, y)
+
+            # Save the classifier to disk and then upload it to storage service as regular file
+            classifier_file_path = save_classifier(classifier, task_dir)
+            classifier_file_id = upload_classifier_file(classifier_file_path, repository_id, token)
+
+        finally:
+            delete_task_dir(task_dir)
+
+        # Return average accuracy and the optimal hyper-parameters
+        return {
+            'accuracy': accuracy,
+            'C': max_C,
+            'gamma': max_gamma,
+            'classifier_file_id': classifier_file_id,
+        }
 
     @staticmethod
     def validate_params(params):
+
         assert 'file_id' in params.keys()
         assert params['file_id'] > 0
         assert 'subject_labels' in params.keys()
@@ -145,9 +177,10 @@ class ClassifierTrainingPipeline(Pipeline):
         assert 'target_column' in params.keys()
         assert 'nr_folds' in params.keys()
         assert params['nr_folds'] > 0
-        assert 'classifier' in params.keys()
-        assert 'name' in params['classifier'].keys()
-        assert params['classifier']['name'] in ['svm-lin', 'svm-rbf']
+        assert 'classifier_name' in params.keys()
+        assert params['classifier_name'] in ['svm-lin', 'svm-rbf']
+        assert 'repository_id' in params.keys()
+        assert params['repository_id'] > 0
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -167,7 +200,7 @@ def create_task_dir():
     task_dir = '/tmp/workers/task-{}'.format(generate_string())
     if os.path.isdir(task_dir):
         raise RuntimeError('Directory {} already exists'.format(task_dir))
-    logger.debug('Creating directory {}'.format(task_dir))
+    print('Creating directory {}'.format(task_dir))
     os.makedirs(task_dir)
     return task_dir
 
@@ -176,5 +209,59 @@ def create_task_dir():
 def delete_task_dir(task_dir):
     if not os.path.isdir(task_dir):
         raise RuntimeError('Directory {} does not exist'.format(task_dir))
-    logger.debug('Deleting directory {}'.format(task_dir))
+    print('Deleting directory {}'.format(task_dir))
     shutil.rmtree(task_dir)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def get_access_token():
+    print('Requesting access token')
+    response = requests.post(
+        '{}/tokens'.format(service_uri('auth')), headers=login_header(
+            config['WORKER_USERNAME'],
+            config['WORKER_PASSWORD']))
+    return response.json()['token']
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def get_file_storage_id(file_id, token):
+    print('Getting file storage ID')
+    response = requests.get('{}/files/{}'.format(service_uri('storage'), file_id), headers=token_header(token))
+    storage_id = response.json()['storage_id']
+    print('File storage ID found: {}'.format(storage_id))
+    return storage_id
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def download_file(storage_id, task_dir, token):
+    print('Downloading file with storage ID {}'.format(storage_id))
+    response = requests.get(
+        '{}/downloads/{}'.format(service_uri('storage'), storage_id), headers=token_header(token))
+    file_path = os.path.join(task_dir, storage_id)
+    with open(file_path, 'wb') as f:
+        for chunk in response.iter_content(1024 * 1024):
+            f.write(chunk)
+    print('Saved file {}'.format(file_path))
+    return file_path
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def save_classifier(classifier, task_dir):
+    print('Saving classifier')
+    file_path = os.path.join(task_dir, generate_string())
+    joblib.dump(classifier, file_path)
+    print('Saved classifier to file {}'.format(file_path))
+    return file_path
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def upload_classifier_file(file_path, repository_id, token):
+    print('Uploading file {}'.format(file_path))
+    response = requests.get('{}/file-types?name=binary'.format(service_uri('storage')), headers=token_header(token))
+    file_type_id = response.json()[0]['id']
+    response = requests.get('{}/scan-types?name=none'.format(service_uri('storage')), headers=token_header(token))
+    scan_type_id = response.json()[0]['id']
+    try:
+        return upload_file(file_path, file_type_id, scan_type_id, repository_id, token)
+    except RuntimeError as e:
+        print('Failed to upload classifier file ({})'.format(e.message))

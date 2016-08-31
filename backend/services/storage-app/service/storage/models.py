@@ -24,7 +24,8 @@ class FileType(BaseModel):
     DICOM = 'dicom'
     CSV = 'csv'
     TXT = 'txt'
-    ALL = [NIFTI, DICOM, CSV, TXT]
+    BINARY = 'binary'
+    ALL = [NIFTI, DICOM, CSV, TXT, BINARY]
 
     # File type ID in database
     id = Column(Integer, ForeignKey('base.id'), primary_key=True)

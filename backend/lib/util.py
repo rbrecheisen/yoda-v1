@@ -2,7 +2,7 @@ import os
 import random
 import string
 import time
-from flask import request, g
+from flask import request
 
 
 # ----------------------------------------------------------------------------------------------------------------------

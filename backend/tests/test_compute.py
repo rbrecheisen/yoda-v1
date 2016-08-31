@@ -3,8 +3,10 @@ import os
 import time
 import sys
 import pandas as pd
-from util import uri, login_header, token_header, upload_file
+from util import uri
 from lib.util import generate_string
+from lib.authentication import login_header, token_header
+from lib.upload import upload_file
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -71,9 +73,8 @@ def test_train_classifier():
             'index_column': 'MRid',
             'target_column': 'Diagnosis',
             'exclude_columns': ['Gender', 'Center'],
-            'classifier': {
-                'name': 'svm-rbf',
-            }
+            'classifier_name': 'svm-rbf',
+            'repository_id': repository_id,
         }
     })
 
@@ -88,7 +89,7 @@ def test_train_classifier():
         status = response.json()['status']
         assert status == 'PENDING' or status == 'SUCCESS'
         result = response.json()['result']
-        sys.stdout.write('.')
+        sys.stdout.write('>')
         sys.stdout.flush()
         if status == 'SUCCESS' and result is not None:
             print(result)
