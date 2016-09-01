@@ -369,6 +369,24 @@ elif [ "${1}" == "logs" ]; then
     done
 
 # ----------------------------------------------------------------------------------------------------------------------
+elif [ "${1}" == "ls" ]; then
+
+    service=${2}
+    eval $(docker-machine env manager)
+    node=$(docker service ps ${service} | awk '{print $2,$4,$5}' | grep "${service}" | grep "Running" | awk '{print $2}')
+    for n in ${node}; do
+        node=${n}
+        break
+    done
+    eval $(docker-machine env ${node})
+    container=$(docker ps | awk '{print $1,$2}' | grep "${service}:v1" | awk '{print $1}')
+    for c in ${container}; do
+        echo " - ${service} - ${c} -----------------------------------------"
+        docker exec -it ${c} ls -l ${3}
+        echo ""
+    done
+
+# ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "bash" ]; then
 
     service=${2}
@@ -411,6 +429,8 @@ elif [ "${1}" == "" ] || [ "${1}" == "help" ]; then
     echo "test     Runs python test scripts"
     echo "clean    Cleans Docker swarm cluster and deletes VMs"
     echo "logs     Shows logs for a given service (and container)"
+    echo "ls       Lists directory contents in container of given service"
+    echo "bash     Opens bash shell in container of given service"
     echo "help     Shows this help"
     echo ""
 

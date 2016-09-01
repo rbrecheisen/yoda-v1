@@ -54,7 +54,7 @@ def test_train_classifier():
     subject_labels = list(features['Diagnosis'])
 
     # Upload CSV file with brain features
-    file_id = upload_file('/tmp/features.csv', file_type_id, scan_type_id, repository_id, token)
+    file_id, _ = upload_file('/tmp/features.csv', file_type_id, scan_type_id, repository_id, token)
     assert file_id
 
     # Delete temporary features file
@@ -73,7 +73,7 @@ def test_train_classifier():
             'nr_folds': 2,
             'index_column': 'MRid',
             'target_column': 'Diagnosis',
-            'classifier_name': 'svm-rbf',
+            'classifier': 'svm-rbf',
             'repository_id': repository_id,
         }
     })
@@ -83,17 +83,17 @@ def test_train_classifier():
 
     # Retrieve task status periodically until it finishes successfully. In practice,
     # this means the task status == SUCCESS and result != None
-    classifier_file_id = 0
+    classifier_id = 0
     while True:
         response = requests.get('{}/tasks/{}'.format(service_uri('compute'), task_id), headers=token_header(token))
         assert response.status_code == 200
         status = response.json()['status']
         assert status == 'PENDING' or status == 'SUCCESS'
         result = response.json()['result']
-        sys.stdout.write('>')
+        sys.stdout.write('.')
         sys.stdout.flush()
         if status == 'SUCCESS' and result is not None:
-            classifier_file_id = result['classifier_file_id']
+            classifier_id = result['classifier_id']
             break
         time.sleep(2)
 
@@ -106,7 +106,7 @@ def test_train_classifier():
     response = requests.post('{}/tasks'.format(service_uri('compute')), headers=token_header(token), json={
         'pipeline_id': 2,
         'params': {
-            'classifier_file_id': classifier_file_id,
+            'classifier_id': classifier_id,
             'subjects': [
                 subject_data,
             ],
@@ -122,7 +122,7 @@ def test_train_classifier():
         status = response.json()['status']
         assert status == 'PENDING' or status == 'SUCCESS'
         result = response.json()['result']
-        sys.stdout.write('>')
+        sys.stdout.write('.')
         sys.stdout.flush()
         if status == 'SUCCESS' and result is not None:
             print(result)

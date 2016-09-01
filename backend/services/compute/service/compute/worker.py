@@ -1,6 +1,6 @@
 from celery import Celery
 from celery.result import AsyncResult
-from pipelines import ClassifierTrainingPipeline
+from pipelines import ClassifierTrainingPipeline, ClassificationPipeline
 
 celery = Celery('compute')
 celery.config_from_object('service.compute.settings')
@@ -15,6 +15,10 @@ def run_pipeline(pipeline_id, params):
     # can instantiate the pipeline.
     if pipeline_id == 1:
         pipeline = ClassifierTrainingPipeline()
+        task_id = pipeline.run(params)
+        return task_id
+    elif pipeline_id == 2:
+        pipeline = ClassificationPipeline()
         task_id = pipeline.run(params)
         return task_id
     else:

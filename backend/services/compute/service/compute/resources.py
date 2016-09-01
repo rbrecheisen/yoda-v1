@@ -55,7 +55,6 @@ class TaskResource(BaseResource):
         # and check its status
         if status == 'SUCCESS':
             result = task_result(id)
-            # TODO: For some reason, the result is not recognized as dict()
             if isinstance(result, dict):
                 # Result is dictionary end result
                 return self.response({'status': status, 'result': result})

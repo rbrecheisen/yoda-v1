@@ -1,7 +1,12 @@
 # TODO
    
  - Refactor pipeline code
- - Implement Gaussian Process classifier
+ 
+ - Setup R-compatible worker
+     - We can create a worker service based on a Docker image that has R
+       installed and also create a Celery queue 'R' to which we can redirect
+       tasks meant for R. Use the rpy2 library.
+       
  - Setup workflow where users can upload multiple MR images and perform
    segmentation on each one. Each image should be submitted to a different
    worker for parallel processing
@@ -36,10 +41,3 @@
  - [DONE] Implement correlation IDs (put them in headers?)
  - [DONE] Add other services to compound run configuration for debugging
  - [DONE] Setup debugging facilities
-
-
-# Pipelines
-
-From the /tasks endpoint we call a Celery task 'run_pipeline' which internally
-retrieves a pipeline object and has it execute. The pipeline object may start
-additional sub-tasks, e.g., to process multiple MR images.
