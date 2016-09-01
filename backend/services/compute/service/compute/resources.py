@@ -14,7 +14,7 @@ class RootResource(BaseResource):
         print('Returning root endpoint...')
         return self.response({
             'service': 'compute',
-            'endpoints': ['tasks', 'pipelines', 'task-results'],
+            'endpoints': ['tasks', 'pipelines'],
         })
 
 

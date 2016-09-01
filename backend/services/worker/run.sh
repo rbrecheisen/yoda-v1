@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export PYTHONPATH=/var/www/backend:${PYTHONPATH}
+
 queue=celery
 
 if [ "${1}" != "" ]; then

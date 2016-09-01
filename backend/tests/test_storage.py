@@ -3,7 +3,7 @@ import requests
 from util import uri
 from lib.util import generate_string
 from lib.authentication import login_header, token_header
-from lib.upload import upload_file
+from lib.files import upload_file
 
 
 # --------------------------------------------------------------------------------------------------------------------

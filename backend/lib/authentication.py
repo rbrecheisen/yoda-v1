@@ -1,5 +1,4 @@
 import base64
-import os
 import requests
 from functools import wraps
 from flask import request, g

@@ -5,7 +5,7 @@ import sys
 import pandas as pd
 from lib.util import generate_string, service_uri
 from lib.authentication import login_header, token_header
-from lib.upload import upload_file
+from lib.files import upload_file
 
 
 # --------------------------------------------------------------------------------------------------------------------

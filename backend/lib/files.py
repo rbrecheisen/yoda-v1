@@ -45,3 +45,18 @@ def upload_file(file_name, file_type_id, scan_type_id, repository_id, token):
             session_id = response.headers['X-Session-ID']
             i += len(chunk)
     return file_id, storage_id
+
+
+# --------------------------------------------------------------------------------------------------------------------
+def download_file(storage_id, target_dir, token, extension=None):
+    response = requests.get(
+        '{}/downloads/{}'.format(service_uri('storage'), storage_id), headers=token_header(token))
+    file_path = os.path.join(target_dir, storage_id)
+    if extension:
+        if not extension.startswith('.'):
+            extension = '.{}'.format(extension)
+        file_path = '{}{}'.format(file_path, extension)
+    with open(file_path, 'wb') as f:
+        for chunk in response.iter_content(1024 * 1024):
+            f.write(chunk)
+    return file_path
