@@ -10,11 +10,30 @@ class ClassifierTrainingPipeline(Pipeline):
 
     def run(self, params):
 
+        print('run_training_fold: {}'.format(run_training_fold))
+        print('retrain_classifier: {}'.format(retrain_classifier))
+
         header = []
         for i in range(2):
-            header.append(run_training_fold.subtask())
+            header.append(run_training_fold.subtask({
+                'storage_id': 'flaskdjflkdjsfasd',
+                'train': [],
+                'test': [],
+                'index_column': 'MRid',
+                'target_column': 'Diagnosis',
+                'exclude_columns': ['Gender', 'Center'],
+                'token': 'kldjflkasdjfasldkfj',
+            }))
 
-        body = retrain_classifier.subtask()
+        body = retrain_classifier.subtask({
+            'storage_id': 'salfkjsadflksjad',
+            'repository_id': 1,
+            'nr_folds': 2,
+            'index_column': 'MRid',
+            'target_column': 'Diagnosis',
+            'exclude_columns': ['Gender', 'Center'],
+            'token': 'lkjdsalkfjadslkfjds',
+        })
 
         # # Validate the pipeline parameters
         # self.validate_params(params)

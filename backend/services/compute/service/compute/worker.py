@@ -38,9 +38,5 @@ def task_result(task_id):
 
 if __name__ == '__main__':
 
-    # celery.autodiscover_tasks([
-    #     'pipelines.stats.train',
-    #     'pipelines.status.predict',
-    # ], related_name='tasks')
-    #
+    celery.autodiscover_tasks(['pipelines'])
     celery.worker_main()
