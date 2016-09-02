@@ -7,7 +7,7 @@ celery.config_from_object('service.compute.settings')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-@celery.task(name='pipeline')
+@celery.task(name='run_pipeline')
 def run_pipeline(pipeline_id, params):
 
     # Use pipeline ID to lookup the corresponding pipeline specification in the
@@ -38,13 +38,9 @@ def task_result(task_id):
 
 if __name__ == '__main__':
 
-    # TODO: This doesn't work, Celery can't register the tasks
-    celery.autodiscover_tasks([
-        'service.compute.pipelines',
-        'service.compute.pipelines.statistics',
-        'service.compute.pipelines.statistics.classification',
-        'service.compute.pipelines.statistics.classification.training',
-        'service.compute.pipelines.statistics.classification.prediction',
-    ])
-
+    # celery.autodiscover_tasks([
+    #     'pipelines.stats.train',
+    #     'pipelines.status.predict',
+    # ], related_name='tasks')
+    #
     celery.worker_main()

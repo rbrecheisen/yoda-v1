@@ -2,6 +2,7 @@ import numpy as np
 from lib.files import download_file
 from service.compute.pipelines.base import Pipeline
 from service.compute.pipelines.util import get_access_token, create_task_dir, delete_task_dir
+from service.compute.pipelines.stats.util import load_model
 
 
 # ----------------------------------------------------------------------------------------------------------------------

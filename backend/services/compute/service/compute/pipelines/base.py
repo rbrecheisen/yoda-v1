@@ -20,9 +20,9 @@ class PipelineRegistry(object):
     @staticmethod
     def get(pipeline_id):
         if pipeline_id == 1:
-            from service.compute.pipelines.statistics.classification.training import ClassifierTrainingPipeline
+            from service.compute.pipelines.stats.train.pipeline import ClassifierTrainingPipeline
             return ClassifierTrainingPipeline()
         if pipeline_id == 2:
-            from service.compute.pipelines.statistics.classification.prediction import ClassifierPredictionPipeline
+            from service.compute.pipelines.stats.predict.pipeline import ClassifierPredictionPipeline
             return ClassifierPredictionPipeline()
         return None
