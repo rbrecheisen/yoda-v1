@@ -1,5 +1,10 @@
 'use strict';
 
+var environment = {};
+if(window) {
+    console.log('environment: ' + window.environment.UI_SERVICE_HOST);
+}
+
 angular.module('app', ['ngRoute', 'controllers', 'services'])
 
     .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {

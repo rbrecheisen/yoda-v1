@@ -18,9 +18,9 @@ angular.module('controllers', [])
             ];
         }])
 
-    .controller('LoginController', ['$scope', '$cookies', '$location', 'TokenService',
-        function($scope, $cookies, $location, TokenService) {
-            
+    .controller('LoginController', ['$scope', '$cookies', '$location', 'TokenService', 'environment',
+        function($scope, $cookies, $location, TokenService, environment) {
+
             // TODO: Remove this
             $scope.username = 'root';
             $scope.password = 'secret';

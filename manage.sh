@@ -228,12 +228,8 @@ elif [ "${1}" == "up" ]; then
         docker service create \
             --name ui \
             --network my-network \
-            --env AUTH_SERVICE_HOST=auth \
-            --env AUTH_SERVICE_PORT=5000 \
-            --env COMPUTE_SERVICE_HOST=compute \
-            --env COMPUTE_SERVICE_PORT=5001 \
-            --env STORAGE_SERVICE_HOST=storage \
-            --env STORAGE_SERVICE_PORT=5002 \
+            --env UI_SERVICE_HOST=$(docker-machine ip manager) \
+            --env UI_SERVICE_PORT=80 \
             --publish 80:80 \
             --replicas 1 \
             brecheisen/ui:v1

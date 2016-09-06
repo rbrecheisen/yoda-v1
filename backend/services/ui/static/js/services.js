@@ -1,9 +1,7 @@
 'use strict';
 
-var TOKENS_URI      = 'http://192.168.99.100/auth/tokens';
-var USERS_URI       = 'http://192.168.99.100/auth/users';
-var USER_GROUPS_URI = 'http://192.168.99.100/auth/user-groups';
-var PERMISSIONS_URI = 'http://192.168.99.100/auth/permissions';
+var TOKENS_URI = 'http://192.168.99.100/auth/tokens';
+var USERS_URI  = 'http://192.168.99.100/auth/users';
 
 
 angular.module('services', ['ngResource', 'ngCookies'])
@@ -118,99 +116,99 @@ angular.module('services', ['ngResource', 'ngCookies'])
                     })
                 }
             }
-        }])
-
-    .service('UserGroupService', ['$http', 'TokenService',
-        function($http, TokenService) {
-            return {
-                getAll: function() {
-                    return $http({
-                        method: 'GET',
-                        url: USER_GROUPS_URI,
-                        headers: TokenService.header()
-                    })
-                },
-                get: function(id) {
-                    return $http({
-                        method: 'GET',
-                        url: USER_GROUPS_URI + '/' + id,
-                        headers: TokenService.header()
-                    })
-                },
-                getByName: function(name) {
-                    return $http({
-                        method: 'GET',
-                        url: USER_GROUPS_URI + '?name=' + name,
-                        headers: TokenService.header()
-                    })
-                },
-                create: function(name) {
-                    return $http({
-                        method: 'POST',
-                        url: USER_GROUPS_URI,
-                        headers: TokenService.header(),
-                        data: {
-                            'name': name
-                        }
-                    })
-                },
-                update: function(id, name) {
-                    return $http({
-                        method: 'PUT',
-                        url: USER_GROUPS_URI + '/' + id,
-                        headers: TokenService.header(),
-                        data: {
-                            'name': name
-                        }
-                    })
-                },
-                delete: function(id) {
-                    return $http({
-                        method: 'DELETE',
-                        url: USER_GROUPS_URI + '/' + id,
-                        headers: TokenService.header()
-                    })
-                },
-                addUser: function(id, userId) {
-                    return $http({
-                        method: 'PUT',
-                        url: USER_GROUPS_URI + '/' + id + '/users/' + userId,
-                        headers: TokenService.header()
-                    })
-                },
-                removeUser: function(id, userId) {
-                    return $http({
-                        method: 'DELETE',
-                        url: USER_GROUPS_URI + '/' + id + '/users/' + userId,
-                        headers: TokenService.header()
-                    })
-                }
-            }
-        }])
-
-    .service('PermissionService', ['$http', 'TokenService',
-        function($http, TokenService) {
-            return {
-                create: function(action, principal_id, principal_type, resource_id, granted) {
-                    return $http({
-                        method: 'POST',
-                        url: PERMISSIONS_URI,
-                        headers: TokenService.header(),
-                        data: {
-                            'action': action,
-                            'principal_id': principal_id,
-                            'principal_type': principal_type,
-                            'resource_id': resource_id,
-                            'granted': granted
-                        }
-                    })
-                },
-                delete: function(id) {
-                    return $http({
-                        method: 'DELETE',
-                        url: PERMISSIONS_URI + '/' + id,
-                        headers: TokenService.header()
-                    })
-                }
-            }
         }]);
+
+    // .service('UserGroupService', ['$http', 'TokenService',
+    //     function($http, TokenService) {
+    //         return {
+    //             getAll: function() {
+    //                 return $http({
+    //                     method: 'GET',
+    //                     url: USER_GROUPS_URI,
+    //                     headers: TokenService.header()
+    //                 })
+    //             },
+    //             get: function(id) {
+    //                 return $http({
+    //                     method: 'GET',
+    //                     url: USER_GROUPS_URI + '/' + id,
+    //                     headers: TokenService.header()
+    //                 })
+    //             },
+    //             getByName: function(name) {
+    //                 return $http({
+    //                     method: 'GET',
+    //                     url: USER_GROUPS_URI + '?name=' + name,
+    //                     headers: TokenService.header()
+    //                 })
+    //             },
+    //             create: function(name) {
+    //                 return $http({
+    //                     method: 'POST',
+    //                     url: USER_GROUPS_URI,
+    //                     headers: TokenService.header(),
+    //                     data: {
+    //                         'name': name
+    //                     }
+    //                 })
+    //             },
+    //             update: function(id, name) {
+    //                 return $http({
+    //                     method: 'PUT',
+    //                     url: USER_GROUPS_URI + '/' + id,
+    //                     headers: TokenService.header(),
+    //                     data: {
+    //                         'name': name
+    //                     }
+    //                 })
+    //             },
+    //             delete: function(id) {
+    //                 return $http({
+    //                     method: 'DELETE',
+    //                     url: USER_GROUPS_URI + '/' + id,
+    //                     headers: TokenService.header()
+    //                 })
+    //             },
+    //             addUser: function(id, userId) {
+    //                 return $http({
+    //                     method: 'PUT',
+    //                     url: USER_GROUPS_URI + '/' + id + '/users/' + userId,
+    //                     headers: TokenService.header()
+    //                 })
+    //             },
+    //             removeUser: function(id, userId) {
+    //                 return $http({
+    //                     method: 'DELETE',
+    //                     url: USER_GROUPS_URI + '/' + id + '/users/' + userId,
+    //                     headers: TokenService.header()
+    //                 })
+    //             }
+    //         }
+    //     }])
+    //
+    // .service('PermissionService', ['$http', 'TokenService',
+    //     function($http, TokenService) {
+    //         return {
+    //             create: function(action, principal_id, principal_type, resource_id, granted) {
+    //                 return $http({
+    //                     method: 'POST',
+    //                     url: PERMISSIONS_URI,
+    //                     headers: TokenService.header(),
+    //                     data: {
+    //                         'action': action,
+    //                         'principal_id': principal_id,
+    //                         'principal_type': principal_type,
+    //                         'resource_id': resource_id,
+    //                         'granted': granted
+    //                     }
+    //                 })
+    //             },
+    //             delete: function(id) {
+    //                 return $http({
+    //                     method: 'DELETE',
+    //                     url: PERMISSIONS_URI + '/' + id,
+    //                     headers: TokenService.header()
+    //                 })
+    //             }
+    //         }
+    //     }]);
