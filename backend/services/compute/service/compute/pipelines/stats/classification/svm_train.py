@@ -12,7 +12,7 @@ from service.compute.pipelines.stats.util import load_features, get_xy, save_mod
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-class ClassifierTrainingPipeline(Pipeline):
+class SupportVectorMachineTraining(Pipeline):
 
     def run(self, params):
 

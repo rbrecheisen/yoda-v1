@@ -6,7 +6,7 @@ from service.compute.pipelines.util import get_access_token, create_task_dir, de
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-class ClassifierPredictionPipeline(Pipeline):
+class SupportVectorMachinePrediction(Pipeline):
 
     def run(self, params):
 

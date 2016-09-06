@@ -41,9 +41,9 @@ CELERY_CHORD_PROPAGATES = True
 PIPELINES = {
     'svm_train': {
         'display_name': 'Support Vector Machine (Training)',
-        'module_path': 'service.compute.pipelines.stats.train.classification',
-        'tasks_module_path': 'service.compute.pipelines.stats.train.classification',
-        'class_name': 'ClassifierTrainingPipeline',
+        'module_path': 'service.compute.pipelines.stats.classification.svm_train',
+        'tasks_module_path': 'service.compute.pipelines.stats.classification.svm_train',
+        'class_name': 'SupportVectorMachineTraining',
         'params': {
             'file_id': {'type': 'int', 'min_value': 1},
             'subject_labels': {'type': 'str_list', 'min_length': 10},
@@ -63,9 +63,9 @@ PIPELINES = {
     },
     'svm_predict': {
         'display_name': 'Support Vector Machine (Prediction)',
-        'module_path': 'service.compute.pipelines.stats.predict.classification',
-        'tasks_module_path': 'service.compute.pipelines.stats.predict.classification',
-        'class_name': 'ClassifierPredictionPipeline',
+        'module_path': 'service.compute.pipelines.stats.classification.svm_predict',
+        'tasks_module_path': 'service.compute.pipelines.stats.classification.svm_predict',
+        'class_name': 'SupportVectorMachinePrediction',
         'params': {},
         'outputs': {},
     },
