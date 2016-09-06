@@ -80,6 +80,7 @@ elif [ "${1}" == "build" ]; then
     docker build -t brecheisen/compute:v1 ./backend/services/compute
     docker build -t brecheisen/worker:v1 ./backend/services/worker
     docker build -t brecheisen/database:v1 ./backend/services/database
+    docker build -t brecheisen/ui:v1 ./backend/services/ui
 
     dangling=$(docker images -qf "dangling=true")
     if [ "${dangling}" != "" ]; then
@@ -104,6 +105,7 @@ elif [ "${1}" == "push" ]; then
     docker push brecheisen/compute:v1
     docker push brecheisen/worker:v1
     docker push brecheisen/database:v1
+    docker push brecheisen/ui:v1
 
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "up" ]; then
@@ -222,6 +224,21 @@ elif [ "${1}" == "up" ]; then
             brecheisen/database:v1
     fi
 
+    if [ "${2}" == "" ] || [ "${2}" == "ui" ]; then
+        docker service create \
+            --name ui \
+            --network my-network \
+            --env AUTH_SERVICE_HOST=auth \
+            --env AUTH_SERVICE_PORT=5000 \
+            --env COMPUTE_SERVICE_HOST=compute \
+            --env COMPUTE_SERVICE_PORT=5001 \
+            --env STORAGE_SERVICE_HOST=storage \
+            --env STORAGE_SERVICE_PORT=5002 \
+            --publish 8080:80 \
+            --replicas 1 \
+            brecheisen/ui:v1
+    fi
+
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "down" ]; then
 
@@ -281,6 +298,14 @@ elif [ "${1}" == "down" ]; then
         service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/database:v1" | awk '{print $1}')
         if [ "${service}" != "" ]; then
             docker service rm database
+            wait=1
+        fi
+    fi
+
+    if [ "${2}" == "" ] || [ "${2}" == "ui" ]; then
+        service=$(docker service ls | awk '{print $2,$4}' | grep "brecheisen/ui:v1" | awk '{print $1}')
+        if [ "${service}" != "" ]; then
+            docker service rm ui
             wait=1
         fi
     fi

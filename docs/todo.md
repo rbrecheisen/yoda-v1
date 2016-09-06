@@ -1,5 +1,6 @@
 # TODO
     
+ - Implement basic UI
  - Implement parameter specification (and check) in settings.py
  
  - Setup R-compatible worker

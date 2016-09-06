@@ -1,0 +1,16 @@
+<nav>
+    <div class="nav-wrapper">
+        <div class="col s12 teal">
+            <a ng-repeat="breadcrumb in breadcrumbs" href="{{ breadcrumb.url }}" class="breadcrumb">
+                {{ breadcrumb.text }}
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="#/logout">
+                        <i class="material-icons">input</i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,23 @@
+<div class="row">
+    <div ng-include src="'partials/nav.html'"></div>
+    <div class="row">
+        <h3 class="col s12 center-align grey-text text-darken-2">Users</h3>
+        {{ message }}
+        <div class="col s12 m6 l6 offset-m3 offset-l3">
+            <ul class="collapsible" data-collapsible="accordion">
+                <li ng-repeat="user in users">
+                    <div class="collapsible-header">
+                        <i class="material-icons">star</i>{{ user.first_name }} {{ user.last_name }}</div>
+                    <div class="collapsible-body container">
+                        <br>
+                        <ul class="collection">
+                            <li class="collection-item">{{ user.first_name }} {{ user.last_name }}</li>
+                            <li class="collection-item">{{ user.email }}</li>
+                        </ul>
+                        <br>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
