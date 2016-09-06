@@ -28,7 +28,7 @@ angular.module('controllers', [])
             $scope.login = function() {
                 TokenService.create($scope.username, $scope.password).then(function(response) {
                     TokenService.update(response.data.token);
-                    if(response.data.admin) {
+                    if(response.data.is_admin) {
                         $location.path('/admin');
                     } else {
                         $location.path('/');

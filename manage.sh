@@ -234,7 +234,7 @@ elif [ "${1}" == "up" ]; then
             --env COMPUTE_SERVICE_PORT=5001 \
             --env STORAGE_SERVICE_HOST=storage \
             --env STORAGE_SERVICE_PORT=5002 \
-            --publish 8080:80 \
+            --publish 80:80 \
             --replicas 1 \
             brecheisen/ui:v1
     fi
