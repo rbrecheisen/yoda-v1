@@ -66,14 +66,17 @@ def test_train_classifier():
     # labels. This list is used to pre-calculate training and testing indices which can be
     # passed to the different workers handling the cross-validation folds in parallel.
     response = requests.post('{}/tasks'.format(service_uri('compute')), headers=token_header(token), json={
-        'pipeline_id': 1,
+        'pipeline_name': 'classifier_train',
         'params': {
             'file_id': file_id,
             'subject_labels': subject_labels,
             'nr_folds': 2,
             'index_column': 'MRid',
             'target_column': 'Diagnosis',
-            'classifier': 'svm-rbf',
+            'classifier': {
+                'name': 'svm',
+                'kernel': 'rbf',
+            },
             'repository_id': repository_id,
         }
     })
@@ -104,7 +107,7 @@ def test_train_classifier():
 
     # Send some data to the trained classifier for prediction
     response = requests.post('{}/tasks'.format(service_uri('compute')), headers=token_header(token), json={
-        'pipeline_id': 2,
+        'pipeline_name': 'classifier_predict',
         'params': {
             'classifier_id': classifier_id,
             'subjects': [

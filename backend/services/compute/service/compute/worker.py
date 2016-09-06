@@ -12,15 +12,14 @@ celery.autodiscover_tasks(tasks)
 
 # ----------------------------------------------------------------------------------------------------------------------
 @celery.task(name='run_pipeline')
-def run_pipeline(pipeline_id, params):
+def run_pipeline(pipeline_name, params):
 
-    # Use pipeline ID to lookup the corresponding pipeline specification in the
-    # database. This specification will also contain a module/class name so we
-    # can instantiate the pipeline.
+    # Use pipeline name to lookup the corresponding pipeline in the pipeline
+    # registry. Each pipeline contains its own parameter specification.
     registry = PipelineRegistry()
-    pipeline = registry.get(pipeline_id=pipeline_id)
+    pipeline = registry.get(pipeline_name)
     if pipeline is None:
-        print('Pipeline {} not found'.format(pipeline_id))
+        print('Pipeline {} not found'.format(pipeline_name))
         return None
     task_id = pipeline.run(params)
     return task_id

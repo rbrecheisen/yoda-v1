@@ -39,12 +39,12 @@ CELERY_CHORD_PROPAGATES = True
 # ------------------------------------------------------------------------------------------------------------------
 
 PIPELINES = {
-    'classifier_training': {
+    'classifier_train': {
         'module_path': 'service.compute.pipelines.stats.train.pipeline',
         'tasks_module_path': 'service.compute.pipelines.stats.train.pipeline',
         'class_name': 'ClassifierTrainingPipeline',
     },
-    'classifier_prediction': {
+    'classifier_predict': {
         'module_path': 'service.compute.pipelines.stats.predict.pipeline',
         'tasks_module_path': 'service.compute.pipelines.stats.predict.pipeline',
         'class_name': 'ClassifierPredictionPipeline',

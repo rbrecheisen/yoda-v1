@@ -27,11 +27,11 @@ class TasksResource(BaseResource):
     def post(self):
 
         parser = reqparse.RequestParser()
-        parser.add_argument('pipeline_id', type=int, required=True, location='json')
+        parser.add_argument('pipeline_name', type=str, required=True, location='json')
         parser.add_argument('params', type=dict, required=True, location='json')
         args = parser.parse_args()
 
-        result = run_pipeline.apply_async((args['pipeline_id'], args['params']))
+        result = run_pipeline.apply_async((args['pipeline_name'], args['params']))
 
         return self.response({
             'id': result.task_id,

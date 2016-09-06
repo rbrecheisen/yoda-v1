@@ -1,3 +1,4 @@
+import importlib
 from flask import Config
 
 
@@ -18,11 +19,17 @@ class Pipeline(object):
 class PipelineRegistry(object):
 
     @staticmethod
-    def get(pipeline_id):
-        if pipeline_id == 1:
-            from service.compute.pipelines.stats.train.pipeline import ClassifierTrainingPipeline
-            return ClassifierTrainingPipeline()
-        if pipeline_id == 2:
-            from service.compute.pipelines.stats.predict.pipeline import ClassifierPredictionPipeline
-            return ClassifierPredictionPipeline()
-        return None
+    def get(pipeline_name):
+
+        # Load dictionary of pipelines from worker settings
+        config = Config(None)
+        config.from_object('service.compute.settings')
+        pipelines = config['PIPELINES']
+        if pipeline_name not in pipelines.keys():
+            return None
+
+        # Import and return requested pipeline
+        pipeline_cls = getattr(importlib.import_module(
+            pipelines[pipeline_name]['module_path']), pipelines[pipeline_name]['class_name'])
+        pipeline_obj = pipeline_cls()
+        return pipeline_obj
