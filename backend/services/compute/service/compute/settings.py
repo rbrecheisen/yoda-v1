@@ -33,6 +33,10 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
 CELERY_CHORD_PROPAGATES = True
+CELERY_TASK_DIRS = [
+    'service.compute.pipelines.stats.predict',
+    'service.compute.pipelines.stats.train',
+]
 
 # ------------------------------------------------------------------------------------------------------------------
 # Security settings

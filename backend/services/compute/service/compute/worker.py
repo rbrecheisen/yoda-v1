@@ -4,6 +4,7 @@ from service.compute.pipelines.base import PipelineRegistry
 
 celery = Celery('compute')
 celery.config_from_object('service.compute.settings')
+celery.autodiscover_tasks(celery.conf['CELERY_TASK_DIRS'])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -14,12 +15,10 @@ def run_pipeline(pipeline_id, params):
     # database. This specification will also contain a module/class name so we
     # can instantiate the pipeline.
     registry = PipelineRegistry()
-
     pipeline = registry.get(pipeline_id=pipeline_id)
     if pipeline is None:
         print('Pipeline {} not found'.format(pipeline_id))
         return None
-
     task_id = pipeline.run(params)
     return task_id
 
@@ -37,6 +36,4 @@ def task_result(task_id):
 
 
 if __name__ == '__main__':
-
-    celery.autodiscover_tasks(['pipelines'])
     celery.worker_main()

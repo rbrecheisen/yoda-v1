@@ -3,7 +3,7 @@ import tarfile
 import requests
 import pandas as pd
 from sklearn.externals import joblib
-from lib.util import service_uri
+from lib.util import service_uri, generate_string
 from lib.authentication import token_header
 from lib.files import upload_file
 

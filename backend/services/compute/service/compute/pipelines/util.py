@@ -1,7 +1,8 @@
+import os
 import requests
 import shutil
 from flask import Config
-from lib.util import service_uri
+from lib.util import service_uri, generate_string
 from lib.authentication import login_header, token_header
 
 
