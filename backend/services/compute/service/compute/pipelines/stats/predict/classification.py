@@ -46,7 +46,7 @@ class ClassifierPredictionPipeline(Pipeline):
     @staticmethod
     def validate_params(params):
 
-        print('Validating params {}'.format(params))
+        print('Validating parameters')
         assert 'classifier_id' in params.keys()
         assert 'subjects' in params.keys()
         assert len(params['subjects']) > 0

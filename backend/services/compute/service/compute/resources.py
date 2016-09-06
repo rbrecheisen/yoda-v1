@@ -2,6 +2,7 @@ import lib.http as http
 from flask_restful import reqparse
 from lib.resources import BaseResource
 from lib.authentication import token_required
+from service.compute.pipelines.base import PipelineRegistry
 from service.compute.worker import run_pipeline, task_status, task_result
 
 
@@ -80,4 +81,8 @@ class TaskResource(BaseResource):
 class PipelinesResource(BaseResource):
 
     URI = '/pipelines'
-    pass
+
+    @token_required
+    def get(self):
+        registry = PipelineRegistry()
+        return self.response(registry.get_all())

@@ -21,6 +21,8 @@ def run_pipeline(pipeline_name, params):
     if pipeline is None:
         print('Pipeline {} not found'.format(pipeline_name))
         return None
+
+    # Run the pipeline with the given parameters
     task_id = pipeline.run(params)
     return task_id
 

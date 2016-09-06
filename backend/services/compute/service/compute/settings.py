@@ -39,15 +39,35 @@ CELERY_CHORD_PROPAGATES = True
 # ------------------------------------------------------------------------------------------------------------------
 
 PIPELINES = {
-    'classifier_train': {
-        'module_path': 'service.compute.pipelines.stats.train.pipeline',
-        'tasks_module_path': 'service.compute.pipelines.stats.train.pipeline',
+    'svm_train': {
+        'display_name': 'Support Vector Machine (Training)',
+        'module_path': 'service.compute.pipelines.stats.train.classification',
+        'tasks_module_path': 'service.compute.pipelines.stats.train.classification',
         'class_name': 'ClassifierTrainingPipeline',
+        'params': {
+            'file_id': {'type': 'int', 'min_value': 1},
+            'subject_labels': {'type': 'str_list', 'min_length': 10},
+            'nr_folds': {'type': 'int', 'min_value': 2, 'default': 10},
+            'index_column': {'type': 'str'},
+            'target_column': {'type': 'str'},
+            'excluded_columns': {'type': 'str_list', 'default': []},
+            'kernel': {'type': 'str', 'allowed_values': ['linear', 'rbf', 'poly'], 'default': 'rbf'},
+            'repository_id': {'type': 'int', 'min_value': 1},
+        },
+        'outputs': {
+            'accuracy': {'type': 'int'},
+            'C': {'type': 'float'},
+            'gamma': {'type': 'float'},
+            'classifier_id': {'type': 'str'},
+        },
     },
-    'classifier_predict': {
-        'module_path': 'service.compute.pipelines.stats.predict.pipeline',
-        'tasks_module_path': 'service.compute.pipelines.stats.predict.pipeline',
+    'svm_predict': {
+        'display_name': 'Support Vector Machine (Prediction)',
+        'module_path': 'service.compute.pipelines.stats.predict.classification',
+        'tasks_module_path': 'service.compute.pipelines.stats.predict.classification',
         'class_name': 'ClassifierPredictionPipeline',
+        'params': {},
+        'outputs': {},
     },
 }
 

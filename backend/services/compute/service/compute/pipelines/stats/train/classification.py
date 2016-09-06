@@ -64,7 +64,7 @@ class ClassifierTrainingPipeline(Pipeline):
 
             # Convert kernel parameter from unicode to str. For some reason SVC() does
             # not support unicode parameters.
-            kernel = str(params['classifier']['kernel'])
+            kernel = str(params['kernel'])
 
             # Start timing training procedure
             start = timing_now()
@@ -132,7 +132,7 @@ class ClassifierTrainingPipeline(Pipeline):
 
         # Convert kernel parameter from unicode to str. For some reason SVC() does
         # not support unicode parameters.
-        kernel = str(params['classifier']['kernel'])
+        kernel = str(params['kernel'])
 
         try:
             # Download the file and load its features
@@ -149,7 +149,7 @@ class ClassifierTrainingPipeline(Pipeline):
             classifier_id = upload_model_archive(classifier_file_path, params['repository_id'], token)
 
         finally:
-            # Delete temporary task directory even though errors may have occured
+            # Delete temporary task directory even though errors may have occurred
             delete_task_dir(task_dir)
 
         # Return average accuracy and the optimal hyper-parameters
@@ -163,7 +163,7 @@ class ClassifierTrainingPipeline(Pipeline):
     @staticmethod
     def validate_params(params):
 
-        print('Validating parameters {}'.format(params))
+        print('Validating parameters')
         assert 'file_id' in params.keys()
         assert params['file_id'] > 0
         assert 'subject_labels' in params.keys()
@@ -172,10 +172,7 @@ class ClassifierTrainingPipeline(Pipeline):
         assert 'target_column' in params.keys()
         assert 'nr_folds' in params.keys()
         assert params['nr_folds'] > 1
-        assert 'classifier' in params.keys()
-        assert 'name' in params['classifier'].keys()
-        assert 'kernel' in params['classifier'].keys()
-        assert params['classifier']['name'] in ['svm', 'gaussian_process', 'random_forest']
-        assert params['classifier']['kernel'] in ['linear', 'rbf']
+        assert 'kernel' in params.keys()
+        assert params['kernel'] in ['linear', 'rbf']
         assert 'repository_id' in params.keys()
         assert params['repository_id'] > 0

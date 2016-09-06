@@ -3,7 +3,7 @@ import json
 from flask import Flask, make_response, g
 from flask_restful import Api
 from lib.util import init_env
-from resources import RootResource, TasksResource, TaskResource
+from resources import RootResource, TasksResource, TaskResource, PipelinesResource
 
 app = Flask(__name__)
 
@@ -16,6 +16,7 @@ api = Api(app)
 api.add_resource(RootResource, RootResource.URI)
 api.add_resource(TasksResource, TasksResource.URI)
 api.add_resource(TaskResource, TaskResource.URI.format('<string:id>'))
+api.add_resource(PipelinesResource, PipelinesResource.URI)
 
 
 # ----------------------------------------------------------------------------------------------------------------------

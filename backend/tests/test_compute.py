@@ -66,17 +66,14 @@ def test_train_classifier():
     # labels. This list is used to pre-calculate training and testing indices which can be
     # passed to the different workers handling the cross-validation folds in parallel.
     response = requests.post('{}/tasks'.format(service_uri('compute')), headers=token_header(token), json={
-        'pipeline_name': 'classifier_train',
+        'pipeline_name': 'svm_train',
         'params': {
             'file_id': file_id,
             'subject_labels': subject_labels,
             'nr_folds': 2,
             'index_column': 'MRid',
             'target_column': 'Diagnosis',
-            'classifier': {
-                'name': 'svm',
-                'kernel': 'rbf',
-            },
+            'kernel': 'rbf',
             'repository_id': repository_id,
         }
     })
@@ -104,10 +101,11 @@ def test_train_classifier():
     # so we can send it to the classifier for prediction.
     features.drop('Diagnosis', axis=1, inplace=True)
     subject_data = list(features.iloc[0])
+    subject_label = subject_labels[0]
 
     # Send some data to the trained classifier for prediction
     response = requests.post('{}/tasks'.format(service_uri('compute')), headers=token_header(token), json={
-        'pipeline_name': 'classifier_predict',
+        'pipeline_name': 'svm_predict',
         'params': {
             'classifier_id': classifier_id,
             'subjects': [
@@ -128,6 +126,6 @@ def test_train_classifier():
         sys.stdout.write('.')
         sys.stdout.flush()
         if status == 'SUCCESS' and result is not None:
-            print(result)
+            assert subject_label == result['predicted_labels'][0]
             break
         time.sleep(2)

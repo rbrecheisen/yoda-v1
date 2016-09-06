@@ -1,5 +1,7 @@
 # TODO
     
+ - Implement parameter specification (and check) in settings.py
+ 
  - Setup R-compatible worker
      - We can create a worker service based on a Docker image that has R
        installed and also create a Celery queue 'R' to which we can redirect
