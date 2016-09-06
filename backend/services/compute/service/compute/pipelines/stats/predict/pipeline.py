@@ -23,24 +23,30 @@ class ClassifierPredictionPipeline(Pipeline):
             # Download classifier. This will be a compressed .tar.gz archive containing
             # the different files saved by joblib.dump(). We first download the file from
             # the storage service, then unpack it and load the classifier object.
+            print('Downloading classifier file {} to directory {}'.format(params['classifier_id'], task_dir))
             classifier_file_path = download_file(params['classifier_id'], task_dir, token, extension='.tar.gz')
+            print('Loading classifier model from file {}'.format(classifier_file_path))
             classifier = load_model(classifier_file_path)
             # Setup Numpy array to hold the subject data
             X = np.array(params['subjects'])
 
             # Run classifier with the subject data to be predicted
+            print('Running prediction')
             y_pred = classifier.predict(X)
-            print('Classifier predicted {}'.format(y_pred))
+            print('Predicted labels {}'.format(y_pred))
 
         finally:
             # Delete task directory even if there were errors
+            print('Cleaning up task directory')
             delete_task_dir(task_dir)
 
         # Return predictions for each subject
-        return {'labels': list(y_pred)}
+        return {'predicted_labels': list(y_pred)}
 
     @staticmethod
     def validate_params(params):
+
+        print('Validating params {}'.format(params))
         assert 'classifier_id' in params.keys()
         assert 'subjects' in params.keys()
         assert len(params['subjects']) > 0

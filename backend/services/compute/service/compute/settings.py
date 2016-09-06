@@ -33,10 +33,23 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
 CELERY_CHORD_PROPAGATES = True
-CELERY_TASK_DIRS = [
-    'service.compute.pipelines.stats.predict',
-    'service.compute.pipelines.stats.train',
-]
+
+# ------------------------------------------------------------------------------------------------------------------
+# Pipelines
+# ------------------------------------------------------------------------------------------------------------------
+
+PIPELINES = {
+    'classifier_training': {
+        'module_path': 'service.compute.pipelines.stats.train.pipeline',
+        'tasks_module_path': 'service.compute.pipelines.stats.train.pipeline',
+        'class_name': 'ClassifierTrainingPipeline',
+    },
+    'classifier_prediction': {
+        'module_path': 'service.compute.pipelines.stats.predict.pipeline',
+        'tasks_module_path': 'service.compute.pipelines.stats.predict.pipeline',
+        'class_name': 'ClassifierPredictionPipeline',
+    },
+}
 
 # ------------------------------------------------------------------------------------------------------------------
 # Security settings

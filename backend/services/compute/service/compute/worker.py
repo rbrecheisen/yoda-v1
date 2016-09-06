@@ -4,7 +4,10 @@ from service.compute.pipelines.base import PipelineRegistry
 
 celery = Celery('compute')
 celery.config_from_object('service.compute.settings')
-celery.autodiscover_tasks(celery.conf['CELERY_TASK_DIRS'])
+tasks = []
+for key in celery.conf['PIPELINES']:
+    tasks.append(celery.conf['PIPELINES'][key]['tasks_module_path'])
+celery.autodiscover_tasks(tasks)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
