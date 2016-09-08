@@ -1,9 +1,5 @@
 'use strict';
 
-var TOKENS_URI = 'http://192.168.99.100/auth/tokens';
-var USERS_URI  = 'http://192.168.99.100/auth/users';
-
-
 angular.module('services', ['ngResource', 'ngCookies'])
 
     .service('Log', [
@@ -23,15 +19,16 @@ angular.module('services', ['ngResource', 'ngCookies'])
             }
         }])
 
-    .service('TokenService', ['$http', '$cookies', '$location',
-        function($http, $cookies, $location) {
+    .service('TokenService', ['$http', '$cookies', '$location', 'environ',
+        function($http, $cookies, $location, environ) {
+            var tokensUri = 'http://' + environ.UI_SERVICE_HOST + '/auth/tokens';
             return {
                 get: function() {
                     return $cookies.get('token');
                 },
                 create: function(username, password) {
                     return $http({
-                        method: 'POST', url: TOKENS_URI,
+                        method: 'POST', url: tokensUri,
                         headers: {'Authorization': 'Basic ' + btoa(username + ':' + password)}
                     })
                 },
@@ -53,41 +50,42 @@ angular.module('services', ['ngResource', 'ngCookies'])
             }
         }])
 
-    .service('UserService', ['$http', 'TokenService',
-        function($http, TokenService) {
+    .service('UserService', ['$http', 'TokenService', 'environ',
+        function($http, TokenService, environ) {
+            var usersUri = 'http://' + environ.UI_SERVICE_HOST + '/auth/users';
             return {
                 getAll: function() {
                     return $http({
                         method: 'GET',
-                        url: USERS_URI,
+                        url: usersUri,
                         headers: TokenService.header()
                     })
                 },
                 get: function(id) {
                     return $http({
                         method: 'GET',
-                        url: USERS_URI + '/' + id,
+                        url: usersUri + '/' + id,
                         headers: TokenService.header()
                     })
                 },
                 getByUsername: function(username) {
                     return $http({
                         method: 'GET',
-                        url: USERS_URI + '?username=' + username,
+                        url: usersUri + '?username=' + username,
                         headers: TokenService.header()
                     })
                 },
                 getByEmail: function(email) {
                     return $http({
                         method: 'GET',
-                        url: USERS_URI + '?email=' + email,
+                        url: usersUri + '?email=' + email,
                         headers: TokenService.header()
                     })
                 },
                 create: function(username, password, email) {
                     return $http({
                         method: 'POST',
-                        url: USERS_URI,
+                        url: usersUri,
                         headers: TokenService.header(),
                         data: {
                             'username': username,
@@ -99,7 +97,7 @@ angular.module('services', ['ngResource', 'ngCookies'])
                 update: function(id, username, password, email) {
                     return $http({
                         method: 'PUT',
-                        url: USERS_URI + '/' + id,
+                        url: usersUri + '/' + id,
                         headers: TokenService.header(),
                         data: {
                             'username': username,
@@ -111,104 +109,106 @@ angular.module('services', ['ngResource', 'ngCookies'])
                 delete: function(id) {
                     return $http({
                         method: 'DELETE',
-                        url: USERS_URI + '/' + id,
+                        url: usersUri + '/' + id,
+                        headers: TokenService.header()
+                    })
+                }
+            }
+        }])
+
+    .service('GroupService', ['$http', 'TokenService', 'environ',
+        function($http, TokenService, environ) {
+            var groupsUri = 'http://' + environ.UI_SERVICE_HOST + '/auth/groups';
+            return {
+                getAll: function() {
+                    return $http({
+                        method: 'GET',
+                        url: groupsUri,
+                        headers: TokenService.header()
+                    })
+                },
+                get: function(id) {
+                    return $http({
+                        method: 'GET',
+                        url: groupsUri + '/' + id,
+                        headers: TokenService.header()
+                    })
+                },
+                getByName: function(name) {
+                    return $http({
+                        method: 'GET',
+                        url: groupsUri + '?name=' + name,
+                        headers: TokenService.header()
+                    })
+                },
+                create: function(name) {
+                    return $http({
+                        method: 'POST',
+                        url: groupsUri,
+                        headers: TokenService.header(),
+                        data: {
+                            'name': name
+                        }
+                    })
+                },
+                update: function(id, name) {
+                    return $http({
+                        method: 'PUT',
+                        url: groupsUri + '/' + id,
+                        headers: TokenService.header(),
+                        data: {
+                            'name': name
+                        }
+                    })
+                },
+                delete: function(id) {
+                    return $http({
+                        method: 'DELETE',
+                        url: groupsUri + '/' + id,
+                        headers: TokenService.header()
+                    })
+                },
+                addUser: function(id, userId) {
+                    return $http({
+                        method: 'PUT',
+                        url: groupsUri + '/' + id + '/users/' + userId,
+                        headers: TokenService.header()
+                    })
+                },
+                removeUser: function(id, userId) {
+                    return $http({
+                        method: 'DELETE',
+                        url: groupsUri + '/' + id + '/users/' + userId,
+                        headers: TokenService.header()
+                    })
+                }
+            }
+        }])
+
+    .service('PermissionService', ['$http', 'TokenService', 'environ',
+        function($http, TokenService, environ) {
+            var permissionsUri = 'http://' + environ.UI_SERVICE_HOST + '/auth/permissions';
+            return {
+                create: function(action, principal_id, principal_type, resource_id, granted) {
+                    return $http({
+                        method: 'POST',
+                        url: permissionsUri,
+                        headers: TokenService.header(),
+                        data: {
+                            'action': action,
+                            'principal_id': principal_id,
+                            'principal_type': principal_type,
+                            'resource_id': resource_id,
+                            'granted': granted
+                        }
+                    })
+                },
+                delete: function(id) {
+                    return $http({
+                        method: 'DELETE',
+                        url: permissionsUri + '/' + id,
                         headers: TokenService.header()
                     })
                 }
             }
         }]);
-
-    // .service('UserGroupService', ['$http', 'TokenService',
-    //     function($http, TokenService) {
-    //         return {
-    //             getAll: function() {
-    //                 return $http({
-    //                     method: 'GET',
-    //                     url: USER_GROUPS_URI,
-    //                     headers: TokenService.header()
-    //                 })
-    //             },
-    //             get: function(id) {
-    //                 return $http({
-    //                     method: 'GET',
-    //                     url: USER_GROUPS_URI + '/' + id,
-    //                     headers: TokenService.header()
-    //                 })
-    //             },
-    //             getByName: function(name) {
-    //                 return $http({
-    //                     method: 'GET',
-    //                     url: USER_GROUPS_URI + '?name=' + name,
-    //                     headers: TokenService.header()
-    //                 })
-    //             },
-    //             create: function(name) {
-    //                 return $http({
-    //                     method: 'POST',
-    //                     url: USER_GROUPS_URI,
-    //                     headers: TokenService.header(),
-    //                     data: {
-    //                         'name': name
-    //                     }
-    //                 })
-    //             },
-    //             update: function(id, name) {
-    //                 return $http({
-    //                     method: 'PUT',
-    //                     url: USER_GROUPS_URI + '/' + id,
-    //                     headers: TokenService.header(),
-    //                     data: {
-    //                         'name': name
-    //                     }
-    //                 })
-    //             },
-    //             delete: function(id) {
-    //                 return $http({
-    //                     method: 'DELETE',
-    //                     url: USER_GROUPS_URI + '/' + id,
-    //                     headers: TokenService.header()
-    //                 })
-    //             },
-    //             addUser: function(id, userId) {
-    //                 return $http({
-    //                     method: 'PUT',
-    //                     url: USER_GROUPS_URI + '/' + id + '/users/' + userId,
-    //                     headers: TokenService.header()
-    //                 })
-    //             },
-    //             removeUser: function(id, userId) {
-    //                 return $http({
-    //                     method: 'DELETE',
-    //                     url: USER_GROUPS_URI + '/' + id + '/users/' + userId,
-    //                     headers: TokenService.header()
-    //                 })
-    //             }
-    //         }
-    //     }])
-    //
-    // .service('PermissionService', ['$http', 'TokenService',
-    //     function($http, TokenService) {
-    //         return {
-    //             create: function(action, principal_id, principal_type, resource_id, granted) {
-    //                 return $http({
-    //                     method: 'POST',
-    //                     url: PERMISSIONS_URI,
-    //                     headers: TokenService.header(),
-    //                     data: {
-    //                         'action': action,
-    //                         'principal_id': principal_id,
-    //                         'principal_type': principal_type,
-    //                         'resource_id': resource_id,
-    //                         'granted': granted
-    //                     }
-    //                 })
-    //             },
-    //             delete: function(id) {
-    //                 return $http({
-    //                     method: 'DELETE',
-    //                     url: PERMISSIONS_URI + '/' + id,
-    //                     headers: TokenService.header()
-    //                 })
-    //             }
-    //         }
-    //     }]);

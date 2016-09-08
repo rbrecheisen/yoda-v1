@@ -428,7 +428,11 @@ elif [ "${1}" == "bash" ]; then
             read -n1 -r -p "Press any key to continue..."
         fi
         echo " - ${service} - ${c} -----------------------------------------"
-        docker exec -it ${c} bash
+        cmd=bash
+        if [ "${service}" == "ui" ]; then
+            cmd=sh
+        fi
+        docker exec -it ${c} ${cmd}
         echo ""
         first=0
     done

@@ -18,8 +18,8 @@ angular.module('controllers', [])
             ];
         }])
 
-    .controller('LoginController', ['$scope', '$cookies', '$location', 'TokenService', 'environment',
-        function($scope, $cookies, $location, TokenService, environment) {
+    .controller('LoginController', ['$scope', '$cookies', '$location', 'TokenService',
+        function($scope, $cookies, $location, TokenService) {
 
             // TODO: Remove this
             $scope.username = 'root';
@@ -69,12 +69,12 @@ angular.module('controllers', [])
             Materialize.updateTextFields();
         }])
     
-    .controller('UserGroupsController', ['$scope', 'TokenService', 
+    .controller('GroupsController', ['$scope', 'TokenService',
         function($scope, TokenService) {
             TokenService.check();
             $scope.breadcrumbs = [
                 {url: '#/admin', text: 'Dashboard'},
-                {url: '#/user-groups', text: 'User groups'}
+                {url: '#/groups', text: 'Groups'}
             ];
         }])
 
