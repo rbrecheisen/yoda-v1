@@ -247,7 +247,15 @@ class UserGroupUsersResource(BaseResource):
 
     @token_required
     def get(self, id):
-        pass
+
+        user_group_dao = UserGroupDao(self.db_session())
+        user_group = user_group_dao.retrieve(id=id)
+        if user_group is None:
+            return self.error_response('User group {} not found'.format(id), http.NOT_FOUND_404)
+
+        result = [user.to_dict() for user in user_group.users]
+
+        return self.response(result)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -257,8 +265,38 @@ class UserGroupUserResource(BaseResource):
 
     @token_required
     def put(self, id, user_id):
-        pass
+
+        user_group_dao = UserGroupDao(self.db_session())
+        user_group = user_group_dao.retrieve(id=id)
+        if user_group is None:
+            return self.error_response('User group {} not found'.format(id), http.NOT_FOUND_404)
+
+        user_dao = UserDao(self.db_session())
+        user = user_dao.retrieve(id=user_id)
+        if user is None:
+            return self.error_response('User {} not found'.format(id), http.NOT_FOUND_404)
+
+        if user not in user_group.users:
+            user_group.users.append(user)
+            user_group = user_group_dao.save(user_group)
+
+        return self.response(user_group.to_dict())
 
     @token_required
     def delete(self, id, user_id):
-        pass
+
+        user_group_dao = UserGroupDao(self.db_session())
+        user_group = user_group_dao.retrieve(id=id)
+        if user_group is None:
+            return self.error_response('User group {} not found'.format(id), http.NOT_FOUND_404)
+
+        user_dao = UserDao(self.db_session())
+        user = user_dao.retrieve(id=user_id)
+        if user is None:
+            return self.error_response('User {} not found'.format(id), http.NOT_FOUND_404)
+
+        if user in user_group.users:
+            user_group.users.remove(user)
+            user_group = user_group_dao.save(user_group)
+
+        return self.response(user_group.to_dict())

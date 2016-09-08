@@ -87,22 +87,30 @@ def test_create_update_and_delete_group():
     user_group_id = response.json()['id']
 
     # Update group and check update successful
-    data['name'] = 'bla'
+    data['name'] = generate_string()
     response = requests.put('{}/user-groups/{}'.format(service_uri('auth'), user_group_id), json=data, headers=token_header(token))
     assert response.status_code == 200
     response = requests.get('{}/user-groups/{}'.format(service_uri('auth'), user_group_id), headers=token_header(token))
     assert response.status_code == 200
-    assert response.json()['name'] == 'bla'
+    assert response.json()['name'] == data['name']
 
-    # # Add user to group
-    # response = requests.get('{}/users?username=root'.format(service_uri('auth')), headers=token_header(token))
-    # assert response.status_code == 200
-    # user_id = response.json()['id']
-    # response = requests.put('{}/user-groups/{}/users/{}'.format(service_uri('auth'), user_group_id, user_id), headers=token_header(token))
-    # assert response.status_code == 200
-    # response = requests.get('{}/user-groups/{}/users'.format(service_uri('auth'), user_group_id), headers=token_header(token))
-    # assert response.status_code == 200
-    # assert len(response.json()['users']) == 1
+    # Add user to group and check it was added
+    response = requests.get('{}/users?username=root'.format(service_uri('auth')), headers=token_header(token))
+    assert response.status_code == 200
+    user_id = response.json()[0]['id']
+    response = requests.put('{}/user-groups/{}/users/{}'.format(service_uri('auth'), user_group_id, user_id), headers=token_header(token))
+    assert response.status_code == 200
+    response = requests.get('{}/user-groups/{}/users'.format(service_uri('auth'), user_group_id), headers=token_header(token))
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+    assert response.json()[0]['username'] == 'root'
+
+    # Remove user from group and check it was successfully removed
+    response = requests.delete('{}/user-groups/{}/users/{}'.format(service_uri('auth'), user_group_id, user_id), headers=token_header(token))
+    assert response.status_code == 200
+    response = requests.get('{}/user-groups/{}/users'.format(service_uri('auth'), user_group_id), headers=token_header(token))
+    assert response.status_code == 200
+    assert len(response.json()) == 0
 
     # Delete group and check it no longer exists
     response = requests.delete('{}/user-groups/{}'.format(service_uri('auth'), user_group_id), headers=token_header(token))
