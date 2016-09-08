@@ -69,12 +69,12 @@ angular.module('controllers', [])
             Materialize.updateTextFields();
         }])
     
-    .controller('GroupsController', ['$scope', 'TokenService',
+    .controller('UserGroupsController', ['$scope', 'TokenService',
         function($scope, TokenService) {
             TokenService.check();
             $scope.breadcrumbs = [
                 {url: '#/admin', text: 'Dashboard'},
-                {url: '#/groups', text: 'Groups'}
+                {url: '#/user-groups', text: 'User groups'}
             ];
         }])
 

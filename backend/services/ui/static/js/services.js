@@ -116,35 +116,35 @@ angular.module('services', ['ngResource', 'ngCookies'])
             }
         }])
 
-    .service('GroupService', ['$http', 'TokenService', 'environ',
+    .service('UserGroupService', ['$http', 'TokenService', 'environ',
         function($http, TokenService, environ) {
-            var groupsUri = 'http://' + environ.UI_SERVICE_HOST + '/auth/groups';
+            var userGroupsUri = 'http://' + environ.UI_SERVICE_HOST + '/auth/user-groups';
             return {
                 getAll: function() {
                     return $http({
                         method: 'GET',
-                        url: groupsUri,
+                        url: userGroupsUri,
                         headers: TokenService.header()
                     })
                 },
                 get: function(id) {
                     return $http({
                         method: 'GET',
-                        url: groupsUri + '/' + id,
+                        url: userGroupsUri + '/' + id,
                         headers: TokenService.header()
                     })
                 },
                 getByName: function(name) {
                     return $http({
                         method: 'GET',
-                        url: groupsUri + '?name=' + name,
+                        url: userGroupsUri + '?name=' + name,
                         headers: TokenService.header()
                     })
                 },
                 create: function(name) {
                     return $http({
                         method: 'POST',
-                        url: groupsUri,
+                        url: userGroupsUri,
                         headers: TokenService.header(),
                         data: {
                             'name': name
@@ -154,7 +154,7 @@ angular.module('services', ['ngResource', 'ngCookies'])
                 update: function(id, name) {
                     return $http({
                         method: 'PUT',
-                        url: groupsUri + '/' + id,
+                        url: userGroupsUri + '/' + id,
                         headers: TokenService.header(),
                         data: {
                             'name': name
@@ -164,21 +164,21 @@ angular.module('services', ['ngResource', 'ngCookies'])
                 delete: function(id) {
                     return $http({
                         method: 'DELETE',
-                        url: groupsUri + '/' + id,
+                        url: userGroupsUri + '/' + id,
                         headers: TokenService.header()
                     })
                 },
                 addUser: function(id, userId) {
                     return $http({
                         method: 'PUT',
-                        url: groupsUri + '/' + id + '/users/' + userId,
+                        url: userGroupsUri + '/' + id + '/users/' + userId,
                         headers: TokenService.header()
                     })
                 },
                 removeUser: function(id, userId) {
                     return $http({
                         method: 'DELETE',
-                        url: groupsUri + '/' + id + '/users/' + userId,
+                        url: userGroupsUri + '/' + id + '/users/' + userId,
                         headers: TokenService.header()
                     })
                 }

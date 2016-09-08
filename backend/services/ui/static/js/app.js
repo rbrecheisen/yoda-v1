@@ -29,9 +29,9 @@ angular.module('app', ['ngRoute', 'controllers', 'services'])
                     templateUrl: 'partials/users.html',
                     controller: 'UsersController'
                 })
-                .when('/groups', {
-                    templateUrl: 'partials/groups.html',
-                    controller: 'GroupsController'
+                .when('/user-groups', {
+                    templateUrl: 'partials/user-groups.html',
+                    controller: 'UserGroupsController'
                 })
                 .when('/permissions', {
                     templateUrl: 'partials/permissions.html',

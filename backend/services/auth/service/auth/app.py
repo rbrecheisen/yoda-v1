@@ -7,7 +7,8 @@ from lib.util import init_env
 from lib.models import Base
 from dao import UserDao
 from resources import (
-    RootResource, TokensResource, TokenChecksResource, UsersResource, UserResource)
+    RootResource, TokensResource, TokenChecksResource, UsersResource, UserResource, UserGroupsResource,
+    UserGroupResource, UserGroupUsersResource, UserGroupUserResource)
 
 app = Flask(__name__)
 
@@ -22,6 +23,10 @@ api.add_resource(TokensResource, TokensResource.URI)
 api.add_resource(TokenChecksResource, TokenChecksResource.URI)
 api.add_resource(UsersResource, UsersResource.URI)
 api.add_resource(UserResource, UserResource.URI.format('<int:id>'))
+api.add_resource(UserGroupsResource, UserGroupsResource.URI)
+api.add_resource(UserGroupResource, UserGroupResource.URI.format('<int:id>'))
+api.add_resource(UserGroupUsersResource, UserGroupUsersResource.URI.format('<int:id>'))
+api.add_resource(UserGroupUserResource, UserGroupUserResource.URI.format('<int:id>', '<int:user_id>'))
 
 db = SQLAlchemy(app)
 
