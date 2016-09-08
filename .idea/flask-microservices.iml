@@ -10,6 +10,7 @@
       <sourceFolder url="file://$MODULE_DIR$/backend/services/database" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backend/services/storage" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backend/services/worker" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/services/ui" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
