@@ -45,8 +45,8 @@ angular.module('controllers', [])
             $location.path('/login');
         }])
 
-    .controller('UsersController', ['$scope', 'TokenService', 'UserService', 
-        function($scope, TokenService, UserService) {
+    .controller('UsersController', ['$scope', '$location', 'TokenService', 'UserService',
+        function($scope, $location, TokenService, UserService) {
 
             TokenService.check();
 
@@ -61,12 +61,51 @@ angular.module('controllers', [])
             });
 
             UserService.getAll().then(function(response) {
-                $scope.users = response.data
+                $scope.users = response.data;
             }, function(error) {
                 $scope.message = JSON.stringify(error);
             });
 
+            $scope.editUser = function(user) {
+                $location.path('/users/' + user.id);
+            };
+
+            $scope.saveUser = function(user) {
+                UserService.update(user).then(function(response) {
+                    UserService.getAll().then(function(response) {
+                        $scope.users = response.data
+                    }, function(error) {
+                        $scope.message = JSON.stringify(error);
+                    });
+                })
+            };
+
             Materialize.updateTextFields();
+        }])
+
+    .controller('UserController', ['$scope', '$routeParams', 'TokenService', 'UserService',
+        function($scope, $routeParams, TokenService, UserService) {
+
+            TokenService.check();
+
+            $scope.password_old = '';
+            $scope.password_new = '';
+
+            UserService.get($routeParams.userId).then(function(response) {
+                $scope.name = response.data.first_name + ' ' + response.data.last_name;
+                $scope.username = response.data.username;
+                $scope.email = response.data.email;
+                $scope.first_name = response.data.first_name;
+                $scope.last_name = response.data.last_name;
+                $scope.is_admin = response.data.is_admin;
+            }, function(error) {
+                $scope.message = JSON.stringify(error);
+            });
+
+            $scope.saveUser = function() {
+                console.log('Saving user ' + $scope.username + ', ' +
+                    $scope.email + ', ' + $scope.first_name + ', ' + $scope.last_name + ', ' + $scope.is_admin);
+            };
         }])
     
     .controller('UserGroupsController', ['$scope', 'TokenService',

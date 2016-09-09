@@ -86,6 +86,8 @@ class User(Principal):
     is_admin = Column(Boolean, default=False)
     # Flag indicating if user is active. User instead of deleting.
     is_active = Column(Boolean, default=True)
+    # Flag indicating if user should be visible in the UI
+    is_visible = Column(Boolean, default=True)
 
     def has_permission(self, permission):
         # If user is staff or even superuser, grant permission
@@ -119,6 +121,7 @@ class User(Principal):
             'is_superuser': self.is_superuser,
             'is_admin': self.is_admin,
             'is_active': self.is_active,
+            'is_visible': self.is_visible,
         })
         return obj
 
@@ -137,6 +140,8 @@ class UserGroup(Principal):
     name = Column(String(64), unique=True)
     # Members of the user group
     users = relationship('User', secondary=UserGroupUsers, backref='user_groups')
+    # Flag to indicate if user group is visible in UI
+    is_visible = Column(Boolean, default=True)
 
     def to_dict(self):
         users = []
@@ -149,6 +154,7 @@ class UserGroup(Principal):
         obj.update({
             'name': self.name,
             'users': users,
+            'is_visible': self.is_visible,
         })
         return obj
 

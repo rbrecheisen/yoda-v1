@@ -72,6 +72,7 @@ class UsersResource(BaseResource):
         parser.add_argument('last_name', type=str, location='args')
         parser.add_argument('is_admin', type=bool, location='args')
         parser.add_argument('is_active', type=bool, location='args')
+        parser.add_argument('is_visible', type=bool, location='args')
         args = parser.parse_args()
 
         user_dao = UserDao(self.db_session())
@@ -91,6 +92,7 @@ class UsersResource(BaseResource):
         parser.add_argument('last_name', type=str, location='json')
         parser.add_argument('is_admin', type=bool, location='json')
         parser.add_argument('is_active', type=bool, location='json')
+        parser.add_argument('is_visible', type=bool, location='json')
         args = parser.parse_args()
 
         user_dao = UserDao(self.db_session())
@@ -125,6 +127,7 @@ class UserResource(BaseResource):
         parser.add_argument('last_name', type=str, location='json')
         parser.add_argument('is_admin', type=bool, location='json')
         parser.add_argument('is_active', type=bool, location='json')
+        parser.add_argument('is_visible', type=bool, location='json')
         args = parser.parse_args()
 
         user_dao = UserDao(self.db_session())
@@ -146,6 +149,8 @@ class UserResource(BaseResource):
             user.is_admin = args['is_admin']
         if args.get('is_active'):
             user.is_active = args['is_active']
+        if args.get('is_visible'):
+            user.is_visible = args['is_visible']
 
         user = user_dao.save(user)
 
@@ -173,6 +178,7 @@ class UserGroupsResource(BaseResource):
 
         parser = reqparse.RequestParser()
         parser.add_argument('name', type=str, location='args')
+        parser.add_argument('is_visible', type=bool, location='args')
         args = parser.parse_args()
 
         user_group_dao = UserGroupDao(self.db_session())
@@ -186,6 +192,7 @@ class UserGroupsResource(BaseResource):
 
         parser = reqparse.RequestParser()
         parser.add_argument('name', type=str, required=True, location='json')
+        parser.add_argument('is_visible', type=bool, location='json')
         args = parser.parse_args()
 
         user_group_dao = UserGroupDao(self.db_session())
@@ -214,6 +221,7 @@ class UserGroupResource(BaseResource):
 
         parser = reqparse.RequestParser()
         parser.add_argument('name', type=str, location='json')
+        parser.add_argument('is_visible', type=bool, location='json')
         args = parser.parse_args()
 
         user_group_dao = UserGroupDao(self.db_session())

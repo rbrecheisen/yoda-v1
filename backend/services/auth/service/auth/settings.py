@@ -26,6 +26,7 @@ RESTFUL_JSON = {'indent': 2, 'sort_keys': True}
 # Database settings
 # ------------------------------------------------------------------------------------------------------------------
 
+DROP_TABLES = True
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 if os.getenv('DB_USER', None) is not None:
@@ -43,9 +44,7 @@ else:
 # ------------------------------------------------------------------------------------------------------------------
 
 SECRET_KEY = os.urandom(64)
-ROOT_USERNAME = 'root'
-ROOT_PASSWORD = 'secret'
-ROOT_EMAIL = 'root@yoda.com'
+
 PASSWORD_SCHEMES = ['pbkdf2_sha512']
 
 USERS = [
@@ -53,24 +52,30 @@ USERS = [
         'username': 'ralph',
         'password': 'secret',
         'email': 'ralph@yoda.com',
+        'first_name': 'Ralph',
+        'last_name': 'Brecheisen',
+        'is_superuser': True,
         'is_admin': True,
     },
     {
         'username': 'quentin',
         'password': 'secret',
         'email': 'quentin@yoda.com',
+        'first_name': 'Quentin',
+        'last_name': 'Noirhomme',
         'is_admin': True,
     },
     {
-        'username': 'johnny',
+        'username': 'armin',
         'password': 'secret',
-        'email': 'johnny@yoda.com',
-        'is_admin': False,
+        'email': 'armin@yoda.com',
+        'first_name': 'Armin',
+        'last_name': 'Heinecke',
     },
     {
         'username': 'worker',
         'password': 'secret',
         'email': 'worker@yoda.com',
-        'is_admin': False,
+        'is_visible': False,
     }
 ]

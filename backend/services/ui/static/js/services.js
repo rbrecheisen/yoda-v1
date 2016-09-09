@@ -82,7 +82,7 @@ angular.module('services', ['ngResource', 'ngCookies'])
                         headers: TokenService.header()
                     })
                 },
-                create: function(username, password, email) {
+                create: function(username, password, email, first_name, last_name, is_admin) {
                     return $http({
                         method: 'POST',
                         url: usersUri,
@@ -90,26 +90,32 @@ angular.module('services', ['ngResource', 'ngCookies'])
                         data: {
                             'username': username,
                             'password': password,
-                            'email': email
+                            'email': email,
+                            'first_name': first_name,
+                            'last_name': last_name,
+                            'is_admin': is_admin
                         }
                     })
                 },
-                update: function(id, username, password, email) {
+                update: function(user) {
                     return $http({
                         method: 'PUT',
-                        url: usersUri + '/' + id,
+                        url: usersUri + '/' + user.id,
                         headers: TokenService.header(),
                         data: {
-                            'username': username,
-                            'password': password,
-                            'email': email
+                            'username': user.username,
+                            'password': user.password,
+                            'email': user.email,
+                            'first_name': user.first_name,
+                            'last_name': user.last_name,
+                            'is_admin': user.is_admin
                         }
                     })
                 },
-                delete: function(id) {
+                delete: function(user) {
                     return $http({
                         method: 'DELETE',
-                        url: usersUri + '/' + id,
+                        url: usersUri + '/' + user.id,
                         headers: TokenService.header()
                     })
                 }

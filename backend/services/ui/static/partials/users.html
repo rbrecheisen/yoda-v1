@@ -6,15 +6,23 @@
         <div class="col s12 m6 l6 offset-m3 offset-l3">
             <ul class="collapsible" data-collapsible="accordion">
                 <li ng-repeat="user in users">
-                    <div class="collapsible-header">
-                        <i class="material-icons">star</i>{{ user.first_name }} {{ user.last_name }}</div>
-                    <div class="collapsible-body container">
-                        <br>
-                        <ul class="collection">
-                            <li class="collection-item">{{ user.first_name }} {{ user.last_name }}</li>
-                            <li class="collection-item">{{ user.email }}</li>
-                        </ul>
-                        <br>
+                    <div ng-if="user.is_visible" class="collapsible-header">{{ user.first_name }} {{ user.last_name }}</div>
+                    <div ng-if="user.is_visible" class="collapsible-body container">
+                        <table class="collection">
+                            <tr class="collection-item"><td><b>ID</b></td><td>{{ user.id }}</td></tr>
+                            <tr class="collection-item"><td><b>Name</b></td><td>{{ user.first_name }} {{ user.last_name }}</td></tr>
+                            <tr class="collection-item"><td><b>Username</b></td><td>{{ user.username }}</td></tr>
+                            <tr class="collection-item"><td><b>Email</b></td><td>{{ user.email }}</td></tr>
+                            <tr class="collection-item"><td><b>Administrator</b></td><td>{{ user.is_admin }}</td></tr>
+                            <tr class="collection-item">
+                                <td>
+                                    <form ng-submit="editUser(user)" ng-controller="UsersController">
+                                        <input class="btn waves-effect waves-light" type="submit" value="Edit">
+                                    </form>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </table>
                     </div>
                 </li>
             </ul>

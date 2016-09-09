@@ -39,6 +39,8 @@ def test_users():
     response = requests.get('{}/users'.format(service_uri('auth')), headers=token_header(token))
     assert response.status_code == 200
     assert len(response.json()) >= 4
+    for user in response.json():
+        print(user)
 
 
 # --------------------------------------------------------------------------------------------------------------------
