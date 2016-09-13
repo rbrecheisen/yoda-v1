@@ -42,11 +42,11 @@
             </div>
             <div class="row">
                 <div class="input-field col s4 offset-s4">
-                    <!--<p style="font-size: small; color: gray; margin-top: 0">Administrator</p>-->
-                    <select id="is_admin" class="browser-default" ng-model="is_admin"
-                            ng-options="item.value as item.name for item in [{name: 'True', value: true}, {name: 'False', value: false}]">
+                    <p style="font-size: small; color: gray; margin-top: 0">Administrator</p>
+                    <select class="browser-default" ng-model="admin">
+                        <option value="true" ng-selected="is_admin">True</option>
+                        <option value="false">False</option>
                     </select>
-                    <label for="is_admin">Administrator</label>
                 </div>
             </div>
             <div class="row">

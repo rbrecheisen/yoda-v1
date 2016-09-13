@@ -1,15 +1,5 @@
 'use strict';
 
-$(document).ready(function() {
-    // For some reason we need to call this, otherwise the <select> element
-    // will not even render. Found SO post here:
-    // http://stackoverflow.com/questions/28258106/materialize-css-select-doesnt-seem-to-render
-    $('select').material_select();
-
-    // TODO: Look at this solution:
-    // https://gist.github.com/viniciusmelquiades/66ed8039e3709b126e52
-});
-
 angular.module('app', ['ngRoute', 'controllers', 'services'])
 
     .constant('environ', window.environ)

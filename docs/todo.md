@@ -2,6 +2,7 @@
     
  - Implement basic UI
  - Implement parameter specification (and check) in settings.py
+ - Try out S3 storage driver Docker
  
  - Setup R-compatible worker
      - We can create a worker service based on a Docker image that has R

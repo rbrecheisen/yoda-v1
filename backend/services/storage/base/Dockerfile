@@ -20,6 +20,9 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get install -y build-essentia
     && git clone https://github.com/simpl/ngx_devel_kit.git \
     && git clone https://github.com/openresty/lua-nginx-module.git \
 #    && git clone https://github.com/pgaertig/nginx-big-upload.git \
+    && wget https://github.com/openresty/set-misc-nginx-module/archive/v0.28.tar.gz -O set-misc-nginx-module.tar.gz \
+    && mkdir set-misc-nginx-module \
+    && tar -zxf set-misc-nginx-module.tar.gz -C set-misc-nginx-module --strip-components=1 \
     && cd nginx-${NGINX_VERSION} \
     && ./configure --prefix=/usr/local/nginx \
             --with-http_gzip_static_module \
@@ -31,6 +34,7 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get install -y build-essentia
             --sbin-path=/usr/local/sbin/nginx \
             --add-module=../ngx_devel_kit \
             --add-module=../lua-nginx-module \
+            --add-module=../set-misc-nginx-module \
     && make \
     && make install \
     && cd .. \

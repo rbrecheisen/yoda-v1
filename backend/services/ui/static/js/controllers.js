@@ -98,13 +98,14 @@ angular.module('controllers', [])
                 $scope.first_name = response.data.first_name;
                 $scope.last_name = response.data.last_name;
                 $scope.is_admin = response.data.is_admin;
+                $scope.admin = $scope.is_admin;
             }, function(error) {
                 $scope.message = JSON.stringify(error);
             });
 
             $scope.saveUser = function() {
                 console.log('Saving user ' + $scope.username + ', ' +
-                    $scope.email + ', ' + $scope.first_name + ', ' + $scope.last_name + ', ' + $scope.is_admin);
+                    $scope.email + ', ' + $scope.first_name + ', ' + $scope.last_name + ', ' + $scope.admin);
             };
         }])
     
