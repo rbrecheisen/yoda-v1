@@ -4,7 +4,8 @@
             <a ng-repeat="breadcrumb in breadcrumbs" href="{{ breadcrumb.url }}" class="breadcrumb">
                 {{ breadcrumb.text }}
             </a>
-            <ul class="right hide-on-med-and-down">
+            <ul class="right hide-on-med-and-down" ng-model="currentUser">
+                <li>Welcome back, {{ currentUser.first_name }}!</li>
                 <li>
                     <a href="#/logout">
                         <i class="material-icons">input</i>

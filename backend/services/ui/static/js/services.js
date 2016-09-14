@@ -53,6 +53,7 @@ angular.module('services', ['ngResource', 'ngCookies'])
     .service('UserService', ['$http', 'TokenService', 'environ',
         function($http, TokenService, environ) {
             var usersUri = 'http://' + environ.UI_SERVICE_HOST + '/auth/users';
+            var currentUser = null;
             return {
                 getAll: function() {
                     return $http({
@@ -75,14 +76,7 @@ angular.module('services', ['ngResource', 'ngCookies'])
                         headers: TokenService.header()
                     })
                 },
-                getByEmail: function(email) {
-                    return $http({
-                        method: 'GET',
-                        url: usersUri + '?email=' + email,
-                        headers: TokenService.header()
-                    })
-                },
-                create: function(username, password, email, first_name, last_name, is_admin) {
+                create: function(username, password, email, first_name, last_name, is_admin, is_active) {
                     return $http({
                         method: 'POST',
                         url: usersUri,
@@ -93,22 +87,25 @@ angular.module('services', ['ngResource', 'ngCookies'])
                             'email': email,
                             'first_name': first_name,
                             'last_name': last_name,
-                            'is_admin': is_admin
+                            'is_admin': is_admin,
+                            'is_active': is_active
                         }
                     })
                 },
-                update: function(user) {
+                update: function(id, username, password, password_new, email, first_name, last_name, is_admin, is_active) {
                     return $http({
                         method: 'PUT',
-                        url: usersUri + '/' + user.id,
+                        url: usersUri + '/' + id,
                         headers: TokenService.header(),
                         data: {
-                            'username': user.username,
-                            'password': user.password,
-                            'email': user.email,
-                            'first_name': user.first_name,
-                            'last_name': user.last_name,
-                            'is_admin': user.is_admin
+                            'username': username,
+                            'password': password,
+                            'password_new': password_new,
+                            'email': email,
+                            'first_name': first_name,
+                            'last_name': last_name,
+                            'is_admin': is_admin,
+                            'is_active': is_active
                         }
                     })
                 },
@@ -118,6 +115,12 @@ angular.module('services', ['ngResource', 'ngCookies'])
                         url: usersUri + '/' + user.id,
                         headers: TokenService.header()
                     })
+                },
+                getCurrentUser: function() {
+                    return currentUser;
+                },
+                setCurrentUser: function(user) {
+                    currentUser = user;
                 }
             }
         }])

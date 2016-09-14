@@ -26,7 +26,6 @@ RESTFUL_JSON = {'indent': 2, 'sort_keys': True}
 # Database settings
 # ------------------------------------------------------------------------------------------------------------------
 
-DROP_TABLES = True
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 if os.getenv('DB_USER', None) is not None:
@@ -56,6 +55,8 @@ USERS = [
         'last_name': 'Brecheisen',
         'is_superuser': True,
         'is_admin': True,
+        'is_active': True,
+        'is_visible': True,
     },
     {
         'username': 'quentin',
@@ -63,7 +64,10 @@ USERS = [
         'email': 'quentin@yoda.com',
         'first_name': 'Quentin',
         'last_name': 'Noirhomme',
+        'is_superuser': False,
         'is_admin': True,
+        'is_active': True,
+        'is_visible': True,
     },
     {
         'username': 'armin',
@@ -71,11 +75,20 @@ USERS = [
         'email': 'armin@yoda.com',
         'first_name': 'Armin',
         'last_name': 'Heinecke',
+        'is_superuser': False,
+        'is_admin': False,
+        'is_active': True,
+        'is_visible': True,
     },
     {
         'username': 'worker',
         'password': 'secret',
         'email': 'worker@yoda.com',
+        'first_name': None,
+        'last_name': None,
+        'is_superuser': False,
+        'is_admin': False,
+        'is_active': True,
         'is_visible': False,
     }
 ]

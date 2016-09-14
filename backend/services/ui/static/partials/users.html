@@ -2,23 +2,22 @@
     <div ng-include src="'partials/nav.html'"></div>
     <div class="row">
         <h3 class="col s12 center-align grey-text text-darken-2">Users</h3>
-        {{ message }}
         <div class="col s12 m6 l6 offset-m3 offset-l3">
+            <input class="btn waves-effect waves-light" type="button" ng-click="createUser()" value="Create"/>
             <ul class="collapsible" data-collapsible="accordion">
-                <li ng-repeat="user in users">
-                    <div ng-if="user.is_visible" class="collapsible-header">{{ user.first_name }} {{ user.last_name }}</div>
-                    <div ng-if="user.is_visible" class="collapsible-body container">
+                <li ng-repeat="user in users | orderBy:'last_name'">
+                    <div class="collapsible-header">{{ user.last_name }}, {{ user.first_name }}</div>
+                    <div class="collapsible-body container">
                         <table class="collection">
                             <tr class="collection-item"><td><b>ID</b></td><td>{{ user.id }}</td></tr>
                             <tr class="collection-item"><td><b>Name</b></td><td>{{ user.first_name }} {{ user.last_name }}</td></tr>
                             <tr class="collection-item"><td><b>Username</b></td><td>{{ user.username }}</td></tr>
                             <tr class="collection-item"><td><b>Email</b></td><td>{{ user.email }}</td></tr>
-                            <tr class="collection-item"><td><b>Administrator</b></td><td>{{ user.is_admin }}</td></tr>
+                            <tr class="collection-item"><td><b>Administrator</b></td><td>{{ user.is_admin ? "True" : "False" }}</td></tr>
+                            <tr class="collection-item"><td><b>Active</b></td><td>{{ user.is_active ? "True" : "False" }}</td></tr>
                             <tr class="collection-item">
                                 <td>
-                                    <form ng-submit="editUser(user)" ng-controller="UsersController">
-                                        <input class="btn waves-effect waves-light" type="submit" value="Edit">
-                                    </form>
+                                    <input class="btn waves-effect waves-light" type="button" ng-click="editUser(user)" value="Edit"/>
                                 </td>
                                 <td></td>
                             </tr>

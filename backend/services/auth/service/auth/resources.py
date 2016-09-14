@@ -72,7 +72,6 @@ class UsersResource(BaseResource):
         parser.add_argument('last_name', type=str, location='args')
         parser.add_argument('is_admin', type=bool, location='args')
         parser.add_argument('is_active', type=bool, location='args')
-        parser.add_argument('is_visible', type=bool, location='args')
         args = parser.parse_args()
 
         user_dao = UserDao(self.db_session())
@@ -92,7 +91,6 @@ class UsersResource(BaseResource):
         parser.add_argument('last_name', type=str, location='json')
         parser.add_argument('is_admin', type=bool, location='json')
         parser.add_argument('is_active', type=bool, location='json')
-        parser.add_argument('is_visible', type=bool, location='json')
         args = parser.parse_args()
 
         user_dao = UserDao(self.db_session())
@@ -114,6 +112,7 @@ class UserResource(BaseResource):
         if user is None:
             return self.error_response('User {} not found'.format(id), http.NOT_FOUND_404)
 
+        print('user.is_admin: {}'.format(user.is_admin))
         return self.response(user.to_dict())
 
     @token_required
@@ -147,12 +146,13 @@ class UserResource(BaseResource):
             user.last_name = args['last_name']
         if args.get('is_admin'):
             user.is_admin = args['is_admin']
+            print('args[is_admin]: {}'.format(args['is_admin']))
+            print('type of args[is_admin]: {}'.format(type(args['is_admin'])))
         if args.get('is_active'):
             user.is_active = args['is_active']
-        if args.get('is_visible'):
-            user.is_visible = args['is_visible']
 
         user = user_dao.save(user)
+        print('user.is_admin: {}'.format(user.is_admin))
 
         return self.response(user.to_dict())
 
@@ -178,7 +178,6 @@ class UserGroupsResource(BaseResource):
 
         parser = reqparse.RequestParser()
         parser.add_argument('name', type=str, location='args')
-        parser.add_argument('is_visible', type=bool, location='args')
         args = parser.parse_args()
 
         user_group_dao = UserGroupDao(self.db_session())
@@ -192,7 +191,6 @@ class UserGroupsResource(BaseResource):
 
         parser = reqparse.RequestParser()
         parser.add_argument('name', type=str, required=True, location='json')
-        parser.add_argument('is_visible', type=bool, location='json')
         args = parser.parse_args()
 
         user_group_dao = UserGroupDao(self.db_session())

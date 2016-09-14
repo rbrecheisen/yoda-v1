@@ -41,12 +41,12 @@ def init_users():
                 username=item['username'],
                 password=item['password'],
                 email=item['email'],
-                first_name=None if 'first_name' not in item.keys() else item['first_name'],
-                last_name=None if 'last_name' not in item.keys() else item['last_name'],
-                is_superuser=False if 'is_superuser' not in item.keys() else item['is_superuser'],
-                is_admin=False if 'is_admin' not in item.keys() else item['is_admin'],
-                is_active=True if 'is_active' not in item.keys() else item['is_active'],
-                is_visible=True if 'is_visible' not in item.keys() else item['is_visible'])
+                first_name=item['first_name'],
+                last_name=item['last_name'],
+                is_superuser=item['is_superuser'],
+                is_admin=item['is_admin'],
+                is_active=item['is_active'],
+                is_visible=item['is_visible'])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ def output_json(data, code, headers=None):
 @app.before_first_request
 def init_db(drop=False):
     Base.query = db.session.query_property()
-    if app.config['DROP_TABLES'] or drop:
+    if drop:
         print('Dropping tables...')
         Base.metadata.drop_all(db.engine)
     Base.metadata.create_all(bind=db.engine)

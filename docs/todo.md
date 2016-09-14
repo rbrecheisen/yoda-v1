@@ -1,6 +1,19 @@
 # TODO
     
  - Implement basic UI
+ 
+ - Give each service its own user account
+   When the storage service checks a client token it should provide its own
+   token in the header
+   
+ - Test Yoda with multiple uWSGI workers (now only 1 worker used)
+   
+ - Move database initialization out of the Python code
+   The python code is running on multiple workers to the database initialization
+   code is executed multiple kinds
+   
+ - Implement log service with correlation IDs
+   
  - Implement parameter specification (and check) in settings.py
  - Try out S3 storage driver Docker
  
@@ -14,13 +27,20 @@
    worker for parallel processing
 
  - Use RabbitMQ as Celery broker and Redis as result backend
+ 
  - Test resumable uploads
+ 
  - Clear out postgres database and files volumes when testing (not working)
+ 
+
  - Figure out how to version URIs
+
  - Setup SSL connection
- - Setup logging
+
  - Setup permission checking in each service
+
  - Load files from S3 or EBS (look into volume drivers like flocker)
+
  - Move back to Alpine Linux images
  
  - [DONE] Refactor pipeline code
