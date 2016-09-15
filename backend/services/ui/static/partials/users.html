@@ -13,8 +13,8 @@
                             <tr class="collection-item"><td><b>Name</b></td><td>{{ user.first_name }} {{ user.last_name }}</td></tr>
                             <tr class="collection-item"><td><b>Username</b></td><td>{{ user.username }}</td></tr>
                             <tr class="collection-item"><td><b>Email</b></td><td>{{ user.email }}</td></tr>
-                            <tr class="collection-item"><td><b>Administrator</b></td><td>{{ user.is_admin ? "True" : "False" }}</td></tr>
-                            <tr class="collection-item"><td><b>Active</b></td><td>{{ user.is_active ? "True" : "False" }}</td></tr>
+                            <tr class="collection-item"><td><b>Administrator</b></td><td>{{ user.is_admin === "true" ? "Yes" : "No" }}</td></tr>
+                            <tr class="collection-item"><td><b>Active</b></td><td>{{ user.is_active === "true" ? "Yes" : "No" }}</td></tr>
                             <tr class="collection-item">
                                 <td>
                                     <input class="btn waves-effect waves-light" type="button" ng-click="editUser(user)" value="Edit"/>

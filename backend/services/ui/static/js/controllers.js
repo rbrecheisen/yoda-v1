@@ -81,6 +81,8 @@ angular.module('controllers', [])
                 for(var i = 0; i < response.data.length; i++) {
                     var user = response.data[i];
                     if(user.is_visible) {
+                        user.is_admin = user.is_admin ? 'true' : 'false';
+                        user.is_active = user.is_active ? 'true': 'false';
                         $scope.users.push(user);
                     }
                 }
@@ -122,17 +124,16 @@ angular.module('controllers', [])
             $scope.email = '';
             $scope.first_name = '';
             $scope.last_name = '';
-            $scope.is_admin = false;
-            $scope.admin = $scope.is_admin;
-            $scope.is_active = true;
-            $scope.active = $scope.is_active;
+            $scope.is_admin = 'false';
+            // $scope.admin = $scope.is_admin;
+            $scope.is_active = 'true';
+            // $scope.active = $scope.is_active;
 
             if($scope.userId > 0) {
 
                 UserService.get($routeParams.userId).then(function (response) {
 
                     var user = response.data;
-                    console.log('UserController - user.is_admin: ' + user.is_admin);
 
                     // Just in case the user jumped to the URI directly, we check whether the
                     // user entry is visible or not.
@@ -147,10 +148,10 @@ angular.module('controllers', [])
 
                         // For some reason we need to create a separate variable 'admin' otherwise
                         // we get strange selection behavior...
-                        $scope.is_admin = user.is_admin;
-                        $scope.admin = $scope.is_admin;
-                        $scope.is_active = user.is_active;
-                        $scope.active = $scope.is_active;
+                        $scope.is_admin = user.is_admin ? 'true': 'false';
+                        // $scope.admin = $scope.is_admin;
+                        $scope.is_active = user.is_active ? 'true': 'false';
+                        // $scope.active = $scope.is_active;
 
                         $scope.breadcrumbs = [
                             {url: '#/admin', text: 'Dashboard'},
@@ -183,8 +184,8 @@ angular.module('controllers', [])
                         $scope.email,
                         $scope.first_name,
                         $scope.last_name,
-                        $scope.admin,       // TODO: THIS BOOLEAN IS FALSE!!!
-                        $scope.active)
+                        $scope.is_admin === 'true',
+                        $scope.is_active === 'true')
                     .then(function (response) {
                         $location.path('/users');
                     }, function (error) {
@@ -223,8 +224,14 @@ angular.module('controllers', [])
                     }
 
                     // Save the new user
-                    UserService.create($scope.username, $scope.password1, $scope.email, $scope.first_name,
-                        $scope.last_name, $scope.is_admin, $scope.is_active)
+                    UserService.create(
+                        $scope.username,
+                        $scope.password1,
+                        $scope.email,
+                        $scope.first_name,
+                        $scope.last_name,
+                        $scope.is_admin === 'true',
+                        $scope.is_active === 'true')
                     .then(function() {
                         $location.path('/users');
                     }, function(error) {
