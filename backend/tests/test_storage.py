@@ -43,7 +43,7 @@ def test_upload_and_download():
     assert response.status_code == 200
     storage_id = response.json()['storage_id']
 
-    response = requests.get('/downloads/{}'.format(service_uri('storage'), storage_id), headers=token_header(token))
+    response = requests.get('{}/downloads/{}'.format(service_uri('storage'), storage_id), headers=token_header(token))
     assert response.status_code == 200
     assert response.content
 

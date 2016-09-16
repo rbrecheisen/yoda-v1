@@ -39,8 +39,6 @@ def test_users():
     response = requests.get('{}/users'.format(service_uri('auth')), headers=token_header(token))
     assert response.status_code == 200
     assert len(response.json()) >= 4
-    for user in response.json():
-        print(user)
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -97,7 +95,7 @@ def test_create_update_and_delete_group():
     assert response.json()['name'] == data['name']
 
     # Add user to group and check it was added
-    response = requests.get('{}/users?username=root'.format(service_uri('auth')), headers=token_header(token))
+    response = requests.get('{}/users?username=ralph'.format(service_uri('auth')), headers=token_header(token))
     assert response.status_code == 200
     user_id = response.json()[0]['id']
     response = requests.put('{}/user-groups/{}/users/{}'.format(service_uri('auth'), user_group_id, user_id), headers=token_header(token))
@@ -105,7 +103,7 @@ def test_create_update_and_delete_group():
     response = requests.get('{}/user-groups/{}/users'.format(service_uri('auth'), user_group_id), headers=token_header(token))
     assert response.status_code == 200
     assert len(response.json()) == 1
-    assert response.json()[0]['username'] == 'root'
+    assert response.json()[0]['username'] == 'ralph'
 
     # Remove user from group and check it was successfully removed
     response = requests.delete('{}/user-groups/{}/users/{}'.format(service_uri('auth'), user_group_id, user_id), headers=token_header(token))
