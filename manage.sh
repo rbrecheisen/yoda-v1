@@ -70,10 +70,10 @@ elif [ "${1}" == "build" ]; then
     eval $(docker-machine env manager)
 
     docker build -t brecheisen/base:v1 ./backend
-    docker build -t brecheisen/storage-base:v1 ./backend/services/storage/base
-    docker build -t brecheisen/storage:v1 ./backend/services/storage
     docker build -t brecheisen/storage-app-base:v1 ./backend/services/storage-app/base
     docker build -t brecheisen/storage-app:v1 ./backend/services/storage-app
+    docker build -t brecheisen/storage-base:v1 ./backend/services/storage/base
+    docker build -t brecheisen/storage:v1 ./backend/services/storage
     docker build -t brecheisen/auth-base:v1 ./backend/services/auth/base
     docker build -t brecheisen/auth:v1 ./backend/services/auth
     docker build -t brecheisen/compute-base:v1 ./backend/services/compute/base
@@ -95,10 +95,10 @@ elif [ "${1}" == "push" ]; then
     docker login --username=brecheisen
 
     docker push brecheisen/base:v1
-    docker push brecheisen/storage-base:v1
-    docker push brecheisen/storage:v1
     docker push brecheisen/storage-app-base:v1
     docker push brecheisen/storage-app:v1
+    docker push brecheisen/storage-base:v1
+    docker push brecheisen/storage:v1
     docker push brecheisen/auth-base:v1
     docker push brecheisen/auth:v1
     docker push brecheisen/compute-base:v1

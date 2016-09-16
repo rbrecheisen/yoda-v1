@@ -210,6 +210,26 @@ class FileResource(BaseResource):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+class S3FilesResource(BaseResource):
+
+    URI = '/s3files'
+
+    @token_required
+    def post(self):
+        return self.response({}, http.CREATED_201)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class S3FileResource(BaseResource):
+
+    URI = '/s3files/{}'
+
+    @token_required
+    def get(self):
+        return self.response({})
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 class FileSetsResource(BaseResource):
 
     URI = '/file-sets'
