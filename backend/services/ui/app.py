@@ -72,6 +72,9 @@ class UserResource(Resource):
         parser.add_argument('is_admin', type=bool, location='json')
         parser.add_argument('is_active', type=bool, location='json')
         args = parser.parse_args()
+
+        print(args.get('username'))
+
         users[id - 1]['username'] = args['username']
         users[id - 1]['password'] = args['password']
         users[id - 1]['email'] = args['email']

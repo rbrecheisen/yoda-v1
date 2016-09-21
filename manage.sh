@@ -4,10 +4,11 @@ export PYTHON=$HOME/.virtualenvs/flask-microservices/bin/python
 export PYTEST=$HOME/.virtualenvs/flask-microservices/bin/py.test
 export PYTHONPATH=$(pwd)
 
+nodes="manager worker1 worker2"
+
 # ----------------------------------------------------------------------------------------------------------------------
 if [ "${1}" == "setup" ]; then
 
-    nodes="manager worker1 worker2"
     if [ "${2}" != "" ]; then
         shift; nodes="$@"
     fi
@@ -36,6 +37,8 @@ if [ "${1}" == "setup" ]; then
             fi
         done
     fi
+
+    eval $(docker-machine env manager)
 
     network=$(docker network ls | awk '{print $2,$3}' | grep "my-network")
     if [ "${network}" == "" ]; then
@@ -87,6 +90,7 @@ elif [ "${1}" == "build" ]; then
         docker rmi -f ${dangling}
     fi
 
+
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "push" ]; then
 
@@ -107,6 +111,12 @@ elif [ "${1}" == "push" ]; then
     docker push brecheisen/database:v1
     docker push brecheisen/ui:v1
 
+    for node in ${nodes}; do
+        if [ "${node}" != "manager" ]; then
+            docker pull brecheisen/base:v1
+        fi
+    done
+
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "up" ]; then
 
@@ -118,9 +128,9 @@ elif [ "${1}" == "up" ]; then
         docker service create \
             --name redis \
             --network my-network \
-            --publish 6379:6379 \
             --replicas 1 \
             redis:3.2.3
+#            --publish 6379:6379 \
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "auth" ]; then
@@ -135,9 +145,9 @@ elif [ "${1}" == "up" ]; then
             --env DB_PASS=postgres \
             --env DB_HOST=database \
             --env DB_PORT=5432 \
-            --publish 5000:5000 \
             --replicas 1 \
             brecheisen/auth:v1
+#            --publish 5000:5000 \
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "worker" ]; then
@@ -179,9 +189,9 @@ elif [ "${1}" == "up" ]; then
             --env DB_PASS=postgres \
             --env DB_HOST=database \
             --env DB_PORT=5432 \
-            --publish 5001:5001 \
             --replicas 1 \
             brecheisen/compute:v1
+#            --publish 5001:5001 \
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "storage-app" ]; then
@@ -209,9 +219,9 @@ elif [ "${1}" == "up" ]; then
             --name storage \
             --network my-network \
             --mount type=volume,source=files,target=/mnt/shared/files \
-            --publish 5002:5002 \
             --replicas 1 \
             brecheisen/storage:v1
+#            --publish 5002:5002 \
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "database" ]; then
@@ -219,9 +229,9 @@ elif [ "${1}" == "up" ]; then
             --name database \
             --network my-network \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
-            --publish 5432:5432 \
             --replicas 1 \
             brecheisen/database:v1
+#            --publish 5432:5432 \
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "ui" ]; then

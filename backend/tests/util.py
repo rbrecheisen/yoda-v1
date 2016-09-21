@@ -8,3 +8,8 @@ def uri(service, path=''):
     return 'http://{}:{}/{}'.format(
         os.getenv('{}_SERVICE_HOST'.format(service.upper())),
         os.getenv('{}_SERVICE_PORT'.format(service.upper())), path)
+
+
+# --------------------------------------------------------------------------------------------------------------------
+def service_uri(service):
+    return 'http://{}/{}/'.format(os.getenv('{}_SERVICE_HOST'.format(service.upper())), service)

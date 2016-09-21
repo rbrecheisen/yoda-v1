@@ -3,9 +3,10 @@ import os
 import time
 import sys
 import pandas as pd
-from lib.util import generate_string, service_uri
+from lib.util import generate_string
 from lib.authentication import login_header, token_header
 from lib.files import upload_file
+from util import service_uri
 
 
 # --------------------------------------------------------------------------------------------------------------------

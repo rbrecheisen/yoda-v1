@@ -2,15 +2,6 @@
     
  - Implement basic UI
  
- - Check if we can remove Nginx storage service
- 
-   If we can upload files directly to the Python storage service this would be
-   more flexible. We could use existing backend libs to upload directly to S3
-   (not sure if that involves intermediate file storage). We should check what
-   this does for blocking server requests while the server is eating files. If
-   it blocks we can run storage service with multiple workers and on multiple 
-   nodes.
- 
  - Give each service its own user account
  
    When the storage service checks a client token it should provide its own
@@ -25,9 +16,7 @@
    
  - Implement pipeline parameter specification (and check) in settings.py
  
- - Try out S3 storage driver Docker
- 
-   Also look at volume drivers like flocker to access S3
+ - Try out S3 storage driver Docker (or use volume plugin like Flocker)
  
  - Setup R-compatible worker
  

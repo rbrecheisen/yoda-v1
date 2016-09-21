@@ -126,7 +126,6 @@ class UserResource(BaseResource):
         parser.add_argument('last_name', type=str, location='json')
         parser.add_argument('is_admin', type=bool, location='json')
         parser.add_argument('is_active', type=bool, location='json')
-        parser.add_argument('is_visible', type=bool, location='json')
         args = parser.parse_args()
 
         user_dao = UserDao(self.db_session())
@@ -134,25 +133,16 @@ class UserResource(BaseResource):
         if user is None:
             return self.error_response('User {} not found'.format(id), http.NOT_FOUND_404)
 
-        if args.get('username'):
-            user.username = args['username']
-        if args.get('password'):
+        user.username = args['username']
+        if args['password'] != '':
             user.password = args['password']
-        if args.get('email'):
-            user.email = args['email']
-        if args.get('first_name'):
-            user.first_name = args['first_name']
-        if args.get('last_name'):
-            user.last_name = args['last_name']
-        if args.get('is_admin'):
-            user.is_admin = args['is_admin']
-            print('args[is_admin]: {}'.format(args['is_admin']))
-            print('type of args[is_admin]: {}'.format(type(args['is_admin'])))
-        if args.get('is_active'):
-            user.is_active = args['is_active']
+        user.email = args['email']
+        user.first_name = args['first_name']
+        user.last_name = args['last_name']
+        user.is_admin = args['is_admin']
+        user.is_active = args['is_active']
 
         user = user_dao.save(user)
-        print('user.is_admin: {}'.format(user.is_admin))
 
         return self.response(user.to_dict())
 
