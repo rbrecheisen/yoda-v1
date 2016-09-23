@@ -5,13 +5,12 @@ import sys
 import pandas as pd
 from lib.util import generate_string
 from lib.authentication import login_header, token_header
-from lib.files import upload_file
-from util import service_uri
+from util import uri, service_uri, upload_file
 
 
 # --------------------------------------------------------------------------------------------------------------------
 def test_root():
-    response = requests.get(service_uri('compute'))
+    response = requests.get(uri('compute'))
     assert response.status_code == 200
 
 
@@ -22,23 +21,23 @@ def test_train_classifier():
         return
 
     # Get access token
-    response = requests.post('{}/tokens'.format(service_uri('auth')), headers=login_header('ralph', 'secret'))
+    response = requests.post(uri('auth', '/tokens'), headers=login_header('ralph', 'secret'))
     assert response.status_code == 201
     token = response.json()['token']
 
     # Create storage repository
     name = generate_string()
-    response = requests.post('{}/repositories'.format(service_uri('storage')), headers=token_header(token), json={'name': name})
+    response = requests.post(uri('storage', '/repositories'), headers=token_header(token), json={'name': name})
     assert response.status_code == 201
     repository_id = response.json()['id']
 
     # Get CSV file type ID
-    response = requests.get('{}/file-types?name=csv'.format(service_uri('storage')), headers=token_header(token))
+    response = requests.get(uri('storage', '/file-types?name=csv'), headers=token_header(token))
     assert response.status_code == 200
     file_type_id = response.json()[0]['id']
 
     # Get scan type ID
-    response = requests.get('{}/scan-types?name=none'.format(service_uri('storage')), headers=token_header(token))
+    response = requests.get(uri('storage', '/scan-types?name=none'), headers=token_header(token))
     assert response.status_code == 200
     scan_type_id = response.json()[0]['id']
 
@@ -66,7 +65,7 @@ def test_train_classifier():
     # refers to the CSV file. The parameter 'subject_labels' contains a list of diagnostic
     # labels. This list is used to pre-calculate training and testing indices which can be
     # passed to the different workers handling the cross-validation folds in parallel.
-    response = requests.post('{}/tasks'.format(service_uri('compute')), headers=token_header(token), json={
+    response = requests.post(uri('compute', '/tasks'), headers=token_header(token), json={
         'pipeline_name': 'svm_train',
         'params': {
             'file_id': file_id,
@@ -86,7 +85,7 @@ def test_train_classifier():
     # this means the task status == SUCCESS and result != None
     classifier_id = 0
     while True:
-        response = requests.get('{}/tasks/{}'.format(service_uri('compute'), task_id), headers=token_header(token))
+        response = requests.get(uri('compute', '/tasks/{}'.format(task_id)), headers=token_header(token))
         assert response.status_code == 200
         status = response.json()['status']
         assert status == 'PENDING' or status == 'SUCCESS'
@@ -105,7 +104,7 @@ def test_train_classifier():
     subject_label = subject_labels[0]
 
     # Send some data to the trained classifier for prediction
-    response = requests.post('{}/tasks'.format(service_uri('compute')), headers=token_header(token), json={
+    response = requests.post(uri('compute', '/tasks'), headers=token_header(token), json={
         'pipeline_name': 'svm_predict',
         'params': {
             'classifier_id': classifier_id,
@@ -119,7 +118,7 @@ def test_train_classifier():
     task_id = response.json()['id']
 
     while True:
-        response = requests.get('{}/tasks/{}'.format(service_uri('compute'), task_id), headers=token_header(token))
+        response = requests.get(uri('compute', '/tasks/{}'.format(task_id)), headers=token_header(token))
         assert response.status_code == 200
         status = response.json()['status']
         assert status == 'PENDING' or status == 'SUCCESS'
