@@ -10,7 +10,8 @@
  - Move database initialization out of the Python code
  
    The python code is running on multiple workers to the database initialization
-   code is executed multiple times
+   code is executed multiple times. Suggestion: use Flask migrate to get proper
+   database handling.
    
  - Implement log service with correlation IDs
    

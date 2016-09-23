@@ -3,7 +3,7 @@ import tarfile
 import requests
 import pandas as pd
 from sklearn.externals import joblib
-from lib.util import service_uri, generate_string
+from lib.util import uri, generate_string
 from lib.authentication import token_header
 from lib.files import upload_file
 
@@ -82,9 +82,9 @@ def load_model(file_path):
 
 # ----------------------------------------------------------------------------------------------------------------------
 def upload_model_archive(file_path, repository_id, token):
-    response = requests.get('{}/file-types?name=binary'.format(service_uri('storage')), headers=token_header(token))
+    response = requests.get(uri('storage', '/file-types?name=binary'), headers=token_header(token))
     file_type_id = response.json()[0]['id']
-    response = requests.get('{}/scan-types?name=none'.format(service_uri('storage')), headers=token_header(token))
+    response = requests.get(uri('storage', '/scan-types?name=none'), headers=token_header(token))
     scan_type_id = response.json()[0]['id']
     try:
         _, storage_id = upload_file(file_path, file_type_id, scan_type_id, repository_id, token)

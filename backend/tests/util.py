@@ -12,11 +12,6 @@ def uri(service, path=''):
 
 
 # --------------------------------------------------------------------------------------------------------------------
-def service_uri(service):
-    return 'http://{}/{}/'.format(os.getenv('{}_SERVICE_HOST'.format(service.upper())), service)
-
-
-# --------------------------------------------------------------------------------------------------------------------
 def read_chunks(file_obj, chunk_size):
     while True:
         byte_data = file_obj.read(chunk_size)

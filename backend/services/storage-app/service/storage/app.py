@@ -3,6 +3,7 @@ import json
 from flask import Flask, make_response, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
+from werkzeug.contrib.cache import SimpleCache
 from lib.util import init_env
 from lib.models import Base
 from resources import (
@@ -33,6 +34,8 @@ api.add_resource(FileSetFilesResource, FileSetFilesResource.URI.format('<int:id>
 api.add_resource(FileSetFileResource, FileSetFileResource.URI.format('<int:id>', '<int:file_id>'))
 
 db = SQLAlchemy(app)
+
+cache = SimpleCache()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -72,6 +75,7 @@ def init_db(drop=False):
 def before_request():
     g.config = app.config
     g.db_session = db.session
+    g.cache = cache
 
 
 # ----------------------------------------------------------------------------------------------------------------------

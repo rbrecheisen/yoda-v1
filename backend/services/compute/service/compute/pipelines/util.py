@@ -2,7 +2,7 @@ import os
 import requests
 import shutil
 from flask import Config
-from lib.util import service_uri, generate_string
+from lib.util import uri, generate_string
 from lib.authentication import login_header, token_header
 
 
@@ -10,20 +10,19 @@ from lib.authentication import login_header, token_header
 def get_worker_username_and_password():
     config = Config(None)
     config.from_object('service.compute.settings')
-    return config['WORKER_USERNAME'], config['WORKER_PASSWORD']
+    return config['SERVICE_WORKER_USERNAME'], config['SERVICE_WORKER_PASSWORD']
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 def get_access_token():
     username, password = get_worker_username_and_password()
-    response = requests.post(
-        '{}/tokens'.format(service_uri('auth')), headers=login_header(username, password))
+    response = requests.post(uri('auth', '/tokens'), headers=login_header(username, password))
     return response.json()['token']
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 def get_storage_id_for_file(file_id, token):
-    response = requests.get('{}/files/{}'.format(service_uri('storage'), file_id), headers=token_header(token))
+    response = requests.get(uri('storage', '/files/{}'.format(file_id)), headers=token_header(token))
     storage_id = response.json()['storage_id']
     return storage_id
 

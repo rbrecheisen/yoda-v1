@@ -38,3 +38,11 @@ if os.getenv('DB_USER', None) is not None:
         os.getenv('DB_NAME'))
 else:
     SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/yoda.db'
+
+
+# ------------------------------------------------------------------------------------------------------------------
+# Security settings
+# ------------------------------------------------------------------------------------------------------------------
+
+SERVICE_USERNAME = 'storage'
+SERVICE_PASSWORD = 'secret'

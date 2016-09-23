@@ -43,13 +43,14 @@ class TokenChecksResource(BaseResource):
 
     URI = '/token-checks'
 
+    @token_required
     def post(self):
 
-        auth = request.authorization
-        if auth is None:
-            msg = 'Missing token'
-            return self.error_response(msg, http.FORBIDDEN_403)
-        user, msg = check_token(auth.username)
+        parser = reqparse.RequestParser()
+        parser.add_argument('token', type=str, required=True, location='json')
+        args = parser.parse_args()
+
+        user, msg = check_token(args['token'])
         if user is None:
             return self.error_response(msg, http.FORBIDDEN_403)
         return self.response({

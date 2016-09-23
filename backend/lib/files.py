@@ -1,6 +1,6 @@
 import os
 import requests
-from lib.util import service_uri
+from lib.util import uri
 from lib.authentication import token_header
 
 
@@ -35,7 +35,7 @@ def upload_file(file_name, file_type_id, scan_type_id, repository_id, token):
                 'X-File-Type': '{}'.format(file_type_id),
                 'X-Scan-Type': '{}'.format(scan_type_id),
                 'X-Repository-ID': '{}'.format(repository_id)})
-            response = requests.post('{}/files'.format(service_uri('storage')), headers=headers, data=chunk)
+            response = requests.post(uri('storage', '/files'), headers=headers, data=chunk)
             if response.status_code == 201:
                 file_id = response.json()['id']
                 storage_id = response.json()['storage_id']
@@ -50,7 +50,7 @@ def upload_file(file_name, file_type_id, scan_type_id, repository_id, token):
 # --------------------------------------------------------------------------------------------------------------------
 def download_file(storage_id, target_dir, token, extension=None):
     response = requests.get(
-        '{}/downloads/{}'.format(service_uri('storage'), storage_id), headers=token_header(token))
+        uri('storage', '/downloads/{}'.format(storage_id)), headers=token_header(token))
     file_path = os.path.join(target_dir, storage_id)
     if extension:
         if not extension.startswith('.'):

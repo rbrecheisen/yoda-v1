@@ -74,5 +74,8 @@ PIPELINES = {
 # ------------------------------------------------------------------------------------------------------------------
 # Security settings
 # ------------------------------------------------------------------------------------------------------------------
-WORKER_USERNAME = 'worker'
-WORKER_PASSWORD = 'secret'
+
+SERVICE_USERNAME = 'compute'
+SERVICE_PASSWORD = 'secret'
+SERVICE_WORKER_USERNAME = 'worker'
+SERVICE_WORKER_PASSWORD = 'secret'

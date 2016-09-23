@@ -2,7 +2,7 @@ import os
 import requests
 from lib.util import generate_string
 from lib.authentication import login_header, token_header
-from util import uri, service_uri, upload_file
+from util import uri, upload_file
 
 
 # --------------------------------------------------------------------------------------------------------------------

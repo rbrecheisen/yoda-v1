@@ -12,7 +12,6 @@ class RootResource(BaseResource):
     URI = '/'
 
     def get(self):
-        print('Returning root endpoint...')
         return self.response({
             'service': 'compute',
             'endpoints': ['tasks', 'pipelines'],

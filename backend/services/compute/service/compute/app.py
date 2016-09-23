@@ -2,6 +2,7 @@ import os
 import json
 from flask import Flask, make_response, g
 from flask_restful import Api
+from werkzeug.contrib.cache import SimpleCache
 from lib.util import init_env
 from resources import RootResource, TasksResource, TaskResource, PipelinesResource
 
@@ -18,6 +19,8 @@ api.add_resource(TasksResource, TasksResource.URI)
 api.add_resource(TaskResource, TaskResource.URI.format('<string:id>'))
 api.add_resource(PipelinesResource, PipelinesResource.URI)
 
+cache = SimpleCache()
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 @api.representation('application/json')
@@ -31,6 +34,7 @@ def output_json(data, code, headers=None):
 @app.before_request
 def before_request():
     g.config = app.config
+    g.cache = cache
 
 
 if __name__ == '__main__':

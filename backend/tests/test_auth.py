@@ -1,12 +1,12 @@
 import requests
 from lib.util import generate_string
 from lib.authentication import login_header, token_header
-from util import uri, service_uri
+from util import uri
 
 
 # --------------------------------------------------------------------------------------------------------------------
 def test_root():
-    response = requests.get(service_uri('auth'))
+    response = requests.get(uri('auth'))
     assert response.status_code == 200
 
 
@@ -25,7 +25,12 @@ def test_check_token():
 
     response = requests.post(uri('auth', '/tokens'), headers=login_header('ralph', 'secret'))
     assert response.status_code == 201
-    response = requests.post(uri('auth', '/token-checks'), headers=token_header(response.json()['token']))
+    token1 = response.json()['token']
+    response = requests.post(uri('auth', '/tokens'), headers=login_header('quentin', 'secret'))
+    assert response.status_code == 201
+    token2 = response.json()['token']
+    assert token1 != token2
+    response = requests.post(uri('auth', '/token-checks'), json={'token': token2}, headers=token_header(token1))
     assert response.status_code == 201
     response = requests.post(uri('auth', '/token-checks'), headers=token_header('1234'))
     assert response.status_code == 403
