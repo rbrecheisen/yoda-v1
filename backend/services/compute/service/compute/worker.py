@@ -1,6 +1,7 @@
 from celery import Celery
 from celery.result import AsyncResult
 from service.compute.pipelines.base import PipelineRegistry
+# from pipelines.base import PipelineRegistry
 
 celery = Celery('compute')
 celery.config_from_object('service.compute.settings')

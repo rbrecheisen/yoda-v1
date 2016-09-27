@@ -4,6 +4,8 @@ from lib.resources import BaseResource
 from lib.authentication import token_required
 from service.compute.pipelines.base import PipelineRegistry
 from service.compute.worker import run_pipeline, task_status, task_result
+# from pipelines.base import PipelineRegistry
+# from worker import run_pipeline, task_status, task_result
 
 
 # ----------------------------------------------------------------------------------------------------------------------

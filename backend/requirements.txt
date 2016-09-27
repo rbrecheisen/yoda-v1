@@ -9,3 +9,4 @@ uwsgi
 python-jose
 pytest
 psycopg2
+celery

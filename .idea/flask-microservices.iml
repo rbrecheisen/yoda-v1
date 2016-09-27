@@ -12,7 +12,7 @@
       <sourceFolder url="file://$MODULE_DIR$/backend/services/worker" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backend/services/ui" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 2.7.12 virtualenv at ~/.virtualenvs/flask-microservices" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">

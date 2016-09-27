@@ -1,7 +1,7 @@
 import json
 from flask import Flask, make_response, redirect
 
-AUTH    = 'http://0.0.0.0:5000'
+AUTH = 'http://0.0.0.0:5000'
 COMPUTE = 'http://0.0.0.0:5001'
 STORAGE = 'http://0.0.0.0:5002'
 
