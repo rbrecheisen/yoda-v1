@@ -345,9 +345,9 @@ elif [ "${1}" == "down" ]; then
 elif [ "${1}" == "restart" ]; then
 
     ./manage.sh down ${2}
-    ./manage.sh build
-    ./manage.sh push
-    ./manage.sh pull
+    ./manage.sh build ${2}
+    ./manage.sh push ${2}
+    ./manage.sh pull ${2}
     ./manage.sh up ${2}
 
 # ----------------------------------------------------------------------------------------------------------------------
