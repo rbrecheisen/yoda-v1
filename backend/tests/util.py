@@ -8,7 +8,7 @@ def uri(service, path=''):
     if path.startswith(os.path.sep):
         path = path[1:]
     return 'http://{}/{}/{}'.format(
-        os.getenv('{}_SERVICE_HOST'.format(service.upper())), service, path)
+        os.getenv('UI_SERVICE_HOST'.format(service.upper())), service, path)
 
 
 # --------------------------------------------------------------------------------------------------------------------

@@ -96,7 +96,7 @@ elif [ "${1}" == "push" ]; then
 
     eval $(docker-machine env manager)
 
-    docker login --username=brecheisen
+#    docker login --username=brecheisen
 
     docker push brecheisen/base:v1
     docker push brecheisen/storage-app-base:v1
@@ -115,6 +115,27 @@ elif [ "${1}" == "push" ]; then
         if [ "${node}" != "manager" ]; then
             docker pull brecheisen/base:v1
         fi
+    done
+
+# ----------------------------------------------------------------------------------------------------------------------
+elif [ "${1}" == "pull" ]; then
+
+    for node in ${nodes}; do
+    
+        eval $(docker-machine env ${node})
+
+        docker pull brecheisen/base:v1
+        docker pull brecheisen/storage-app-base:v1
+        docker pull brecheisen/storage-app:v1
+        docker pull brecheisen/storage-base:v1
+        docker pull brecheisen/storage:v1
+        docker pull brecheisen/auth-base:v1
+        docker pull brecheisen/auth:v1
+        docker pull brecheisen/compute-base:v1
+        docker pull brecheisen/compute:v1
+        docker pull brecheisen/worker:v1
+        docker pull brecheisen/database:v1
+        docker pull brecheisen/ui:v1
     done
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -325,6 +346,8 @@ elif [ "${1}" == "restart" ]; then
 
     ./manage.sh down ${2}
     ./manage.sh build
+    ./manage.sh push
+    ./manage.sh pull
     ./manage.sh up ${2}
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -351,24 +374,12 @@ elif [ "${1}" == "service" ] || [ "${1}" == "sv" ]; then
 # ----------------------------------------------------------------------------------------------------------------------
 elif [ "${1}" == "test" ]; then
 
-    eval $(docker-machine env manager)
-
-    export AUTH_SERVICE_HOST=$(docker-machine ip manager)
-    export AUTH_SERVICE_PORT=5000
-    export COMPUTE_SERVICE_HOST=$(docker-machine ip manager)
-    export COMPUTE_SERVICE_PORT=5001
-    export STORAGE_SERVICE_HOST=$(docker-machine ip manager)
-    export STORAGE_SERVICE_PORT=5002
+    export UI_SERVICE_HOST=$(docker-machine ip manager)
     export DATA_DIR=$HOME/download
 
     ${PYTHON} ./backend/tests/run.py
 
-    unset AUTH_SERVICE_HOST
-    unset AUTH_SERVICE_PORT
-    unset COMPUTE_SERVICE_HOST
-    unset COMPUTE_SERVICE_PORT
-    unset STORAGE_SERVICE_HOST
-    unset STORAGE_SERVICE_PORT
+    unset UI_SERVICE_HOST
     unset DATA_DIR
 
 # ----------------------------------------------------------------------------------------------------------------------

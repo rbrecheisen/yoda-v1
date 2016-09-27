@@ -62,15 +62,3 @@ def test_resume_upload():
 
     if os.getenv('DATA_DIR', None) is None:
         return
-
-
-# # --------------------------------------------------------------------------------------------------------------------
-# def test_upload_to_amazon():
-#
-#     if os.getenv('DATA_DIR', None) is None:
-#         return
-#
-#     with open(os.path.join(os.getenv('DATA_DIR'), 'data.nii.gz'), 'rb') as f:
-#         response = requests.put(
-#             '{}/s3files/{}'.format(service_uri('storage'), 'data.nii.gz'), files={'file': f})
-#         print(response.content)
