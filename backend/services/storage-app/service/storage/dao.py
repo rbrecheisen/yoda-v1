@@ -1,5 +1,5 @@
-from lib.dao import BaseDao
 from models import Repository, File, FileSet, FileType, ScanType
+from lib.dao import BaseDao
 
 
 # ----------------------------------------------------------------------------------------------------------------------

@@ -2,6 +2,7 @@ import flask
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Table
 from sqlalchemy.orm import relationship, validates
 from sqlalchemy_utils import PasswordType, force_auto_coercion
+
 from lib.models import Base, BaseModel
 
 force_auto_coercion()

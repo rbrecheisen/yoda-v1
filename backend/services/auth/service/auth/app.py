@@ -1,11 +1,13 @@
 import json
 import os
+
 from flask import Flask, make_response, g
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
-from lib.util import init_env
-from lib.models import Base
+
 from dao import UserDao
+from lib.models import Base
+from lib.util import init_env
 from resources import (
     RootResource, TokensResource, TokenChecksResource, UsersResource, UserResource, UserGroupsResource,
     UserGroupResource, UserGroupUsersResource, UserGroupUserResource)

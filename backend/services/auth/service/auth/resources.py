@@ -1,8 +1,9 @@
 import lib.http as http
-from flask_restful import reqparse, request
-from lib.resources import BaseResource
-from dao import UserDao, UserGroupDao
+from flask_restful import reqparse
+
 from authentication import create_token, check_token, login_required, token_required
+from dao import UserDao, UserGroupDao
+from lib.resources import BaseResource
 
 
 # ----------------------------------------------------------------------------------------------------------------------

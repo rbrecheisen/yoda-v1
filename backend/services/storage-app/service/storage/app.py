@@ -1,17 +1,19 @@
-import os
 import json
+import os
+
 from flask import Flask, make_response, g
-from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.contrib.cache import SimpleCache
-from lib.util import init_env
+
+from dao import FileTypeDao, ScanTypeDao
+from models import FileType, ScanType
 from lib.models import Base
+from lib.util import init_env
 from resources import (
     RootResource, FileTypesResource, ScanTypesResource,
     RepositoriesResource, RepositoryResource, FilesResource, FileResource,
     FileSetsResource, FileSetResource, FileSetFilesResource, FileSetFileResource)
-from models import FileType, ScanType
-from dao import FileTypeDao, ScanTypeDao
 
 app = Flask(__name__)
 
@@ -86,7 +88,7 @@ def shutdown_database(e):
 
 if __name__ == '__main__':
     init_env()
-    host = os.getenv('STORAGE_SERVICE_HOST')
-    port = os.getenv('STORAGE_SERVICE_PORT')
+    host = os.getenv('STORAGE_APP_SERVICE_HOST')
+    port = os.getenv('STORAGE_APP_SERVICE_PORT')
     port = int(port)
     app.run(host=host, port=port)

@@ -9,15 +9,15 @@ events {
 http {
 
     upstream auth {
-        server auth:5000 max_fails=3 fail_timeout=30s;
+        server ${AUTH_SERVICE_HOST}:${AUTH_SERVICE_PORT} max_fails=3 fail_timeout=30s;
     }
 
     upstream compute {
-        server compute:5001 max_fails=3 fail_timeout=30s;
+        server ${COMPUTE_SERVICE_HOST}:${COMPUTE_SERVICE_PORT} max_fails=3 fail_timeout=30s;
     }
 
     upstream storage {
-        server storage:5002 max_fails=3 fail_timeout=30s;
+        server ${STORAGE_SERVICE_HOST}:${STORAGE_SERVICE_PORT} max_fails=3 fail_timeout=30s;
     }
 
     server {

@@ -1,14 +1,15 @@
 from celery import chord, shared_task
+from lib.util import timing_now, timing_elapsed_to_str
 from sklearn.cross_validation import StratifiedKFold
-from sklearn.svm import SVC
 from sklearn.grid_search import GridSearchCV
 from sklearn.metrics import accuracy_score
-from lib.files import download_file
-from lib.util import timing_now, timing_elapsed_to_str
-from service.compute.pipelines.util import get_access_token, get_storage_id_for_file
+from sklearn.svm import SVC
+
+from python.lib.files import download_file
 from service.compute.pipelines.base import Pipeline
-from service.compute.pipelines.util import create_task_dir, delete_task_dir
 from service.compute.pipelines.stats.util import load_features, get_xy, save_model, upload_model_archive
+from service.compute.pipelines.util import create_task_dir, delete_task_dir
+from service.compute.pipelines.util import get_access_token, get_storage_id_for_file
 
 
 # ----------------------------------------------------------------------------------------------------------------------

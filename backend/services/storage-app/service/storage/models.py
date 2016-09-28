@@ -3,7 +3,6 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Table, Boolean, Text
 from sqlalchemy.orm import relationship, validates
 from lib.models import Base, BaseModel
 
-
 # ----------------------------------------------------------------------------------------------------------------------
 FileSetFiles = Table(
     'file_set_files', Base.metadata,

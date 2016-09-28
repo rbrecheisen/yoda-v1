@@ -1,8 +1,9 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql import func
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.schema import DropTable
 from sqlalchemy.ext.compiler import compiles
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.schema import DropTable
+from sqlalchemy.sql import func
+
 from lib.util import datetime_to_str
 
 Base = declarative_base()

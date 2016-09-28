@@ -1,5 +1,5 @@
-from lib.dao import BaseDao
 from models import User, UserGroup, Permission
+from lib.dao import BaseDao
 
 
 # ----------------------------------------------------------------------------------------------------------------------

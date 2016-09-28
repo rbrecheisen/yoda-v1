@@ -1,11 +1,13 @@
 import requests
-from lib.util import generate_string
-from lib.authentication import login_header, token_header
+
+from python.lib import generate_string
+from python.lib import login_header, token_header
 from util import uri
 
 
 # --------------------------------------------------------------------------------------------------------------------
 def test_root():
+
     response = requests.get(uri('auth'))
     assert response.status_code == 200
 

@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.insert(0, os.path.join(os.curdir, 'backend'))
 import pytest
-from lib.util import init_env
+from python.lib import init_env
 
 
 if __name__ == '__main__':

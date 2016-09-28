@@ -1,4 +1,4 @@
-FROM brecheisen/base:v1
+FROM brecheisen/python-base:v1
 
 MAINTAINER Ralph Brecheisen <ralph.brecheisen@gmail.com>
 

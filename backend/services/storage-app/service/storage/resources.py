@@ -1,9 +1,9 @@
 import logging
 import lib.http as http
 from flask_restful import reqparse
-from lib.resources import BaseResource
 from lib.authentication import token_required
 from dao import FileDao, FileTypeDao, ScanTypeDao, RepositoryDao, FileSetDao
+from lib.resources import BaseResource
 
 LOG = logging.getLogger(__name__)
 

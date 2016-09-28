@@ -1,11 +1,9 @@
 import lib.http as http
 from flask_restful import reqparse
-from lib.resources import BaseResource
 from lib.authentication import token_required
+from lib.resources import BaseResource
 from service.compute.pipelines.base import PipelineRegistry
 from service.compute.worker import run_pipeline, task_status, task_result
-# from pipelines.base import PipelineRegistry
-# from worker import run_pipeline, task_status, task_result
 
 
 # ----------------------------------------------------------------------------------------------------------------------

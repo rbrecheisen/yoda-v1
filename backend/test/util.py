@@ -1,7 +1,20 @@
 import os
+
 import requests
-from lib.util import uri
-from lib.authentication import token_header
+
+from python.lib import token_header
+
+
+# --------------------------------------------------------------------------------------------------------------------
+def uri(service, path=''):
+    base_uri = 'http://{}:{}/{}'.format(
+        os.getenv('UI_SERVICE_HOST', '0.0.0.0'),
+        os.getenv('UI_SERVICE_PORT', 5003), service)
+    if path != '':
+        if path.startswith(os.path.sep):
+            path = path[1:]
+        base_uri = '{}/{}'.format(base_uri, path)
+    return base_uri
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -49,8 +62,7 @@ def upload_file(file_name, file_type_id, scan_type_id, repository_id, token):
 
 # --------------------------------------------------------------------------------------------------------------------
 def download_file(storage_id, target_dir, token, extension=None):
-    response = requests.get(
-        uri('storage', '/downloads/{}'.format(storage_id)), headers=token_header(token))
+    response = requests.get(uri('storage', '/downloads/{}'.format(storage_id)), headers=token_header(token))
     file_path = os.path.join(target_dir, storage_id)
     if extension:
         if not extension.startswith('.'):

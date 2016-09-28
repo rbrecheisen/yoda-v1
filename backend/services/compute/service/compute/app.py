@@ -1,5 +1,6 @@
-import os
 import json
+import os
+
 from flask import Flask, make_response, g
 from flask_restful import Api
 from werkzeug.contrib.cache import SimpleCache

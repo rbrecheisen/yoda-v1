@@ -1,9 +1,11 @@
 import os
-import requests
 import shutil
+
+import requests
 from flask import Config
-from lib.util import uri, generate_string
-from lib.authentication import login_header, token_header
+
+from python.lib import login_header, token_header
+from python.lib import uri, generate_string
 
 
 # ----------------------------------------------------------------------------------------------------------------------

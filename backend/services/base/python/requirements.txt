@@ -1,6 +1,5 @@
 flask
 flask-restful
-flask-restful-swagger
 flask-sqlalchemy
 sqlalchemy-utils
 passlib
@@ -9,4 +8,3 @@ uwsgi
 python-jose
 pytest
 psycopg2
-celery

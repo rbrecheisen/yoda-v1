@@ -1,6 +1,6 @@
 import base64
-import requests
 from functools import wraps
+import requests
 from flask import request, g
 from lib.util import uri
 

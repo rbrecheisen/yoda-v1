@@ -11,8 +11,9 @@
       <sourceFolder url="file://$MODULE_DIR$/backend/services/storage" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backend/services/worker" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backend/services/ui" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/services/base/python" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 2.7.12 virtualenv at ~/.virtualenvs/flask-microservices" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 2.7.11 virtualenv at ~/.virtualenvs/flask-microservices" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">

@@ -1,5 +1,5 @@
 import logging
-from flask import g, request
+from flask import g
 from flask_restful import Resource
 from lib.util import get_correlation_id
 
