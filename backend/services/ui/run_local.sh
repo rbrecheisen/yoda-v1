@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
 
-eval $(docker-machine env default)
+eval $(docker-machine env manager)
 
-docker build -t brecheisen/ui:v1 .
-
-docker rmi -f $(docker images -qf "dangling=true")
+container=$(docker ps | grep brecheisen/ui:v1 | awk '{print $1}')
+if [ "${container}" != "" ]; then
+    docker stop ${container}; docker rm ${container}
+fi
 
 docker run -d \
-    -e "AUTH_SERVICE_HOST=0.0.0.0" \
+    -e "AUTH_SERVICE_HOST=192.168.99.1" \
     -e "AUTH_SERVICE_PORT=5000" \
-    -e "COMPUTE_SERVICE_HOST=0.0.0.0" \
+    -e "COMPUTE_SERVICE_HOST=192.168.99.1" \
     -e "COMPUTE_SERVICE_PORT=5001" \
-    -e "STORAGE_SERVICE_HOST=0.0.0.0" \
+    -e "STORAGE_SERVICE_HOST=192.168.99.1" \
     -e "STORAGE_SERVICE_PORT=5002" \
-    -e "UI_SERVICE_HOST=0.0.0.0" \
+    -e "UI_SERVICE_HOST=192.168.99.1" \
     -e "UI_SERVICE_PORT=5004" \
+    -p 80:80 \
     brecheisen/ui:v1 ./run.sh

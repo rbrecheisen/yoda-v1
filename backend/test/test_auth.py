@@ -1,7 +1,6 @@
 import requests
-
-from python.lib import generate_string
-from python.lib import login_header, token_header
+from lib.util import generate_string
+from lib.authentication import login_header, token_header
 from util import uri
 
 

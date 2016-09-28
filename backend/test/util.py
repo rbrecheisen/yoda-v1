@@ -1,20 +1,24 @@
 import os
-
 import requests
-
-from python.lib import token_header
+from lib.authentication import token_header
 
 
 # --------------------------------------------------------------------------------------------------------------------
 def uri(service, path=''):
-    base_uri = 'http://{}:{}/{}'.format(
-        os.getenv('UI_SERVICE_HOST', '0.0.0.0'),
-        os.getenv('UI_SERVICE_PORT', 5003), service)
-    if path != '':
-        if path.startswith(os.path.sep):
-            path = path[1:]
-        base_uri = '{}/{}'.format(base_uri, path)
-    return base_uri
+    """
+    The test scripts do not communicate with the other services directly. They always go
+    through the UI service (just like normal clients). For this reason, the uri() method
+    returns a UI service-based URI.
+    :param service: Service to be contacted
+    :param path: URI path
+    :return: URI
+    """
+    if path.startswith(os.path.sep):
+        path = path[1:]
+    return 'http://{}:{}/{}/{}'.format(
+        os.getenv('UI_SERVICE_HOST', '192.168.99.101'),
+        os.getenv('UI_SERVICE_PORT', 80),
+        service, path)
 
 
 # --------------------------------------------------------------------------------------------------------------------

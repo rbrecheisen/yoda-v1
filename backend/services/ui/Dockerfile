@@ -2,12 +2,12 @@ FROM brecheisen/nginx-base:v1
 
 MAINTAINER Ralph Brecheisen <ralph.brecheisen@gmail.com>
 
-COPY static /usr/share/nginx/html
-COPY nginx.conf.template /etc/nginx/nginx.conf.template
-COPY run.sh /usr/share/nginx/run.sh
+COPY static /usr/local/nginx/html
+COPY nginx.conf /usr/local/nginx/conf/nginx.conf
+COPY run.sh /usr/local/nginx/run.sh
 
-WORKDIR /usr/share/nginx
+WORKDIR /usr/local/nginx
 
-EXPOSE 80 443
+EXPOSE 5004
 
 CMD ["./run.sh"]
