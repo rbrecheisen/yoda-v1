@@ -39,8 +39,15 @@ def before_request():
 
 
 if __name__ == '__main__':
+
     init_env()
+
+    # Setup broker and result backend URLs
+    os.environ['BROKER_URL'] = 'amqp://guest:guest@192.168.99.100:5672//'
+    os.environ['CELERY_RESULT_BACKEND'] = 'redis://192.168.99.100:6379/0'
+
     host = os.getenv('COMPUTE_SERVICE_HOST')
     port = os.getenv('COMPUTE_SERVICE_PORT')
     port = int(port)
+
     app.run(host=host, port=port)

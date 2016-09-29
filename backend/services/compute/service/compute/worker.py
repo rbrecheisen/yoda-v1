@@ -1,10 +1,10 @@
 from celery import Celery
 from celery.result import AsyncResult
 from service.compute.pipelines.base import PipelineRegistry
-# from pipelines.base import PipelineRegistry
 
 celery = Celery('compute')
 celery.config_from_object('service.compute.settings')
+
 tasks = []
 for key in celery.conf['PIPELINES']:
     tasks.append(celery.conf['PIPELINES'][key]['tasks_module_path'])
@@ -41,4 +41,5 @@ def task_result(task_id):
 
 
 if __name__ == '__main__':
+
     celery.worker_main()
