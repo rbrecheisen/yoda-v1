@@ -13,9 +13,9 @@ angular.module('app', ['ngRoute', 'controllers', 'services'])
                     templateUrl: 'partials/dashboard.html',
                     controller: 'DashboardController'
                 })
-                .when('/admin', {
-                    templateUrl: 'partials/admin.html',
-                    controller: 'AdminController'
+                .when('/admin-dashboard', {
+                    templateUrl: 'partials/admin-dashboard.html',
+                    controller: 'AdminDashboardController'
                 })
                 .when('/login', {
                     templateUrl: 'partials/login.html',

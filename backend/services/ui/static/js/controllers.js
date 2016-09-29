@@ -11,12 +11,12 @@ angular.module('controllers', [])
             ];
         }])
     
-    .controller('AdminController', ['$scope', '$location', 'TokenService', 'UserService',
+    .controller('AdminDashboardController', ['$scope', '$location', 'TokenService', 'UserService',
         function($scope, $location, TokenService, UserService) {
             TokenService.check();
             $scope.currentUser = UserService.getCurrentUser();
             $scope.breadcrumbs = [
-                {url: '#/admin', text: 'Dashboard'}
+                {url: '#/admin-dashboard', text: 'Dashboard'}
             ];
         }])
 
@@ -36,16 +36,15 @@ angular.module('controllers', [])
                     UserService.getByUsername($scope.username).then(function(response) {
                         var user = response.data[0];
                         UserService.setCurrentUser(user);
+                        if(data.is_admin) {
+                            $location.path('/admin-dashboard');
+                        } else {
+                            $location.path('/');
+                        }
                     }, function(error) {
                         $scope.message = JSON.stringify(error);
                         alert($scope.message);
                     });
-
-                    if(data.is_admin) {
-                        $location.path('/admin');
-                    } else {
-                        $location.path('/');
-                    }
                 }, function(error) {
                     $scope.message = JSON.stringify(error);
                     alert($scope.message);
@@ -67,7 +66,7 @@ angular.module('controllers', [])
 
             $scope.currentUser = UserService.getCurrentUser();
             $scope.breadcrumbs = [
-                {url: '#/admin', text: 'Dashboard'},
+                {url: '#/admin-dashboard', text: 'Dashboard'},
                 {url: '#/users', text: 'Users'}
             ];
 
@@ -122,7 +121,7 @@ angular.module('controllers', [])
 
             $scope.currentUser = UserService.getCurrentUser();
             $scope.breadcrumbs = [
-                {url: '#/admin', text: 'Dashboard'},
+                {url: '#/admin-dashboard', text: 'Dashboard'},
                 {url: '#/users', text: 'Users'},
                 {url: '#/users/' + $routeParams.userId, text: 'User'}
             ];
@@ -159,7 +158,7 @@ angular.module('controllers', [])
                         $scope.user.is_active = user.is_active ? 'true': 'false';
 
                         $scope.breadcrumbs = [
-                            {url: '#/admin', text: 'Dashboard'},
+                            {url: '#/admin-dashboard', text: 'Dashboard'},
                             {url: '#/users', text: 'Users'},
                             {url: '#/users/' + $routeParams.userId, text: $scope.name}
                         ];
@@ -247,26 +246,26 @@ angular.module('controllers', [])
             };
         }])
     
-    .controller('UserGroupsController', ['$scope', 'TokenService',
-        function($scope, TokenService) {
+    .controller('UserGroupsController', ['$scope', 'TokenService', 'UserService',
+        function($scope, TokenService, UserService) {
 
             TokenService.check();
 
             $scope.currentUser = UserService.getCurrentUser();
             $scope.breadcrumbs = [
-                {url: '#/admin', text: 'Dashboard'},
+                {url: '#/admin-dashboard', text: 'Dashboard'},
                 {url: '#/user-groups', text: 'User groups'}
             ];
         }])
 
-    .controller('PermissionsController', ['$scope', 'TokenService',
-        function($scope, TokenService) {
+    .controller('PermissionsController', ['$scope', 'TokenService', 'UserService',
+        function($scope, TokenService, UserService) {
 
             TokenService.check();
 
             $scope.currentUser = UserService.getCurrentUser();
             $scope.breadcrumbs = [
-                {url: '#/admin', text: 'Dashboard'},
+                {url: '#/admin-dashboard', text: 'Dashboard'},
                 {url: '#/permissions', text: 'Permissions'}
             ];
         }]);

@@ -2,6 +2,9 @@
     
  - Implement basic UI
  
+    - Create .js file for each controller
+    - Create .js file for each service
+ 
  - Give each service its own user account
  
    When the storage service checks a client token it should provide its own

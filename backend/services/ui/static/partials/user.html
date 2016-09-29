@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row" ng-controller="UserController">
     <div ng-include src="'partials/nav.html'"></div>
-    <div class="row" ng-controller="UserController">
+    <div class="row">
         <h5 class="col s4 offset-s4 center-align grey-text text-darken-2" ng-model="user.name" ng-if="user.userId > 0">{{ user.name }}</h5>
         <h5 class="col s4 offset-s4 center-align grey-text text-darken-2" ng-model="user.name" ng-if="user.userId == 0">New user</h5>
         <form class="col s12" ng-submit="saveUser()">
