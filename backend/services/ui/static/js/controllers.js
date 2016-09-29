@@ -60,8 +60,8 @@ angular.module('controllers', [])
             $location.path('/login');
         }])
 
-    .controller('UsersController', ['$scope', '$location', 'TokenService', 'UserService',
-        function($scope, $location, TokenService, UserService) {
+    .controller('UsersController', ['$scope', '$location', '$route', 'TokenService', 'UserService',
+        function($scope, $location, $route, TokenService, UserService) {
 
             TokenService.check();
 
@@ -103,6 +103,15 @@ angular.module('controllers', [])
                 $location.path('/users/' + user.id);
             };
 
+            $scope.deleteUser = function(user) {
+                UserService.delete(user).then(function(response) {
+                    $route.reload();
+                }, function(error) {
+                    $scope.message = JSON.stringify(error);
+                    alert($scope.message);
+                })
+            };
+
             Materialize.updateTextFields();
         }])
 
@@ -129,17 +138,6 @@ angular.module('controllers', [])
             $scope.user.last_name = '';
             $scope.user.is_admin = 'false';
             $scope.user.is_active = 'true';
-
-            // $scope.userId = $routeParams.userId;
-            // $scope.password1 = '';
-            // $scope.password2 = '';
-            // $scope.name = '';
-            // $scope.username = '';
-            // $scope.email = '';
-            // $scope.first_name = '';
-            // $scope.last_name = '';
-            // $scope.is_admin = 'false';
-            // $scope.is_active = 'true';
 
             if($scope.user.userId > 0) {
 

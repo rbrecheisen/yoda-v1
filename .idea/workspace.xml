@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9bf9d827-0921-426b-bc3b-ca97e1944684" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/test/scripts/redis.conf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/test/scripts/run_redis.sh" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/auth/service/auth/resources.py" afterPath="$PROJECT_DIR$/backend/services/auth/service/auth/resources.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/base/nginx/Dockerfile" afterPath="$PROJECT_DIR$/backend/services/base/nginx/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/base/python/Dockerfile" afterPath="$PROJECT_DIR$/backend/services/base/python/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/base/python/requirements.txt" afterPath="$PROJECT_DIR$/backend/services/base/python/requirements.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/storage/nginx.conf" afterPath="$PROJECT_DIR$/backend/services/storage/nginx.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/run_local.sh" afterPath="$PROJECT_DIR$/backend/services/ui/run_local.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/controllers.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/controllers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/env.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/env.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/services.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/services.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/partials/user.html" afterPath="$PROJECT_DIR$/backend/services/ui/static/partials/user.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/test/run.py" afterPath="$PROJECT_DIR$/backend/test/run.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manage.sh" afterPath="$PROJECT_DIR$/manage.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/partials/users.html" afterPath="$PROJECT_DIR$/backend/services/ui/static/partials/users.html" />
     </list>
     <ignored path="flask-microservices.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,8 +55,18 @@
       <file leaf-file-name="controllers.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="263" column="67" selection-start-line="263" selection-start-column="67" selection-end-line="263" selection-end-column="67" />
+            <state relative-caret-position="396">
+              <caret line="114" column="43" selection-start-line="114" selection-start-column="43" selection-end-line="114" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="users.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backend/services/ui/static/partials/users.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -93,7 +89,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/backend/services/auth/service/auth/dao.py" />
         <option value="$PROJECT_DIR$/backend/services/base/python/lib/resources.py" />
         <option value="$PROJECT_DIR$/backend/services/base/python/lib/authentication.py" />
         <option value="$PROJECT_DIR$/backend/services/compute/service/compute/resources.py" />
@@ -143,6 +138,7 @@
         <option value="$PROJECT_DIR$/backend/services/auth/service/auth/resources.py" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/services.js" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/partials/user.html" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/partials/users.html" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers.js" />
       </list>
     </option>
@@ -310,7 +306,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
+              <option name="myItemId" value="partials" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -716,7 +712,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36033857" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23296158" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2777778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24458875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12842713" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -766,14 +762,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/backend/services/rabbitmq/run.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="83" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/services/redis/run.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -1177,10 +1165,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/partials/users.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="263" column="67" selection-start-line="263" selection-start-column="67" selection-end-line="263" selection-end-column="67" />
+        <state relative-caret-position="396">
+          <caret line="114" column="43" selection-start-line="114" selection-start-column="43" selection-end-line="114" selection-end-column="43" />
           <folding />
         </state>
       </provider>
