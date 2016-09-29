@@ -1,6 +1,17 @@
-import logging
 import os
+import logging
 
+# ------------------------------------------------------------------------------------------------------------------
+# Development settings for environment variables
+# ------------------------------------------------------------------------------------------------------------------
+
+if not os.getenv('AUTH_SERVICE_HOST'):
+    os.environ['AUTH_SERVICE_HOST'] = '0.0.0.0'
+    os.environ['AUTH_SERVICE_PORT'] = '5000'
+
+if not os.getenv('STORAGE_APP_SERVICE_HOST'):
+    os.environ['STORAGE_APP_SERVICE_HOST'] = '0.0.0.0'
+    os.environ['STORAGE_APP_SERVICE_PORT'] = '5003'
 
 # ------------------------------------------------------------------------------------------------------------------
 # Log settings

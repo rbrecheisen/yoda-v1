@@ -43,22 +43,13 @@ def test_train_classifier():
 
     # Load features, extract HC and SZ subjects, remove categorical columns and
     # save the feature file back to disk
-    file_path = os.path.join(os.getenv('DATA_DIR'), 'features_ext_multi_center.csv')
+    file_path = os.path.join(os.getenv('DATA_DIR'), 'data.csv')
     features = pd.read_csv(file_path, index_col='MRid')
-    tmp = []
-    for label in ['HC', 'SZ']:
-        tmp.append(features[features['Diagnosis'] == label])
-    features = pd.concat(tmp)
-    features.drop(['Gender', 'Center'], axis=1, inplace=True)
-    features.to_csv('/tmp/features.csv', index=True, index_label='MRid')
     subject_labels = list(features['Diagnosis'])
 
     # Upload CSV file with brain features
-    file_id, _ = upload_file('/tmp/features.csv', file_type_id, scan_type_id, repository_id, token)
+    file_id, _ = upload_file(file_path, file_type_id, scan_type_id, repository_id, token)
     assert file_id
-
-    # Delete temporary features file
-    os.system('rm -f /tmp/features.csv')
 
     # Train classifier using the uploaded CSV file. As parameters we specify the
     # pipeline ID (which in this case is a classifier training pipeline). The 'file_id'

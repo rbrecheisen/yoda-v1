@@ -1,9 +1,7 @@
 import os
-
 import requests
-
-from python.lib import token_header
-from python.lib import uri
+from lib.authentication import token_header
+from lib.util import uri
 
 
 # --------------------------------------------------------------------------------------------------------------------

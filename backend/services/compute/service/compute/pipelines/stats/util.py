@@ -1,13 +1,11 @@
 import os
 import tarfile
-
 import pandas as pd
 import requests
+from sklearn.externals import joblib
 from lib.authentication import token_header
 from lib.util import uri, generate_string
-from sklearn.externals import joblib
-
-from python.lib.files import upload_file
+from lib.files import upload_file
 
 
 # ----------------------------------------------------------------------------------------------------------------------

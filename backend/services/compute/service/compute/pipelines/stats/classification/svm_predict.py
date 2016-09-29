@@ -1,6 +1,5 @@
 import numpy as np
-
-from python.lib.files import download_file
+from lib.files import download_file
 from service.compute.pipelines.base import Pipeline
 from service.compute.pipelines.stats.util import load_model
 from service.compute.pipelines.util import get_access_token, create_task_dir, delete_task_dir

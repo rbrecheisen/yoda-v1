@@ -7,7 +7,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 from dao import UserDao
 from lib.models import Base
-from lib.util import init_env
 from resources import (
     RootResource, TokensResource, TokenChecksResource, UsersResource, UserResource, UserGroupsResource,
     UserGroupResource, UserGroupUsersResource, UserGroupUserResource)
@@ -84,8 +83,9 @@ def shutdown_database(e):
 
 
 if __name__ == '__main__':
-    init_env()
+
     host = os.getenv('AUTH_SERVICE_HOST')
     port = os.getenv('AUTH_SERVICE_PORT')
     port = int(port)
+
     app.run(host=host, port=port)

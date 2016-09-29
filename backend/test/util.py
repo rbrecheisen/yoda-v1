@@ -15,10 +15,9 @@ def uri(service, path=''):
     """
     if path.startswith(os.path.sep):
         path = path[1:]
-    return 'http://{}:{}/{}/{}'.format(
-        os.getenv('UI_SERVICE_HOST', '192.168.99.101'),
-        os.getenv('UI_SERVICE_PORT', 80),
-        service, path)
+    ref = 'http://{}:{}/{}/{}'.format(
+        os.getenv('UI_SERVICE_HOST'), os.getenv('UI_SERVICE_PORT'), service, path)
+    return ref
 
 
 # --------------------------------------------------------------------------------------------------------------------

@@ -41,5 +41,4 @@ def task_result(task_id):
 
 
 if __name__ == '__main__':
-
     celery.worker_main()

@@ -55,16 +55,6 @@ def get_correlation_id():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def init_env():
-    port = 5000
-    for service in ['AUTH', 'COMPUTE', 'STORAGE', 'STORAGE_APP', 'UI']:
-        if os.getenv('{}_SERVICE_HOST'.format(service), None) is None:
-            os.environ['{}_SERVICE_HOST'.format(service)] = '0.0.0.0'
-            os.environ['{}_SERVICE_PORT'.format(service)] = str(port)
-            port += 1
-
-
-# ----------------------------------------------------------------------------------------------------------------------
 def timing_now():
     return time.time()
 

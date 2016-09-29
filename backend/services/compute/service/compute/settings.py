@@ -2,6 +2,28 @@ import os
 import logging
 
 # ------------------------------------------------------------------------------------------------------------------
+# Development settings for environment variables
+# ------------------------------------------------------------------------------------------------------------------
+
+if not os.getenv('AUTH_SERVICE_HOST'):
+    os.environ['AUTH_SERVICE_HOST'] = '0.0.0.0'
+    os.environ['AUTH_SERVICE_PORT'] = '5000'
+
+if not os.getenv('COMPUTE_SERVICE_HOST'):
+    os.environ['COMPUTE_SERVICE_HOST'] = '0.0.0.0'
+    os.environ['COMPUTE_SERVICE_PORT'] = '5001'
+
+if not os.getenv('STORAGE_SERVICE_HOST'):
+    os.environ['STORAGE_SERVICE_HOST'] = '192.168.99.100'
+    os.environ['STORAGE_SERVICE_PORT'] = '5002'
+
+if not os.getenv('BROKER_URL'):
+    os.environ['BROKER_URL'] = 'amqp://guest:guest@192.168.99.100:5672//'
+
+if not os.getenv('CELERY_RESULT_BACKEND'):
+    os.environ['CELERY_RESULT_BACKEND'] = 'redis://192.168.99.100:6379/0'
+
+# ------------------------------------------------------------------------------------------------------------------
 # Log settings
 # ------------------------------------------------------------------------------------------------------------------
 
@@ -26,12 +48,12 @@ RESTFUL_JSON = {'indent': 2, 'sort_keys': True}
 # Celery settings
 # ------------------------------------------------------------------------------------------------------------------
 
-BROKER_URL = os.getenv('BROKER_URL', 'amqp://guest:guest@192.168.99.100:5672//')
+BROKER_URL = os.getenv('BROKER_URL')
 
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
-CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://192.168.99.100:6379/0')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 CELERY_CHORD_PROPAGATES = True
 
 # ------------------------------------------------------------------------------------------------------------------

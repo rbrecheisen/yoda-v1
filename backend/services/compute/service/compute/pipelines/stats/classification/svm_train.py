@@ -4,8 +4,7 @@ from sklearn.cross_validation import StratifiedKFold
 from sklearn.grid_search import GridSearchCV
 from sklearn.metrics import accuracy_score
 from sklearn.svm import SVC
-
-from python.lib.files import download_file
+from lib.files import download_file
 from service.compute.pipelines.base import Pipeline
 from service.compute.pipelines.stats.util import load_features, get_xy, save_model, upload_model_archive
 from service.compute.pipelines.util import create_task_dir, delete_task_dir
