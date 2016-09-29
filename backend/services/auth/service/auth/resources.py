@@ -114,7 +114,6 @@ class UserResource(BaseResource):
         if user is None:
             return self.error_response('User {} not found'.format(id), http.NOT_FOUND_404)
 
-        print('user.is_admin: {}'.format(user.is_admin))
         return self.response(user.to_dict())
 
     @token_required

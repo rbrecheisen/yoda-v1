@@ -40,7 +40,7 @@ docker run -d \
     -e "STORAGE_APP_SERVICE_HOST=192.168.99.1" \
     -e "STORAGE_APP_SERVICE_PORT=5003" \
     --volumes-from files \
-    -p 5002:80 \
+    -p 5002:5002 \
     brecheisen/storage:v1 ./run.sh
 
 # ----------------------------------------------------------------------------------------
@@ -53,7 +53,8 @@ if [ "${container}" != "" ]; then
 fi
 # Run UI service. Because the storage service is also running inside a
 # container it's IP address is different from the other services which
-# are running directly on the host.
+# are running directly on the host. We mount the ./static folder so we
+# can easily refresh the browser window to load the new HTML and JavaScript.
 docker run -d \
     -e "AUTH_SERVICE_HOST=192.168.99.1" \
     -e "AUTH_SERVICE_PORT=5000" \
@@ -61,8 +62,9 @@ docker run -d \
     -e "COMPUTE_SERVICE_PORT=5001" \
     -e "STORAGE_SERVICE_HOST=192.168.99.100" \
     -e "STORAGE_SERVICE_PORT=5002" \
-    -e "UI_SERVICE_HOST=192.168.99.1" \
-    -e "UI_SERVICE_PORT=5004" \
+    -e "UI_SERVICE_HOST=192.168.99.100" \
+    -e "UI_SERVICE_PORT=80" \
+    -v $(pwd)/static:/usr/local/nginx/html \
     -p 80:80 \
     brecheisen/ui:v1 ./run.sh
 

@@ -150,8 +150,15 @@ elif [ "${1}" == "up" ]; then
             --name redis \
             --network my-network \
             --replicas 1 \
-            redis:3.2.3
-#            --publish 6379:6379 \
+            redis:3.0-alpine
+    fi
+
+    if [ "${2}" == "" ] || [ "${2}" == "rabbitmq" ]; then
+        docker service create \
+            --name rabbitmq \
+            --network my-network \
+            --replicas 1 \
+            rabbitmq:3.6
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "auth" ]; then
@@ -168,7 +175,6 @@ elif [ "${1}" == "up" ]; then
             --env DB_PORT=5432 \
             --replicas 1 \
             brecheisen/auth:v1
-#            --publish 5000:5000 \
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "worker" ]; then
@@ -178,7 +184,7 @@ elif [ "${1}" == "up" ]; then
             --network my-network \
             --workdir /var/www/backend \
             --env COMPUTE_SERVICE_SETTINGS=/var/www/backend/service/compute/settings.py \
-            --env BROKER_URL=redis://redis:6379/0 \
+            --env BROKER_URL=amqp://rabbitmq:5672// \
             --env CELERY_RESULT_BACKEND=redis://redis:6379/0 \
             --env AUTH_SERVICE_HOST=auth \
             --env AUTH_SERVICE_PORT=5000 \
@@ -201,7 +207,7 @@ elif [ "${1}" == "up" ]; then
             --workdir /var/www/backend \
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
             --env COMPUTE_SERVICE_SETTINGS=/var/www/backend/service/compute/settings.py \
-            --env BROKER_URL=redis://redis:6379/0 \
+            --env BROKER_URL=amqp://rabbitmq:5672// \
             --env CELERY_RESULT_BACKEND=redis://redis:6379/0 \
             --env AUTH_SERVICE_HOST=auth \
             --env AUTH_SERVICE_PORT=5000 \
@@ -212,7 +218,6 @@ elif [ "${1}" == "up" ]; then
             --env DB_PORT=5432 \
             --replicas 1 \
             brecheisen/compute:v1
-#            --publish 5001:5001 \
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "storage-app" ]; then
@@ -240,9 +245,10 @@ elif [ "${1}" == "up" ]; then
             --name storage \
             --network my-network \
             --mount type=volume,source=files,target=/mnt/shared/files \
+            --env STORAGE_APP_SERVICE_HOST=storage-app \
+            --env STORAGE_APP_SERVICE_PORT=5003 \
             --replicas 1 \
             brecheisen/storage:v1
-#            --publish 5002:5002 \
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "database" ]; then
@@ -252,13 +258,18 @@ elif [ "${1}" == "up" ]; then
             --mount type=volume,source=postgres,target=/var/lib/postgres/data \
             --replicas 1 \
             brecheisen/database:v1
-#            --publish 5432:5432 \
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "ui" ]; then
         docker service create \
             --name ui \
             --network my-network \
+            --env AUTH_SERVICE_HOST=auth \
+            --env AUTH_SERVICE_PORT=5000 \
+            --env COMPUTE_SERVICE_HOST=compute \
+            --env COMPUTE_SERVICE_PORT=5001 \
+            --env STORAGE_SERVICE_HOST=storage \
+            --env STORAGE_SERVICE_PORT=5002 \
             --env UI_SERVICE_HOST=$(docker-machine ip manager) \
             --env UI_SERVICE_PORT=80 \
             --publish 80:80 \
@@ -314,9 +325,17 @@ elif [ "${1}" == "down" ]; then
     fi
 
     if [ "${2}" == "" ] || [ "${2}" == "redis" ]; then
-        service=$(docker service ls | awk '{print $2,$4}' | grep "redis:3" | awk '{print $1}')
+        service=$(docker service ls | awk '{print $2,$4}' | grep "redis:3.0-alpine" | awk '{print $1}')
         if [ "${service}" != "" ]; then
             docker service rm redis
+            wait=1
+        fi
+    fi
+
+    if [ "${2}" == "" ] || [ "${2}" == "rabbitmq" ]; then
+        service=$(docker service ls | awk '{print $2,$4}' | grep "rabbitmq:3.6" | awk '{print $1}')
+        if [ "${service}" != "" ]; then
+            docker service rm rabbitmq
             wait=1
         fi
     fi
@@ -346,8 +365,6 @@ elif [ "${1}" == "restart" ]; then
 
     ./manage.sh down ${2}
     ./manage.sh build ${2}
-    ./manage.sh push ${2}
-    ./manage.sh pull ${2}
     ./manage.sh up ${2}
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -375,11 +392,13 @@ elif [ "${1}" == "service" ] || [ "${1}" == "sv" ]; then
 elif [ "${1}" == "test" ]; then
 
     export UI_SERVICE_HOST=$(docker-machine ip manager)
+    export UI_SERVICE_PORT=80
     export DATA_DIR=$HOME/download
 
-    ${PYTHON} ./backend/tests/run.py
+    ${PYTHON} ./backend/test/run.py
 
     unset UI_SERVICE_HOST
+    unset UI_SERVICE_PORT
     unset DATA_DIR
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -450,9 +469,6 @@ elif [ "${1}" == "bash" ]; then
         fi
         echo " - ${service} - ${c} -----------------------------------------"
         cmd=bash
-        if [ "${service}" == "ui" ]; then
-            cmd=sh
-        fi
         docker exec -it ${c} ${cmd}
         echo ""
         first=0

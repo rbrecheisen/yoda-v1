@@ -6,5 +6,4 @@ passlib
 requests
 uwsgi
 python-jose
-pytest
 psycopg2

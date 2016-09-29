@@ -6,7 +6,7 @@ ENV NGINX_VERSION 1.10.1
 ENV LD_LIBRARY_PATH /usr/local/lib
 
 RUN apt-get -y update && apt-get -y upgrade && apt-get install -y build-essential autoconf openssl libssl-dev \
-    libpcre3 libpcre3-dev zlib1g zlib1g-dev wget git curl \
+    libpcre3 libpcre3-dev zlib1g zlib1g-dev wget git curl dnsutils \
     && mkdir -p /tmp/src \
 	&& cd /tmp/src \
     && git clone http://luajit.org/git/luajit-2.0.git \

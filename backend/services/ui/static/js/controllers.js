@@ -118,20 +118,32 @@ angular.module('controllers', [])
                 {url: '#/users/' + $routeParams.userId, text: 'User'}
             ];
 
-            $scope.userId = $routeParams.userId;
-            $scope.password1 = '';
-            $scope.password2 = '';
-            $scope.name = '';
-            $scope.username = '';
-            $scope.email = '';
-            $scope.first_name = '';
-            $scope.last_name = '';
-            $scope.is_admin = 'false';
-            $scope.is_active = 'true';
+            $scope.user = {};
+            $scope.user.userId = $routeParams.userId;
+            $scope.user.password1 = '';
+            $scope.user.password2 = '';
+            $scope.user.name = '';
+            $scope.user.username = '';
+            $scope.user.email = '';
+            $scope.user.first_name = '';
+            $scope.user.last_name = '';
+            $scope.user.is_admin = 'false';
+            $scope.user.is_active = 'true';
 
-            if($scope.userId > 0) {
+            // $scope.userId = $routeParams.userId;
+            // $scope.password1 = '';
+            // $scope.password2 = '';
+            // $scope.name = '';
+            // $scope.username = '';
+            // $scope.email = '';
+            // $scope.first_name = '';
+            // $scope.last_name = '';
+            // $scope.is_admin = 'false';
+            // $scope.is_active = 'true';
 
-                UserService.get($routeParams.userId).then(function (response) {
+            if($scope.user.userId > 0) {
+
+                UserService.get($scope.user.userId).then(function (response) {
 
                     var user = response.data;
 
@@ -140,14 +152,13 @@ angular.module('controllers', [])
                     // TODO: Handle invisible users at server side?
                     if (user.is_visible) {
 
-                        $scope.name = user.first_name + ' ' + user.last_name;
-                        $scope.username = user.username;
-                        $scope.email = user.email;
-                        $scope.first_name = user.first_name;
-                        $scope.last_name = user.last_name;
-                        // Convert boolean values to strings for <select> element
-                        $scope.is_admin = user.is_admin ? 'true': 'false';
-                        $scope.is_active = user.is_active ? 'true': 'false';
+                        $scope.user.name = user.first_name + ' ' + user.last_name;
+                        $scope.user.username = user.username;
+                        $scope.user.email = user.email;
+                        $scope.user.first_name = user.first_name;
+                        $scope.user.last_name = user.last_name;
+                        $scope.user.is_admin = user.is_admin ? 'true': 'false';
+                        $scope.user.is_active = user.is_active ? 'true': 'false';
 
                         $scope.breadcrumbs = [
                             {url: '#/admin', text: 'Dashboard'},
@@ -169,20 +180,20 @@ angular.module('controllers', [])
 
                 $scope.message = null;
 
-                if($scope.userId > 0) {
+                if($scope.user.userId > 0) {
 
                     // We're saving an existing user. Make sure to convert 'is_admin' and
                     // 'is_active' values back to booleans
                     UserService.update(
-                        $scope.userId,
-                        $scope.username,
-                        $scope.password1,
-                        $scope.password2,
-                        $scope.email,
-                        $scope.first_name,
-                        $scope.last_name,
-                        $scope.is_admin === 'true',
-                        $scope.is_active === 'true')
+                        $scope.user.userId,
+                        $scope.user.username,
+                        $scope.user.password1,
+                        $scope.user.password2,
+                        $scope.user.email,
+                        $scope.user.first_name,
+                        $scope.user.last_name,
+                        $scope.user.is_admin === 'true',
+                        $scope.user.is_active === 'true')
                     .then(function (response) {
                         $location.path('/users');
                     }, function (error) {
@@ -193,25 +204,19 @@ angular.module('controllers', [])
                 else {
 
                     // Check that user provided all required fields
-                    if(isNull($scope.username))
+                    if(isNull($scope.user.username))
                         $scope.message = 'Username is empty';
-                    if(isNull($scope.email))
+                    if(isNull($scope.user.email))
                         $scope.message = 'Email is empty';
-                    if(isNull($scope.password2))
+                    if(isNull($scope.user.password2))
                         $scope.message = 'Password confirmation is empty';
-                    if(isNull($scope.first_name))
+                    if(isNull($scope.user.first_name))
                         $scope.message = 'First name is empty';
-                    if(isNull($scope.last_name))
+                    if(isNull($scope.user.last_name))
                         $scope.message = 'Last name is empty';
 
-                    // If these fields were not specified, use defaults
-                    if(isNull($scope.is_admin))
-                        $scope.is_admin = false;
-                    if(isNull($scope.is_active))
-                        $scope.is_active = true;
-
                     // Make sure the user confirms her password
-                    if($scope.password1 != $scope.password2) {
+                    if($scope.user.password1 != $scope.user.password2) {
                         $scope.message = 'Passwords do not match';
                     }
 
@@ -223,13 +228,13 @@ angular.module('controllers', [])
                     // Save the new user. Make sure to convert 'is_admin' and 'is_active'
                     // variables back to booleans
                     UserService.create(
-                        $scope.username,
-                        $scope.password1,
-                        $scope.email,
-                        $scope.first_name,
-                        $scope.last_name,
-                        $scope.is_admin === 'true',
-                        $scope.is_active === 'true')
+                        $scope.user.username,
+                        $scope.user.password1,
+                        $scope.user.email,
+                        $scope.user.first_name,
+                        $scope.user.last_name,
+                        $scope.user.is_admin === 'true',
+                        $scope.user.is_active === 'true')
                     .then(function() {
                         $location.path('/users');
                     }, function(error) {

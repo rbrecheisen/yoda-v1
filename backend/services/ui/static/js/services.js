@@ -22,7 +22,6 @@ angular.module('services', ['ngResource', 'ngCookies'])
     .service('TokenService', ['$http', '$cookies', '$location', 'environ',
         function($http, $cookies, $location, environ) {
             var tokensUri = 'http://' + environ.UI_SERVICE_HOST + '/auth/tokens';
-            console.log('TokenService: connecting to ' + tokensUri);
             return {
                 get: function() {
                     return $cookies.get('token');

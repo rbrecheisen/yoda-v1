@@ -1,54 +1,54 @@
 <div class="row">
     <div ng-include src="'partials/nav.html'"></div>
-    <div class="row">
-        <h5 class="col s4 offset-s4 center-align grey-text text-darken-2" ng-model="name" ng-if="userId > 0">{{ name }}</h5>
-        <h5 class="col s4 offset-s4 center-align grey-text text-darken-2" ng-model="name" ng-if="userId == 0">New user</h5>
-        <form class="col s12" ng-submit="saveUser()" ng-controller="UserController">
+    <div class="row" ng-controller="UserController">
+        <h5 class="col s4 offset-s4 center-align grey-text text-darken-2" ng-model="user.name" ng-if="user.userId > 0">{{ user.name }}</h5>
+        <h5 class="col s4 offset-s4 center-align grey-text text-darken-2" ng-model="user.name" ng-if="user.userId == 0">New user</h5>
+        <form class="col s12" ng-submit="saveUser()">
             <div class="row">
                 <div class="input-field col s4 offset-s4">
-                    <input id="username" type="text" ng-model="username" class="validate">
-                    <label class="active" for="username" ng-if="userId > 0">Username</label>
-                    <label class="active" for="username" ng-if="userId == 0">Username (required)</label>
+                    <input id="username" type="text" ng-model="user.username" class="validate">
+                    <label class="active" for="username" ng-if="user.userId > 0">Username</label>
+                    <label class="active" for="username" ng-if="user.userId == 0">Username (required)</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s4 offset-s4">
-                    <input id="password1" type="password" ng-model="password1" class="validate" value="secret">
-                    <label class="active" for="password1" ng-if="userId > 0">Password</label>
-                    <label class="active" for="password1" ng-if="userId == 0">Password (required)</label>
+                    <input id="password1" type="text" ng-model="user.password1" class="validate" value="">
+                    <label class="active" for="password1" ng-if="user.userId > 0">Password</label>
+                    <label class="active" for="password1" ng-if="user.userId == 0">Password (required)</label>
                 </div>
             </div>
-            <div class="row" ng-if="userId == 0">
+            <div class="row" ng-if="user.userId == 0">
                 <div class="input-field col s4 offset-s4">
-                    <input id="password2" type="password" ng-model="password2" class="validate">
+                    <input id="password2" type="text" ng-model="user.password2" class="validate" value="">
                     <label class="active" for="password2">Confirm password (required)</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s4 offset-s4">
-                    <input id="email" type="text" ng-model="email" class="validate">
-                    <label class="active" for="email" ng-if="userId > 0">Email</label>
-                    <label class="active" for="email" ng-if="userId == 0">Email (required)</label>
+                    <input id="email" type="text" ng-model="user.email" class="validate">
+                    <label class="active" for="email" ng-if="user.userId > 0">Email</label>
+                    <label class="active" for="email" ng-if="user.userId == 0">Email (required)</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s4 offset-s4">
-                    <input id="first_name" type="text" ng-model="first_name" class="validate">
-                    <label class="active" for="first_name" ng-if="userId > 0">First name</label>
-                    <label class="active" for="first_name" ng-if="userId == 0">First name (required)</label>
+                    <input id="first_name" type="text" ng-model="user.first_name" class="validate">
+                    <label class="active" for="first_name" ng-if="user.userId > 0">First name</label>
+                    <label class="active" for="first_name" ng-if="user.userId == 0">First name (required)</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s4 offset-s4">
-                    <input id="last_name" type="text" ng-model="last_name" class="validate">
-                    <label class="active" for="last_name" ng-if="userId > 0">Last name</label>
-                    <label class="active" for="last_name" ng-if="userId == 0">Last name (required)</label>
+                    <input id="last_name" type="text" ng-model="user.last_name" class="validate">
+                    <label class="active" for="last_name" ng-if="user.userId > 0">Last name</label>
+                    <label class="active" for="last_name" ng-if="user.userId == 0">Last name (required)</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s4 offset-s4">
                     <p style="font-size: small; color: gray; margin-top: 0">Administrator</p>
-                    <select class="browser-default" ng-model="is_admin">
+                    <select class="browser-default" ng-model="user.is_admin">
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                     </select>
@@ -57,7 +57,7 @@
             <div class="row">
                 <div class="input-field col s4 offset-s4">
                     <p style="font-size: small; color: gray; margin-top: 0">Active</p>
-                    <select class="browser-default" ng-model="is_active">
+                    <select class="browser-default" ng-model="user.is_active">
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                     </select>
