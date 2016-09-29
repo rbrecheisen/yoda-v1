@@ -5,32 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9bf9d827-0921-426b-bc3b-ca97e1944684" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/rabbitmq/run.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/redis/run.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/storage/build.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/storage/remove_local.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/storage/run_local.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/build.sh" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/auth/service/auth/app.py" afterPath="$PROJECT_DIR$/backend/services/auth/service/auth/app.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/auth/service/auth/settings.py" afterPath="$PROJECT_DIR$/backend/services/auth/service/auth/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/base/python/lib/files.py" afterPath="$PROJECT_DIR$/backend/services/base/python/lib/files.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/base/python/lib/util.py" afterPath="$PROJECT_DIR$/backend/services/base/python/lib/util.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/compute/service/compute/app.py" afterPath="$PROJECT_DIR$/backend/services/compute/service/compute/app.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/compute/service/compute/pipelines/stats/classification/svm_predict.py" afterPath="$PROJECT_DIR$/backend/services/compute/service/compute/pipelines/stats/classification/svm_predict.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/compute/service/compute/pipelines/stats/classification/svm_train.py" afterPath="$PROJECT_DIR$/backend/services/compute/service/compute/pipelines/stats/classification/svm_train.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/compute/service/compute/pipelines/stats/util.py" afterPath="$PROJECT_DIR$/backend/services/compute/service/compute/pipelines/stats/util.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/compute/service/compute/pipelines/util.py" afterPath="$PROJECT_DIR$/backend/services/compute/service/compute/pipelines/util.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/compute/service/compute/settings.py" afterPath="$PROJECT_DIR$/backend/services/compute/service/compute/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/compute/service/compute/worker.py" afterPath="$PROJECT_DIR$/backend/services/compute/service/compute/worker.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/storage-app/service/storage/app.py" afterPath="$PROJECT_DIR$/backend/services/storage-app/service/storage/app.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/storage-app/service/storage/resources.py" afterPath="$PROJECT_DIR$/backend/services/storage-app/service/storage/resources.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/storage-app/service/storage/settings.py" afterPath="$PROJECT_DIR$/backend/services/storage-app/service/storage/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/remove_local.sh" afterPath="$PROJECT_DIR$/backend/services/ui/remove_local.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/run_local.sh" afterPath="$PROJECT_DIR$/backend/services/ui/run_local.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/test/run.py" afterPath="$PROJECT_DIR$/backend/test/run.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/test/test_compute.py" afterPath="$PROJECT_DIR$/backend/test/test_compute.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/test/util.py" afterPath="$PROJECT_DIR$/backend/test/util.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/01b3d8d97900e23d4407d6ebd0f27bbc38b202db" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/01b3d8d97900e23d4407d6ebd0f27bbc38b202db.shactx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/2ec69c28f3203b4a881c6d1d661169fbde461e09" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/2ec69c28f3203b4a881c6d1d661169fbde461e09.shactx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/4b60448c0a4d0db0e52f576570fd1f3240dee5b9" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/4b60448c0a4d0db0e52f576570fd1f3240dee5b9.shactx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/649c39f6be32ffb8abc46549644bd0090acfda56" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/649c39f6be32ffb8abc46549644bd0090acfda56.shactx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/7b52bae0f8dcdee6dda918dad9da5cac7b82af83" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/7b52bae0f8dcdee6dda918dad9da5cac7b82af83.shactx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/ef687a18439d1750436b5e7577036592bb6dbe2f" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/ef687a18439d1750436b5e7577036592bb6dbe2f.shactx" afterPath="" />
     </list>
     <ignored path="flask-microservices.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -214,6 +200,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
