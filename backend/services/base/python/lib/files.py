@@ -35,7 +35,7 @@ def upload_file(file_name, file_type_id, scan_type_id, repository_id, token):
                 'X-File-Type': '{}'.format(file_type_id),
                 'X-Scan-Type': '{}'.format(scan_type_id),
                 'X-Repository-ID': '{}'.format(repository_id)})
-            response = requests.post(uri('storage', '/files'), headers=headers, data=chunk)
+            response = requests.post(uri('storage', '/uploads'), headers=headers, data=chunk)
             if response.status_code == 201:
                 file_id = response.json()['id']
                 storage_id = response.json()['storage_id']

@@ -6,13 +6,14 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.contrib.cache import SimpleCache
 
-from dao import FileTypeDao, ScanTypeDao
+from dao import FileTypeDao, ScanTypeDao, RepositoryDao
 from models import FileType, ScanType
 from lib.models import Base
 from resources import (
     RootResource, FileTypesResource, ScanTypesResource,
-    RepositoriesResource, RepositoryResource, FilesResource, FileResource,
-    FileSetsResource, FileSetResource, FileSetFilesResource, FileSetFileResource)
+    RepositoriesResource, RepositoryResource, UploadsResource, RepositoryFileResource, RepositoryFilesResource,
+    RepositoryFileSetsResource, RepositoryFileSetResource, RepositoryFileSetFilesResource,
+    RepositoryFileSetFileResource)
 
 app = Flask(__name__)
 
@@ -27,12 +28,15 @@ api.add_resource(FileTypesResource, FileTypesResource.URI)
 api.add_resource(ScanTypesResource, ScanTypesResource.URI)
 api.add_resource(RepositoriesResource, RepositoriesResource.URI)
 api.add_resource(RepositoryResource, RepositoryResource.URI.format('<int:id>'))
-api.add_resource(FilesResource, FilesResource.URI)
-api.add_resource(FileResource, FileResource.URI.format('<int:id>'))
-api.add_resource(FileSetsResource, FileSetsResource.URI)
-api.add_resource(FileSetResource, FileSetResource.URI.format('<int:id>'))
-api.add_resource(FileSetFilesResource, FileSetFilesResource.URI.format('<int:id>'))
-api.add_resource(FileSetFileResource, FileSetFileResource.URI.format('<int:id>', '<int:file_id>'))
+api.add_resource(UploadsResource, UploadsResource.URI)
+api.add_resource(RepositoryFilesResource, RepositoryFilesResource.URI.format('<int:id>'))
+api.add_resource(RepositoryFileResource, RepositoryFileResource.URI.format('<int:id>', '<int:file_id>'))
+api.add_resource(RepositoryFileSetsResource, RepositoryFileSetsResource.URI.format('<int:id>'))
+api.add_resource(RepositoryFileSetResource, RepositoryFileSetResource.URI.format('<int:id>', '<int:file_set_id>'))
+api.add_resource(RepositoryFileSetFilesResource,
+                 RepositoryFileSetFilesResource.URI.format('<int:id>', '<int:file_set_id>', '<int:file_id>'))
+api.add_resource(RepositoryFileSetFileResource,
+                 RepositoryFileSetFileResource.URI.format('<int:id>', '<int:file_set_id>', '<int:file_id>'))
 
 db = SQLAlchemy(app)
 
@@ -40,17 +44,24 @@ cache = SimpleCache()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def init_file_and_scan_types():
+def init_tables():
+    # Create pre-defined file types
     file_type_dao = FileTypeDao(db.session)
     for name in FileType.ALL:
         file_type = file_type_dao.retrieve(name=name)
         if file_type is None:
             file_type_dao.create(name=name)
+    # Create pre-defined scan types
     scan_type_dao = ScanTypeDao(db.session)
     for name in ScanType.ALL:
         scan_type = scan_type_dao.retrieve(name=name)
         if scan_type is None:
             scan_type_dao.create(name=name)
+    # Create default repository
+    repository_dao = RepositoryDao(db.session)
+    repository = repository_dao.retrieve(name='default')
+    if repository is None:
+        repository_dao.create(name='default')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -68,7 +79,7 @@ def init_db(drop=False):
     if drop:
         Base.metadata.drop_all(db.engine)
     Base.metadata.create_all(bind=db.engine)
-    init_file_and_scan_types()
+    init_tables()
 
 
 # ----------------------------------------------------------------------------------------------------------------------

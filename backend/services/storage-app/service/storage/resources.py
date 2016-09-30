@@ -133,9 +133,276 @@ class RepositoryResource(BaseResource):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-class FilesResource(BaseResource):
+class RepositoryFilesResource(BaseResource):
+    
+    URI = '/repositories/{}/files'
+    
+    @token_required
+    def get(self, id):
 
-    URI = '/files'
+        # Retrieve repository
+        repository_dao = RepositoryDao(self.db_session())
+        repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
+
+        # Retrieve files in given repository
+        result = [f.to_dict() for f in repository.files]
+
+        return self.response(result)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class RepositoryFileResource(BaseResource):
+
+    URI = '/repositories/{}/files/{}'
+
+    @token_required
+    def get(self, id, file_id):
+        
+        # Retrieve repository
+        repository_dao = RepositoryDao(self.db_session())
+        repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
+
+        # Retrieve file meta data from the database
+        f_dao = FileDao(self.db_session())
+        f = f_dao.retrieve(id=file_id)
+        if f is None:
+            return self.error_response('File {} not found'.format(file_id), http.NOT_FOUND_404)
+        if f.repository != repository:
+            return self.error_response('File {} not in repository {}'.format(file_id, id), http.BAD_REQUEST_400)
+
+        # Return file meta information
+        return self.response(f.to_dict())
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class RepositoryFileSetsResource(BaseResource):
+
+    URI = '/repositories/{}/file-sets'
+
+    @token_required
+    def get(self, id):
+
+        # Get optional 'name' parameter if client is searching specific file set.
+        parser = reqparse.RequestParser()
+        parser.add_argument('name', type=str, location='args')
+        args = parser.parse_args()
+        
+        # Retrieve repository
+        repository_dao = RepositoryDao(self.db_session())
+        repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
+
+        # Retrieve file sets in given repository
+        result = [file_set.to_dict() for file_set in repository.file_sets]
+
+        return self.response(result)
+
+    @token_required
+    def post(self):
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('name', type=str, required=True, location='json')
+        args = parser.parse_args()
+
+        # Retrieve repository
+        repository_dao = RepositoryDao(self.db_session())
+        repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
+        args['repository'] = repository
+
+        # Create file set
+        file_set_dao = FileSetDao(self.db_session())
+        file_set = file_set_dao.create(**args)
+
+        return self.response(file_set.to_dict(), http.CREATED_201)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class RepositoryFileSetResource(BaseResource):
+
+    URI = '/repositories/{}/file-sets/{}'
+
+    @token_required
+    def get(self, id, file_set_id):
+        
+        # Retrieve repository
+        repository_dao = RepositoryDao(self.db_session())
+        repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
+        
+        # Retrieve file set and check it's a member of repository
+        file_set_dao = FileSetDao(self.db_session())
+        file_set = file_set_dao.retrieve(id=file_set_id)
+        if file_set is None:
+            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
+        if file_set.repository != repository:
+            return self.error_response('File set {} not in repository {}'.format(file_set_id, id), http.BAD_REQUEST_400)
+
+        return self.response(file_set.to_dict())
+
+    @token_required
+    def put(self, id, file_set_id):
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('name', type=str, required=True, location='json')
+        args = parser.parse_args()
+
+        # Retrieve repository
+        repository_dao = RepositoryDao(self.db_session())
+        repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
+        
+        # Retrieve file set and check it belongs to repository
+        file_set_dao = FileSetDao(self.db_session())
+        file_set = file_set_dao.retrieve(id=file_set_id)
+        if file_set is None:
+            return self.error_response('File set {} not found'.format(file_set_id), http.NOT_FOUND_404)
+        if file_set.repository != repository:
+            return self.error_response('File set {} not in repository {}'.format(file_set_id, id), http.BAD_REQUEST_400)
+        
+        # Update file set
+        file_set.name = args['name']
+        file_set_dao.save(file_set)
+
+        return self.response(file_set.to_dict())
+
+    @token_required
+    def delete(self, id, file_set_id):
+    
+        # Retrieve repository
+        repository_dao = RepositoryDao(self.db_session())
+        repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
+    
+        # Retrieve file set and check it belongs to repository
+        file_set_dao = FileSetDao(self.db_session())
+        file_set = file_set_dao.retrieve(id=file_set_id)
+        if file_set is None:
+            return self.error_response('File set {} not found'.format(file_set_id), http.NOT_FOUND_404)
+        if file_set.repository != repository:
+            return self.error_response('File set {} not in repository {}'.format(file_set_id, id), http.BAD_REQUEST_400)
+        
+        # Delete file set
+        file_set_dao.delete(file_set)
+
+        return self.response({}, http.NO_CONTENT_204)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class RepositoryFileSetFilesResource(BaseResource):
+
+    URI = '/repositories/{}/file-sets/{}/files'
+
+    def get(self, id, file_set_id):
+    
+        # Retrieve repository
+        repository_dao = RepositoryDao(self.db_session())
+        repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
+        
+        # Retrieve file set and check it belongs to repository
+        file_set_dao = FileSetDao(self.db_session())
+        file_set = file_set_dao.retrieve(id=file_set_id)
+        if file_set is None:
+            return self.error_response('File set {} not found'.format(file_set_id), http.NOT_FOUND_404)
+        if file_set.repository != repository:
+            return self.error_response('File set {} not in repository {}'.format(file_set_id, id), http.BAD_REQUEST_400)
+
+        # Get files in file set
+        files = [f.to_dict() for f in file_set.files]
+
+        return self.response(files)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class RepositoryFileSetFileResource(BaseResource):
+
+    URI = '/repositories/{}/file-sets/{}/files/{}'
+
+    def put(self, id, file_set_id, file_id):
+    
+        # Retrieve repository
+        repository_dao = RepositoryDao(self.db_session())
+        repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
+    
+        # Get file set and check its part of repository
+        file_set_dao = FileSetDao(self.db_session())
+        file_set = file_set_dao.retrieve(id=file_set_id)
+        if file_set is None:
+            return self.error_response('File set {} not found'.format(file_set_id), http.NOT_FOUND_404)
+        if file_set.repository != repository:
+            return self.error_response('File set {} not in repository {}'.format(file_set_id, id), http.BAD_REQUEST_400)
+        
+        # Get file and check it's also part of repository
+        f_dao = FileDao(self.db_session())
+        f = f_dao.retrieve(id=file_id)
+        if f is None:
+            return self.error_response('File {} not found'.format(file_id), http.NOT_FOUND_404)
+        if f.repository != repository:
+            return self.error_response('File {} not in repository {}'.format(file_id, id), http.BAD_REQUEST_400)
+
+        # Add file to file set
+        if f not in file_set.files:
+            # Verify that given file complies with file set schema. This requires that
+            # schema validation is enabled on the file set. The schema specification
+            # specifies which additional arguments should be provided for each file, e.g.,
+            # subject ID, session ID, etc.
+            # TODO: Implement file set schemas or something similar...
+            if file_set.schema_enabled:
+                pass
+
+            # Schema seems to be satisfied so add the file to the set and save.
+            file_set.files.append(f)
+            file_set_dao.save(file_set)
+
+        return self.response(file_set.to_dict())
+
+    def delete(self, id, file_set_id, file_id):
+    
+        # Retrieve repository
+        repository_dao = RepositoryDao(self.db_session())
+        repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
+    
+        # Get file set and check its part of repository
+        file_set_dao = FileSetDao(self.db_session())
+        file_set = file_set_dao.retrieve(id=file_set_id)
+        if file_set is None:
+            return self.error_response('File set {} not found'.format(file_set_id), http.NOT_FOUND_404)
+
+        # Get file and check it's also part of repository
+        f_dao = FileDao(self.db_session())
+        f = f_dao.retrieve(id=file_id)
+        if f is None:
+            return self.error_response('File {} not found'.format(file_id), http.NOT_FOUND_404)
+        if f.repository != repository:
+            return self.error_response('File {} not in repository {}'.format(file_id, id), http.BAD_REQUEST_400)
+
+        # Remove file from file set
+        if f in file_set.files:
+            file_set.remove(f)
+            file_set_dao.save(file_set)
+
+        return self.response(file_set.to_dict())
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class UploadsResource(BaseResource):
+
+    URI = '/uploads'
 
     @token_required
     def get(self):
@@ -189,165 +456,3 @@ class FilesResource(BaseResource):
             size=args['size'], storage_id=args['id'], storage_path=args['path'], repository=repository)
 
         return self.response(f.to_dict(), http.CREATED_201)
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-class FileResource(BaseResource):
-
-    URI = '/files/{}'
-
-    @token_required
-    def get(self, id):
-
-        # Retrieve file meta data from the database
-        f_dao = FileDao(self.db_session())
-        f = f_dao.retrieve(id=id)
-        if f is None:
-            return self.error_response('File {} not found'.format(id), http.NOT_FOUND_404)
-
-        # Return file meta information
-        return self.response(f.to_dict())
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-class FileSetsResource(BaseResource):
-
-    URI = '/file-sets'
-
-    @token_required
-    def get(self):
-
-        # Get optional 'name' parameter if client is searching specific file set.
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', type=str, location='args')
-        args = parser.parse_args()
-
-        # Retrieve all file sets
-        file_set_dao = FileSetDao(self.db_session())
-        file_sets = file_set_dao.retrieve_all(**args)
-        result = [file_set.to_dict() for file_set in file_sets]
-
-        return self.response(result)
-
-    @token_required
-    def post(self):
-
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', type=str, required=True, location='json')
-        args = parser.parse_args()
-
-        file_set_dao = FileSetDao(self.db_session())
-        file_set = file_set_dao.create(**args)
-
-        return self.response(file_set.to_dict(), http.CREATED_201)
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-class FileSetResource(BaseResource):
-
-    URI = '/file-sets/{}'
-
-    @token_required
-    def get(self, id):
-
-        file_set_dao = FileSetDao(self.db_session())
-        file_set = file_set_dao.retrieve(id=id)
-        if file_set is None:
-            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
-
-        return self.response(file_set.to_dict())
-
-    @token_required
-    def put(self, id):
-
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', type=str, required=True, location='json')
-        args = parser.parse_args()
-
-        file_set_dao = FileSetDao(self.db_session())
-        file_set = file_set_dao.retrieve(id=id)
-        if file_set is None:
-            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
-        file_set.name = args['name']
-        file_set_dao.save(file_set)
-
-        return self.response(file_set.to_dict())
-
-    @token_required
-    def delete(self, id):
-
-        file_set_dao = FileSetDao(self.db_session())
-        file_set = file_set_dao.retrieve(id=id)
-        if file_set is None:
-            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
-        file_set_dao.delete(file_set)
-
-        return self.response({}, http.NO_CONTENT_204)
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-class FileSetFilesResource(BaseResource):
-
-    URI = '/file-sets/{}/files'
-
-    def get(self, id):
-
-        file_set_dao = FileSetDao(self.db_session())
-        file_set = file_set_dao.retrieve(id=id)
-        if file_set is None:
-            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
-        files = [f.to_dict() for f in file_set.files]
-
-        return self.response(files)
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-class FileSetFileResource(BaseResource):
-
-    URI = '/file-sets/{}/files/{}'
-
-    def put(self, id, file_id):
-
-        # Get file set DAO and retrieve file in question
-        file_set_dao = FileSetDao(self.db_session())
-        file_set = file_set_dao.retrieve(id=id)
-        if file_set is None:
-            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
-
-        f_dao = FileDao(self.db_session())
-        f = f_dao.retrieve(id=file_id)
-        if f is None:
-            return self.error_response('File {} not found'.format(file_id), http.NOT_FOUND_404)
-
-        if f not in file_set.files:
-            # Verify that given file complies with file set schema. This requires that
-            # schema validation is enabled on the file set. The schema specification
-            # specifies which additional arguments should be provided for each file, e.g.,
-            # subject ID, session ID, etc.
-            # TODO: Implement file set schemas or something similar...
-            if file_set.schema_enabled:
-                pass
-
-            # Schema seems to be satisfied so add the file to the set and save.
-            file_set.files.append(f)
-            file_set_dao.save(file_set)
-
-        return self.response(file_set.to_dict())
-
-    def delete(self, id, file_id):
-
-        file_set_dao = FileSetDao(self.db_session())
-        file_set = file_set_dao.retrieve(id=id)
-        if file_set is None:
-            return self.error_response('File set {} not found'.format(id), http.NOT_FOUND_404)
-
-        f_dao = FileDao(self.db_session())
-        f = f_dao.retrieve(id=file_id)
-        if f is None:
-            return self.error_response('File {} not found'.format(file_id), http.NOT_FOUND_404)
-
-        if f in file_set.files:
-            file_set.remove(f)
-            file_set_dao.save(file_set)
-
-        return self.response(file_set.to_dict())

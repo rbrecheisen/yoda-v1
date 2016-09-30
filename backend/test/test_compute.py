@@ -59,13 +59,13 @@ def test_train_classifier():
     response = requests.post(uri('compute', '/tasks'), headers=token_header(token), json={
         'pipeline_name': 'svm_train',
         'params': {
+            'repository_id': repository_id,
             'file_id': file_id,
             'subject_labels': subject_labels,
             'nr_folds': 2,
             'index_column': 'MRid',
             'target_column': 'Diagnosis',
             'kernel': 'rbf',
-            'repository_id': repository_id,
         }
     })
 

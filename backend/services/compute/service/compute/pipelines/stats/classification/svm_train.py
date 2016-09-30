@@ -21,8 +21,8 @@ class SupportVectorMachineTraining(Pipeline):
         # Request access token from auth service
         token = get_access_token()
         # Get file storage ID from storage service
-        print('Retrieving storage ID for file {}'.format(params['file_id']))
-        storage_id = get_storage_id_for_file(params['file_id'], token)
+        print('Retrieving storage ID for repository {} and file {}'.format(params['repository_id'], params['file_id']))
+        storage_id = get_storage_id_for_file(params['repository_id'], params['file_id'], token)
         # Columns to exclude (optional parameter)
         if 'exclude_columns' not in params.keys():
             params['exclude_columns'] = []
@@ -164,6 +164,8 @@ class SupportVectorMachineTraining(Pipeline):
     def validate_params(params):
 
         print('Validating parameters')
+        assert 'repository_id' in params.keys()
+        assert params['repository_id'] > 0
         assert 'file_id' in params.keys()
         assert params['file_id'] > 0
         assert 'subject_labels' in params.keys()
@@ -174,5 +176,3 @@ class SupportVectorMachineTraining(Pipeline):
         assert params['nr_folds'] > 1
         assert 'kernel' in params.keys()
         assert params['kernel'] in ['linear', 'rbf']
-        assert 'repository_id' in params.keys()
-        assert params['repository_id'] > 0

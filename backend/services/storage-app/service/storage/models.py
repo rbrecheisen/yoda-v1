@@ -166,6 +166,10 @@ class FileSet(BaseModel):
     schema = relationship('FileSetSchema', foreign_keys=[schema_id])
     # File set schema enabled
     schema_enabled = Column(Boolean, default=False)
+    # File repository ID
+    repository_id = Column(Integer, ForeignKey('repository.id'), nullable=False)
+    # File repository
+    repository = relationship('Repository', backref='file_sets', foreign_keys=[repository_id])
 
     def to_dict(self):
         files = []
@@ -177,6 +181,7 @@ class FileSet(BaseModel):
             'schema': self.schema_id,
             'schema_enabled': self.schema_enabled,
             'files': files,
+            'repository': self.repository.id,
         })
         return obj
 

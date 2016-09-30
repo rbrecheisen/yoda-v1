@@ -21,8 +21,9 @@ def get_access_token():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def get_storage_id_for_file(file_id, token):
-    response = requests.get(uri('storage', '/files/{}'.format(file_id)), headers=token_header(token))
+def get_storage_id_for_file(repository_id, file_id, token):
+    response = requests.get(
+        uri('storage', '/repositories/{}/files/{}'.format(repository_id, file_id)), headers=token_header(token))
     storage_id = response.json()['storage_id']
     return storage_id
 

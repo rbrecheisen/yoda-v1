@@ -38,7 +38,7 @@ def test_upload_and_download():
     file_name = os.path.join(os.getenv('DATA_DIR'), 'data.nii.gz')
     file_id, _ = upload_file(file_name, file_type_id, scan_type_id, repository_id, token)
 
-    response = requests.get(uri('storage', '/files/{}'.format(file_id)), headers=token_header(token))
+    response = requests.get(uri('storage', '/repositories/{}/files/{}'.format(repository_id, file_id)), headers=token_header(token))
     assert response.status_code == 200
     storage_id = response.json()['storage_id']
 
