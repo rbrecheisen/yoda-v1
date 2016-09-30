@@ -1,5 +1,9 @@
 'use strict';
 
+angular.module('controllers', []);
+
+angular.module('services', ['ngResource', 'ngCookies']);
+
 angular.module('app', ['ngRoute', 'controllers', 'services'])
 
     .constant('environ', window.environ)
@@ -29,7 +33,7 @@ angular.module('app', ['ngRoute', 'controllers', 'services'])
                     templateUrl: 'partials/users.html',
                     controller: 'UsersController'
                 })
-                .when('/users/:userId?',  {
+                .when('/users/:id?',  {
                     templateUrl: 'partials/user.html',
                     controller: 'UserController'
                 })
@@ -40,6 +44,14 @@ angular.module('app', ['ngRoute', 'controllers', 'services'])
                 .when('/permissions', {
                     templateUrl: 'partials/permissions.html',
                     controller: 'PermissionsController'
+                })
+                .when('/repositories', {
+                    templateUrl: 'partials/repositories.html',
+                    controller: 'RepositoriesController'
+                })
+                .when('/repositories/:id?', {
+                    templateUrl: 'partials/repository.html',
+                    controller: 'RepositoryController'
                 });
 
             $locationProvider.html5Mode(false);

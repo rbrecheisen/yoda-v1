@@ -1,5 +1,5 @@
 import logging
-from flask import request, g, abort
+from flask import request, g
 from functools import wraps
 from jose import jwt, JWTError
 from dao import UserDao

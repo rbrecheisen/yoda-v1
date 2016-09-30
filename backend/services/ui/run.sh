@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 
-echo "window.environ = {};" >> /usr/local/nginx/html/js/env.js
-echo "window.environ.UI_SERVICE_HOST = '${UI_SERVICE_HOST}';" >> /usr/local/nginx/html/js/env.js
-echo "window.environ.UI_SERVICE_PORT = '${UI_SERVICE_PORT}';" >> /usr/local/nginx/html/js/env.js
+echo "window.environ = {};" >> /usr/local/nginx/html/js/environ.js
+echo "window.environ.UI_SERVICE_HOST = '${UI_SERVICE_HOST}';" >> /usr/local/nginx/html/js/environ.js
+echo "window.environ.UI_SERVICE_PORT = '${UI_SERVICE_PORT}';" >> /usr/local/nginx/html/js/environ.js
 
 sed -i "s/AUTH_SERVICE_HOST/${AUTH_SERVICE_HOST}/" /usr/local/nginx/conf/nginx.conf
 sed -i "s/AUTH_SERVICE_PORT/${AUTH_SERVICE_PORT}/" /usr/local/nginx/conf/nginx.conf

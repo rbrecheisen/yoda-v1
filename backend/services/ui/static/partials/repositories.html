@@ -1,0 +1,27 @@
+<div class="row">
+    <div ng-include src="'partials/nav.html'"></div>
+    <div class="row">
+        <h3 class="col s12 center-align grey-text text-darken-2">Repositories</h3>
+        <div class="col s12 m6 l6 offset-m3 offset-l3">
+            <input class="btn waves-effect waves-light" type="button" ng-click="createRepository()" value="Create"/>
+            <ul class="collapsible" data-collapsible="accordion">
+                <li ng-repeat="repository in repositories | orderBy:'name'">
+                    <div class="collapsible-header">{{ repository.name }}</div>
+                    <div class="collapsible-body container">
+                        <table class="collection">
+                            <tr class="collection-item"><td><b>ID</b></td><td>{{ repository.id }}</td></tr>
+                            <tr class="collection-item"><td><b>Name</b></td><td>{{ repository.name }}</td></tr>
+                            <tr class="collection-item">
+                                <td>
+                                    <input class="btn waves-effect waves-light" type="button" ng-click="editRepository(repository)" value="Edit"/>
+                                    <input class="btn waves-effect waves-light" type="button" ng-click="deleteRepository(repository)" value="Delete"/>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

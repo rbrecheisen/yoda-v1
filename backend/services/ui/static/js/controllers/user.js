@@ -1,65 +1,9 @@
 'use strict';
 
-angular.module('controllers', [])
-
-    .controller('DashboardController', ['$scope', '$location', 'TokenService', 'UserService',
-        function($scope, $location, TokenService, UserService) {
-            TokenService.check();
-            $scope.currentUser = UserService.getCurrentUser();
-            $scope.breadcrumbs = [
-                {url: '#/', text: 'Dashboard'}
-            ];
-        }])
-    
-    .controller('AdminDashboardController', ['$scope', '$location', 'TokenService', 'UserService',
-        function($scope, $location, TokenService, UserService) {
-            TokenService.check();
-            $scope.currentUser = UserService.getCurrentUser();
-            $scope.breadcrumbs = [
-                {url: '#/admin-dashboard', text: 'Dashboard'}
-            ];
-        }])
-
-    .controller('LoginController', ['$scope', '$cookies', '$location', 'TokenService', 'UserService',
-        function($scope, $cookies, $location, TokenService, UserService) {
-
-            // TODO: Remove this
-            $scope.username = 'ralph';
-            $scope.password = 'secret';
-            
-            $scope.login = function() {
-                TokenService.create($scope.username, $scope.password).then(function(response) {
-
-                    var data = response.data;
-                    TokenService.update(data.token);
-
-                    UserService.getByUsername($scope.username).then(function(response) {
-                        var user = response.data[0];
-                        UserService.setCurrentUser(user);
-                        if(data.is_admin) {
-                            $location.path('/admin-dashboard');
-                        } else {
-                            $location.path('/');
-                        }
-                    }, function(error) {
-                        $scope.message = JSON.stringify(error);
-                        alert($scope.message);
-                    });
-                }, function(error) {
-                    $scope.message = JSON.stringify(error);
-                    alert($scope.message);
-                });
-            };
-        }])
-    
-    .controller('LogoutController', ['$location', 'TokenService', 'UserService',
-        function($location, TokenService, UserService) {
-            TokenService.delete();
-            UserService.setCurrentUser(null);
-            $location.path('/login');
-        }])
+angular.module('controllers')
 
     .controller('UsersController', ['$scope', '$location', '$route', 'TokenService', 'UserService',
+
         function($scope, $location, $route, TokenService, UserService) {
 
             TokenService.check();
@@ -103,7 +47,7 @@ angular.module('controllers', [])
             };
 
             $scope.deleteUser = function(user) {
-                UserService.delete(user).then(function(response) {
+                UserService.delete(user.id).then(function(response) {
                     $route.reload();
                 }, function(error) {
                     $scope.message = JSON.stringify(error);
@@ -115,6 +59,7 @@ angular.module('controllers', [])
         }])
 
     .controller('UserController', ['$scope', '$location', '$routeParams', 'TokenService', 'UserService',
+
         function($scope, $location, $routeParams, TokenService, UserService) {
 
             TokenService.check();
@@ -123,11 +68,11 @@ angular.module('controllers', [])
             $scope.breadcrumbs = [
                 {url: '#/admin-dashboard', text: 'Dashboard'},
                 {url: '#/users', text: 'Users'},
-                {url: '#/users/' + $routeParams.userId, text: 'User'}
+                {url: '#/users/' + $routeParams.id, text: 'User'}
             ];
 
             $scope.user = {};
-            $scope.user.userId = $routeParams.userId;
+            $scope.user.id = $routeParams.id;
             $scope.user.password1 = '';
             $scope.user.password2 = '';
             $scope.user.name = '';
@@ -138,9 +83,9 @@ angular.module('controllers', [])
             $scope.user.is_admin = 'false';
             $scope.user.is_active = 'true';
 
-            if($scope.user.userId > 0) {
+            if($scope.user.id > 0) {
 
-                UserService.get($scope.user.userId).then(function (response) {
+                UserService.get($scope.user.id).then(function (response) {
 
                     var user = response.data;
 
@@ -160,7 +105,7 @@ angular.module('controllers', [])
                         $scope.breadcrumbs = [
                             {url: '#/admin-dashboard', text: 'Dashboard'},
                             {url: '#/users', text: 'Users'},
-                            {url: '#/users/' + $routeParams.userId, text: $scope.name}
+                            {url: '#/users/' + $routeParams.id, text: $scope.name}
                         ];
                     }
                     else {
@@ -177,12 +122,12 @@ angular.module('controllers', [])
 
                 $scope.message = null;
 
-                if($scope.user.userId > 0) {
+                if($scope.user.id > 0) {
 
                     // We're saving an existing user. Make sure to convert 'is_admin' and
                     // 'is_active' values back to booleans
                     UserService.update(
-                        $scope.user.userId,
+                        $scope.user.id,
                         $scope.user.username,
                         $scope.user.password1,
                         $scope.user.password2,
@@ -244,28 +189,4 @@ angular.module('controllers', [])
             $scope.cancelSave = function() {
                 $location.path('/users');
             };
-        }])
-    
-    .controller('UserGroupsController', ['$scope', 'TokenService', 'UserService',
-        function($scope, TokenService, UserService) {
-
-            TokenService.check();
-
-            $scope.currentUser = UserService.getCurrentUser();
-            $scope.breadcrumbs = [
-                {url: '#/admin-dashboard', text: 'Dashboard'},
-                {url: '#/user-groups', text: 'User groups'}
-            ];
-        }])
-
-    .controller('PermissionsController', ['$scope', 'TokenService', 'UserService',
-        function($scope, TokenService, UserService) {
-
-            TokenService.check();
-
-            $scope.currentUser = UserService.getCurrentUser();
-            $scope.breadcrumbs = [
-                {url: '#/admin-dashboard', text: 'Dashboard'},
-                {url: '#/permissions', text: 'Permissions'}
-            ];
         }]);
