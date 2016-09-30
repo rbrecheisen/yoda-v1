@@ -30,9 +30,9 @@ if [ "${container}" != "" ]; then
     docker rm ${container}
 fi
 # Run file storage container
-rm -rf ./.files-5439879873
-mkdir ./.files-5439879873
-docker create --name files -v $(pwd)/.files-5439879873:/mnt/shared/files busybox:1.25 /bin/true
+rm -rf /tmp/files-5439879873
+mkdir -f /tmp/files-5439879873
+docker create --name files -v /tmp/files-5439879873:/mnt/shared/files busybox:1.25 /bin/true
 # Run storage service. Because it's running inside a container and needs to
 # contact the storage app running on the host system, we provide the IP
 # address of the VM
