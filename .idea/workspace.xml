@@ -5,25 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9bf9d827-0921-426b-bc3b-ca97e1944684" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/06769fb58fb5428ed8cf8d46be14264479c8f896" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/06769fb58fb5428ed8cf8d46be14264479c8f896.shactx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/269b5709224c663048a4440d93f8eee7de3ace1d" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/269b5709224c663048a4440d93f8eee7de3ace1d.shactx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/3ab1b8a16cc3e92ac1a30c0097153f8aeeb7eb8a" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/3ab1b8a16cc3e92ac1a30c0097153f8aeeb7eb8a.shactx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/4b5977dc5b980d38a65d28598bacee7cbeb3526c" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/4b5977dc5b980d38a65d28598bacee7cbeb3526c.shactx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/4d34d5c8c4e425c6de83eec91fd0208023abe70c" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/4d34d5c8c4e425c6de83eec91fd0208023abe70c.shactx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/5fab7329584d3e133d1c892ae1eb891979c1cddb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/5fab7329584d3e133d1c892ae1eb891979c1cddb.shactx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/8ecd375ec9b4aae24c3a74fa6a6dfdd13716b458" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/8ecd375ec9b4aae24c3a74fa6a6dfdd13716b458.shactx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/dbc6a814503b2668e89541a1f5bbab1b81142eeb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/dbc6a814503b2668e89541a1f5bbab1b81142eeb.shactx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/f0f5a7ab09c9ffd27f944b90dda31a352684a459" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/.files-5439879873/f0f5a7ab09c9ffd27f944b90dda31a352684a459.shactx" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/run_local.sh" afterPath="$PROJECT_DIR$/backend/services/ui/run_local.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/remove_local.sh" afterPath="$PROJECT_DIR$/backend/services/ui/remove_local.sh" />
     </list>
     <ignored path="flask-microservices.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -68,28 +50,7 @@
     <favorites_list name="flask-microservices" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="test_storage.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/test/test_storage.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="403">
-              <caret line="40" column="61" selection-start-line="40" selection-start-column="61" selection-end-line="40" selection-end-column="61" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="run_local.sh" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/backend/services/ui/run_local.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-71">
-              <caret line="34" column="92" selection-start-line="34" selection-start-column="92" selection-end-line="34" selection-end-column="92" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -106,7 +67,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/backend/services/base/python/Dockerfile" />
         <option value="$PROJECT_DIR$/manage.sh" />
         <option value="$PROJECT_DIR$/backend/services/auth/service/auth/resources.py" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/services.js" />
@@ -157,6 +117,7 @@
         <option value="$PROJECT_DIR$/backend/services/storage/nginx.conf" />
         <option value="$PROJECT_DIR$/backend/test/test_storage.py" />
         <option value="$PROJECT_DIR$/backend/services/ui/run_local.sh" />
+        <option value="$PROJECT_DIR$/backend/services/ui/remove_local.sh" />
       </list>
     </option>
   </component>
@@ -226,61 +187,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="docs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="flask-microservices" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="flask-microservices" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="backend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="flask-microservices" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="flask-microservices" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="backend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="flask-microservices" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="flask-microservices" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="backend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -306,7 +213,7 @@
       <recent name="$PROJECT_DIR$/backend/services/compute/service/compute/pipelines/stats/classification" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Run test">
+  <component name="RunManager" selected="Bash.Terminate ui">
     <configuration default="true" type="BashConfigurationType" factoryName="Bash">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="INTERPRETER_PATH" value="/bin/bash" />
@@ -685,14 +592,14 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32971507" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2974607" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2974607" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23216444" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25180376" sideWeight="0.61273664" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25180376" sideWeight="0.6142684" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12842713" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32769045" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25180376" sideWeight="0.38726333" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25180376" sideWeight="0.38573155" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33010882" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -744,13 +651,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/backend/services/auth/service/auth/authentication.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="28" selection-start-line="1" selection-start-column="28" selection-end-line="1" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/services/base/python/lib/authentication.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="499">
@@ -1074,18 +974,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/test/test_storage.py">
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/remove_local.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="40" column="61" selection-start-line="40" selection-start-column="61" selection-end-line="40" selection-end-column="61" />
+        <state relative-caret-position="253">
+          <caret line="21" column="28" selection-start-line="21" selection-start-column="28" selection-end-line="21" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/services/ui/run_local.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-71">
-          <caret line="34" column="92" selection-start-line="34" selection-start-column="92" selection-end-line="34" selection-end-column="92" />
+        <state relative-caret-position="289">
+          <caret line="32" column="28" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/test/test_storage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding />
         </state>
       </provider>

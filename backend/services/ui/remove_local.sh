@@ -19,7 +19,7 @@ if [ "${container}" != "" ]; then
     echo "Terminating file storage..."
     docker rm ${container}
 fi
-rm -rf ./.files-5439879873
+rm -rf /tmp/files-5439879873
 
 container=$(docker ps | grep brecheisen/storage:v1 | awk '{print $1}')
 if [ "${container}" != "" ]; then
