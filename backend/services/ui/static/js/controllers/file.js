@@ -3,9 +3,11 @@
 angular.module('controllers')
 
     .controller('FilesController', [
-        '$scope', '$location', '$routeParams', '$route', 'Upload', 'TokenService', 'UserService', 'RepositoryService', 'FileService',
+        '$scope', '$location', '$routeParams', '$route', 'Upload', 'TokenService', 'UserService', 'RepositoryService', 'FileService', 'BackgroundService',
 
-        function($scope, $location, $routeParams, $route, Upload, TokenService, UserService, RepositoryService, FileService) {
+        function($scope, $location, $routeParams, $route, Upload, TokenService, UserService, RepositoryService, FileService, BackgroundService) {
+
+            BackgroundService.setClass('file');
 
             TokenService.check();
 
@@ -58,9 +60,11 @@ angular.module('controllers')
         }])
 
     .controller('FileController', [
-        '$scope', '$location', '$routeParams', 'Upload', 'TokenService', 'UserService', 'RepositoryService', 'FileService', 'FileTypeService', 'ScanTypeService',
+        '$scope', '$location', '$routeParams', 'Upload', 'TokenService', 'UserService', 'RepositoryService', 'FileService', 'FileTypeService', 'ScanTypeService', 'BackgroundService',
 
-        function($scope, $location, $routeParams, Upload, TokenService, UserService, RepositoryService, FileService, FileTypeService, ScanTypeService) {
+        function($scope, $location, $routeParams, Upload, TokenService, UserService, RepositoryService, FileService, FileTypeService, ScanTypeService, BackgroundService) {
+
+            BackgroundService.setClass('file');
 
             TokenService.check();
 

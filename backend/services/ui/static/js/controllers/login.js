@@ -2,9 +2,11 @@
 
 angular.module('controllers')
 
-    .controller('LoginController', ['$scope', '$cookies', '$location', 'TokenService', 'UserService',
+    .controller('LoginController', ['$scope', '$cookies', '$location', 'TokenService', 'UserService', 'BackgroundService',
 
-        function($scope, $cookies, $location, TokenService, UserService) {
+        function($scope, $cookies, $location, TokenService, UserService, BackgroundService) {
+
+            BackgroundService.setClass('login');
 
             // TODO: remove username/password
             $scope.username = 'ralph';

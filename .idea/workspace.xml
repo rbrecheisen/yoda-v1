@@ -5,21 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9bf9d827-0921-426b-bc3b-ca97e1944684" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/backend/services/ui/static/img/wallpaper.txt" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/img/wallpaper.jpg" afterPath="$PROJECT_DIR$/backend/services/ui/static/img/wallpaper.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/storage-app/service/storage/models.py" afterPath="$PROJECT_DIR$/backend/services/storage-app/service/storage/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/storage-app/service/storage/resources.py" afterPath="$PROJECT_DIR$/backend/services/storage-app/service/storage/resources.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/storage-app/service/storage/settings.py" afterPath="$PROJECT_DIR$/backend/services/storage-app/service/storage/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/remove_local.sh" afterPath="$PROJECT_DIR$/backend/services/ui/remove_local.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/run_local.sh" afterPath="$PROJECT_DIR$/backend/services/ui/run_local.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/css/app.css" afterPath="$PROJECT_DIR$/backend/services/ui/static/css/app.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/index.html" afterPath="$PROJECT_DIR$/backend/services/ui/static/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/app.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/dashboard.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/dashboard.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/file.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/file.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/environ.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/environ.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/services/file.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/services/file.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/partials/admin-dashboard.html" afterPath="$PROJECT_DIR$/backend/services/ui/static/partials/admin-dashboard.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/partials/files.html" afterPath="$PROJECT_DIR$/backend/services/ui/static/partials/files.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/test/test_storage.py" afterPath="$PROJECT_DIR$/backend/test/test_storage.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/login.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/login.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/permission.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/permission.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/repository.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/repository.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/user-group.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/user-group.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/user.js" afterPath="$PROJECT_DIR$/backend/services/ui/static/js/controllers/user.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/ui/static/partials/login.html" afterPath="$PROJECT_DIR$/backend/services/ui/static/partials/login.html" />
     </list>
     <ignored path="flask-microservices.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -68,7 +66,30 @@
     <favorites_list name="flask-microservices" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="app.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/backend/services/ui/static/css/app.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="13" column="37" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/backend/services/ui/static/partials/login.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="51" selection-start-line="18" selection-start-column="51" selection-end-line="18" selection-end-column="51" />
+              <folding>
+                <marker date="1475591901000" expanded="true" signature="30:100" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -85,9 +106,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/logout.js" />
-        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/user-groups.js" />
-        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/permissions.js" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/admin-dashboard.js" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/env.js" />
         <option value="$PROJECT_DIR$/backend/services/ui/run.sh" />
@@ -97,18 +115,12 @@
         <option value="$PROJECT_DIR$/backend/services/ui/static/partials/permissions.html" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/partials/user-groups.html" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/partials/users.html" />
-        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/dashboard.js" />
-        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/permission.js" />
-        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/user-group.js" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/services/log.js" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/services/permission.js" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/services/repository.js" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/services/token.js" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/services/user.js" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/services/user-group.js" />
-        <option value="$PROJECT_DIR$/backend/services/ui/static/partials/login.html" />
-        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/login.js" />
-        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/user.js" />
         <option value="$PROJECT_DIR$/backend/services/storage-app/service/storage/app.py" />
         <option value="$PROJECT_DIR$/backend/services/base/python/lib/files.py" />
         <option value="$PROJECT_DIR$/backend/services/compute/service/compute/pipelines/util.py" />
@@ -119,14 +131,11 @@
         <option value="$PROJECT_DIR$/backend/test/run.py" />
         <option value="$PROJECT_DIR$/backend/services/auth/service/auth/app.py" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/partials/repositories.html" />
-        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/repository.js" />
         <option value="$PROJECT_DIR$/backend/test/test_storage.py" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/services/file-type.js" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/services/scan-type.js" />
-        <option value="$PROJECT_DIR$/backend/services/ui/static/index.html" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/partials/file.html" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/services/file.js" />
-        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/file.js" />
         <option value="$PROJECT_DIR$/backend/services/storage-app/service/storage/models.py" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/partials/files.html" />
         <option value="$PROJECT_DIR$/backend/services/storage-app/service/storage/settings.py" />
@@ -136,6 +145,18 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/partials/admin-dashboard.html" />
         <option value="$PROJECT_DIR$/backend/services/ui/static/js/app.js" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/main.js" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/index.html" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/login.js" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/permission.js" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/user-group.js" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/dashboard.js" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/file.js" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/repository.js" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/js/controllers/user.js" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/partials/login.html" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/js/services/background.js" />
+        <option value="$PROJECT_DIR$/backend/services/ui/static/css/app.css" />
       </list>
     </option>
   </component>
@@ -146,8 +167,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="219" />
-    <option name="y" value="123" />
+    <option name="x" value="217" />
+    <option name="y" value="114" />
     <option name="width" value="1428" />
     <option name="height" value="919" />
   </component>
@@ -207,6 +228,230 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="partials" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-microservices" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -604,14 +849,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="219" y="123" width="1428" height="919" extended-state="0" />
-    <editor active="false" />
+    <frame x="217" y="114" width="1428" height="919" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32971507" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31801692" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31801692" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23216444" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25541127" sideWeight="0.60638297" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -670,62 +915,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/services/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-840">
-          <caret line="2" column="25" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/ui/nginx.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="25" column="18" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/partials/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="89" selection-start-line="18" selection-start-column="89" selection-end-line="18" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/base/python/lib/files.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="37" column="61" selection-start-line="37" selection-start-column="61" selection-end-line="37" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/compute/service/compute/pipelines/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="23" column="15" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/compute/service/compute/resources.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="42" selection-start-line="5" selection-start-column="42" selection-end-line="5" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/compute/service/compute/worker.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="22" column="60" selection-start-line="22" selection-start-column="60" selection-end-line="22" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/storage/run.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/services/compute/service/compute/pipelines/stats/classification/svm_train.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -917,14 +1106,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/services/scan-type.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
@@ -937,14 +1118,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="20" column="17" selection-start-line="0" selection-start-column="0" selection-end-line="22" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="541">
-          <caret line="191" column="0" selection-start-line="188" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -973,22 +1146,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/services/file.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="649">
-          <caret line="51" column="47" selection-start-line="51" selection-start-column="47" selection-end-line="51" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers/repository.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="69" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2016.2/python_stubs/1891841159/posix.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
@@ -1009,14 +1166,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="445">
           <caret line="183" column="46" selection-start-line="183" selection-start-column="46" selection-end-line="183" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers/file.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="37" column="53" selection-start-line="37" selection-start-column="53" selection-end-line="37" selection-end-column="53" />
           <folding />
         </state>
       </provider>
@@ -1069,18 +1218,124 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/services/ui/static/partials/admin-dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/services/file.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="79" selection-start-line="16" selection-start-column="79" selection-end-line="16" selection-end-column="79" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="28" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers/login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers/dashboard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers/file.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-814">
+          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers/permission.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers/repository.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="57" column="53" selection-start-line="57" selection-start-column="53" selection-end-line="57" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="66" column="47" selection-start-line="66" selection-start-column="47" selection-end-line="66" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/controllers/user-group.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/js/services/background.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/partials/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="51" selection-start-line="18" selection-start-column="51" selection-end-line="18" selection-end-column="51" />
+          <folding>
+            <marker date="1475591901000" expanded="true" signature="30:100" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/services/ui/static/css/app.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="37" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
           <folding />
         </state>
       </provider>

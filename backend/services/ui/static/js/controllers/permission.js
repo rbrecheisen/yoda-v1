@@ -2,9 +2,11 @@
 
 angular.module('controllers')
 
-    .controller('PermissionsController', ['$scope', 'TokenService', 'UserService',
+    .controller('PermissionsController', ['$scope', 'TokenService', 'UserService', 'BackgroundService',
 
-        function($scope, TokenService, UserService) {
+        function($scope, TokenService, UserService, BackgroundService) {
+
+            BackgroundService.setClass('permission');
 
             TokenService.check();
 

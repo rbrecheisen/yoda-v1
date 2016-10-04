@@ -1,5 +1,33 @@
 .input-field {
-    color: darkgreen;
+    color: white;
+}
+
+.dashboard {
+    background: none;
+}
+
+.file {
+    background: none;
+}
+
+.login {
+    background: url('../img/wallpaper.jpg') center center fixed;
+}
+
+.permission {
+    background: none;
+}
+
+.repository {
+    background: none;
+}
+
+.user {
+    background: none;
+}
+
+.user-group {
+    background: none;
 }
 
 table {

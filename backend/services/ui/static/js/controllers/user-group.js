@@ -2,9 +2,11 @@
 
 angular.module('controllers')
 
-    .controller('UserGroupsController', ['$scope', 'TokenService', 'UserService',
+    .controller('UserGroupsController', ['$scope', 'TokenService', 'UserService', 'BackgroundService',
 
-        function($scope, TokenService, UserService) {
+        function($scope, TokenService, UserService, BackgroundService) {
+
+            BackgroundService.setClass('user-group');
 
             TokenService.check();
 

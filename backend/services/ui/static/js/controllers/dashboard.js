@@ -2,9 +2,11 @@
 
 angular.module('controllers')
 
-    .controller('DashboardController', ['$scope', '$location', 'TokenService', 'UserService',
+    .controller('DashboardController', ['$scope', '$location', 'TokenService', 'UserService', 'BackgroundService',
 
-        function($scope, $location, TokenService, UserService) {
+        function($scope, $location, TokenService, UserService, BackgroundService) {
+
+            BackgroundService.setClass('dashboard');
 
             TokenService.check();
 
@@ -14,9 +16,11 @@ angular.module('controllers')
             ];
         }])
 
-    .controller('AdminDashboardController', ['$scope', '$location', 'TokenService', 'UserService',
+    .controller('AdminDashboardController', ['$scope', '$location', 'TokenService', 'UserService', 'BackgroundService',
 
-        function($scope, $location, TokenService, UserService) {
+        function($scope, $location, TokenService, UserService, BackgroundService) {
+
+            BackgroundService.setClass('dashboard');
 
             TokenService.check();
 

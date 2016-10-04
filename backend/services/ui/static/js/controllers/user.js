@@ -2,9 +2,11 @@
 
 angular.module('controllers')
 
-    .controller('UsersController', ['$scope', '$location', '$route', 'TokenService', 'UserService',
+    .controller('UsersController', ['$scope', '$location', '$route', 'TokenService', 'UserService', 'BackgroundService',
 
-        function($scope, $location, $route, TokenService, UserService) {
+        function($scope, $location, $route, TokenService, UserService, BackgroundService) {
+
+            BackgroundService.setClass('user');
 
             TokenService.check();
 
@@ -58,9 +60,11 @@ angular.module('controllers')
             Materialize.updateTextFields();
         }])
 
-    .controller('UserController', ['$scope', '$location', '$routeParams', 'TokenService', 'UserService',
+    .controller('UserController', ['$scope', '$location', '$routeParams', 'TokenService', 'UserService', 'BackgroundService',
 
-        function($scope, $location, $routeParams, TokenService, UserService) {
+        function($scope, $location, $routeParams, TokenService, UserService, BackgroundService) {
+
+            BackgroundService.setClass('user');
 
             TokenService.check();
 

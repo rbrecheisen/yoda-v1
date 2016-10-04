@@ -2,9 +2,11 @@
 
 angular.module('controllers')
 
-    .controller('RepositoriesController', ['$scope', '$location', '$route', 'TokenService', 'UserService', 'RepositoryService',
+    .controller('RepositoriesController', ['$scope', '$location', '$route', 'TokenService', 'UserService', 'RepositoryService', 'BackgroundService',
 
-        function ($scope, $location, $route, TokenService, UserService, RepositoryService) {
+        function ($scope, $location, $route, TokenService, UserService, RepositoryService, BackgroundService) {
+
+            BackgroundService.setClass('repository');
 
             TokenService.check();
 
@@ -49,9 +51,11 @@ angular.module('controllers')
             };
         }])
 
-    .controller('RepositoryController', ['$scope', '$location', '$routeParams', 'TokenService', 'UserService', 'RepositoryService',
+    .controller('RepositoryController', ['$scope', '$location', '$routeParams', 'TokenService', 'UserService', 'RepositoryService', 'BackgroundService',
 
-        function($scope, $location, $routeParams, TokenService, UserService, RepositoryService) {
+        function($scope, $location, $routeParams, TokenService, UserService, RepositoryService, BackgroundService) {
+
+            BackgroundService.setClass('repository');
 
             TokenService.check();
 
