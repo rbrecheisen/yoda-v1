@@ -1,0 +1,46 @@
+<div class="row">
+    <div ng-include src="'partials/nav.html'"></div>
+    <div class="row">
+        <h5 class="col s4 offset-s4 center-align grey-text text-darken-2">Upload file</h5>
+        <form class="col s12">
+            <div class="row">
+                <div class="file-field input-field col s4 offset-s4">
+                    <div class="btn">
+                        <span>File</span>
+                        <input type="file" ngf-select ng-model="file" name="file"/>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="Select file"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s4 offset-s4">
+                    <p style="font-size: small; color: gray; margin-top: 0">File type</p>
+                    <select class="browser-default">
+                        <option ng-repeat="file_type in file_types track by $index"
+                                ng-selected="file_type.name == selected_file_type" value="file_type.id">{{ file_type.name }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s4 offset-s4">
+                    <p style="font-size: small; color: gray; margin-top: 0">Scan type</p>
+                    <select class="browser-default">
+                        <option ng-repeat="scan_type in scan_types track by $index"
+                                ng-selected="scan_type.name == selected_scan_type" value="scan_type.id">{{ scan_type.name }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4 offset-s4">
+                    <p class="right-align">
+                        <input class="btn waves-effect waves-light" type="button" ng-click="cancelUpload()" value="Cancel">
+                        <input class="btn waves-effect waves-light" type="button" ng-click="uploadFile(file)" value="Upload">
+                    </p>
+                </div>
+            </div>
+            <!-- TODO: Add progress bar here -->
+        </form>
+    </div>
+</div>

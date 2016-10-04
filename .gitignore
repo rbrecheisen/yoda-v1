@@ -7,3 +7,4 @@
 */**/db.*
 */**/*.nii*
 */**/*.csv
+backend/services/ui/files/

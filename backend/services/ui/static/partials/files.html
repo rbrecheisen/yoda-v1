@@ -4,7 +4,9 @@
         <h3 class="col s12 center-align grey-text text-darken-2">Files</h3>
         <span class="col s12 center-align grey-text">[{{ repository.name }}]</span>
         <div class="col s12 m6 l6 offset-m3 offset-l3">
-            <input class="btn waves-effect waves-light" type="button" ng-click="uploadFile()" value="Upload"/>
+            <form name="uploadForm">
+                <input class="btn waves-effect waves-light" type="button" ng-click="uploadFile()" value="Upload"/>
+            </form>
             <ul class="collapsible" data-collapsible="accordion">
                 <li ng-repeat="file in files | orderBy:'name'">
                     <div class="collapsible-header">{{ file.name }}</div>
@@ -12,6 +14,12 @@
                         <table class="collection">
                             <tr class="collection-item"><td><b>ID</b></td><td>{{ file.id }}</td></tr>
                             <tr class="collection-item"><td><b>Name</b></td><td>{{ file.name }}</td></tr>
+                            <tr class="collection-item"><td><b>Storage ID</b></td><td>{{ file.storage_id }}</td></tr>
+                            <tr class="collection-item"><td><b>Storage path</b></td><td>{{ file.storage_path }}</td></tr>
+                            <tr class="collection-item"><td><b>Size</b></td><td>{{ file.size }}</td></tr>
+                            <tr class="collection-item"><td><b>Content type</b></td><td>{{ file.content_type }}</td></tr>
+                            <tr class="collection-item"><td><b>File type</b></td><td>{{ file.file_type }}</td></tr>
+                            <tr class="collection-item"><td><b>Scan type</b></td><td>{{ file.scan_type}}</td></tr>
                             <tr class="collection-item">
                                 <td>
                                     <input class="btn waves-effect waves-light"

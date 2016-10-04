@@ -4,7 +4,10 @@ angular.module('controllers', []);
 
 angular.module('services', ['ngResource', 'ngCookies']);
 
-angular.module('app', ['ngRoute', 'controllers', 'services'])
+// Upload library
+// https://github.com/danialfarid/ng-file-upload
+
+angular.module('app', ['ngRoute', 'ngFileUpload', 'controllers', 'services'])
 
     .constant('environ', window.environ)
 
@@ -57,7 +60,7 @@ angular.module('app', ['ngRoute', 'controllers', 'services'])
                     templateUrl: 'partials/files.html',
                     controller: 'FilesController'
                 })
-                .when('/repositories/:id?/files/:file_id?', {
+                .when('/repositories/:id?/files/:fileId?', {
                     templateUrl: 'partials/file.html',
                     controller: 'FileController'
                 });

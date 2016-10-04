@@ -1,6 +1,7 @@
+import os
 import logging
 import lib.http as http
-from flask_restful import reqparse
+from flask_restful import reqparse, request
 from lib.authentication import token_required
 from dao import FileDao, FileTypeDao, ScanTypeDao, RepositoryDao, FileSetDao
 from lib.resources import BaseResource
@@ -176,6 +177,40 @@ class RepositoryFileResource(BaseResource):
 
         # Return file meta information
         return self.response(f.to_dict())
+    
+    @token_required
+    def delete(self, id, file_id):
+        
+        # Retrieve repository
+        repository_dao = RepositoryDao(self.db_session())
+        repository = repository_dao.retrieve(id=id)
+        if repository is None:
+            return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
+        
+        # Retrieve file from database and then delete it
+        f_dao = FileDao(self.db_session())
+        f = f_dao.retrieve(id=file_id)
+        if f is None:
+            return self.error_response('File {} not found'.format(file_id), http.NOT_FOUND_404)
+        if f.repository != repository:
+            return self.error_response('File {} not in repository {}'.format(file_id, id), http.BAD_REQUEST_400)
+        
+        # Delete physical file on file server. This requires we get the storage ID of the
+        # file and append it to the STORAGE_ROOT_DIR environment variable. This variable
+        # must exist! It allows us to test locally. In a full Docker environment it will
+        # most likely point to /mnt/shared/files whereas in a local development environment
+        # it will point to a /files somewhere inside this project
+        path = os.path.join(os.getenv('STORAGE_ROOT_DIR'), f.storage_id)
+        path_shactx = path + '.shactx'
+        try:
+            os.remove(path)
+            os.remove(path_shactx)
+            f_dao.delete(f)
+        except IOError:
+            return self.error_response(
+                'File {} at path {} could not be deleted'.format(file_id, path), http.INTERNAL_SERVER_ERROR_500)
+        
+        return self.response({}, http.NO_CONTENT_204)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -414,6 +449,8 @@ class UploadsResource(BaseResource):
     @token_required
     def post(self):
 
+        r = request
+        
         # These arguments are posted by nginx-big-upload as form encoded data
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=str, location='form')

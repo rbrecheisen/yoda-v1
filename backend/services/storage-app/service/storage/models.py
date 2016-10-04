@@ -130,17 +130,17 @@ class File(BaseModel):
     def to_dict(self):
         file_sets = []
         for file_set in self.file_sets:
-            file_sets.append(file_set.id)
+            file_sets.append(file_set.name)
         obj = super(File, self).to_dict()
         obj.update({
             'name': self.name,
-            'file_type': self.file_type.id,
-            'scan_type': self.scan_type.id,
+            'file_type': self.file_type.name,
+            'scan_type': self.scan_type.name,
             'content_type': self.content_type,
             'size': self.size,
             'storage_id': self.storage_id,
             'storage_path': self.storage_path,
-            'repository': self.repository.id,
+            'repository': self.repository.name,
             'file_sets': file_sets,
         })
         return obj
@@ -181,7 +181,7 @@ class FileSet(BaseModel):
             'schema': self.schema_id,
             'schema_enabled': self.schema_enabled,
             'files': files,
-            'repository': self.repository.id,
+            'repository': self.repository.name,
         })
         return obj
 
