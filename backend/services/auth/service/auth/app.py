@@ -33,7 +33,7 @@ db = SQLAlchemy(app)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def init_users():
+def init_tables():
     user_dao = UserDao(db.session)
     for item in app.config['USERS']:
         user = user_dao.retrieve(username=item['username'])
@@ -66,7 +66,7 @@ def init_db(drop=False):
         print('Dropping tables...')
         Base.metadata.drop_all(db.engine)
     Base.metadata.create_all(bind=db.engine)
-    init_users()
+    init_tables()
 
 
 # ----------------------------------------------------------------------------------------------------------------------

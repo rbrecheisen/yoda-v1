@@ -52,6 +52,14 @@ angular.module('app', ['ngRoute', 'controllers', 'services'])
                 .when('/repositories/:id?', {
                     templateUrl: 'partials/repository.html',
                     controller: 'RepositoryController'
+                })
+                .when('/repositories/:id?/files', {
+                    templateUrl: 'partials/files.html',
+                    controller: 'FilesController'
+                })
+                .when('/repositories/:id?/files/:file_id?', {
+                    templateUrl: 'partials/file.html',
+                    controller: 'FileController'
                 });
 
             $locationProvider.html5Mode(false);

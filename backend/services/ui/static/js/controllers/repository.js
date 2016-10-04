@@ -43,6 +43,10 @@ angular.module('controllers')
                     alert(JSON.stringify(error));
                 })
             };
+
+            $scope.viewFiles = function(repository) {
+                $location.path('/repositories/' + repository.id + '/files');
+            };
         }])
 
     .controller('RepositoryController', ['$scope', '$location', '$routeParams', 'TokenService', 'UserService', 'RepositoryService',
@@ -55,7 +59,7 @@ angular.module('controllers')
             $scope.breadcrumbs = [
                 {url: '#/admin-dashboard', text: 'Dashboard'},
                 {url: '#/repositories', text: 'Repositories'},
-                {url: '#/repositories/' + $routeParams.id, text: 'Repository'}];
+                {url: '#/repositories/' + $routeParams.id, text: $routeParams.id}];
 
             $scope.repository = {};
             $scope.repository.id = $routeParams.id;
@@ -63,7 +67,7 @@ angular.module('controllers')
 
             if($scope.repository.id > 0) {
                 RepositoryService.get($scope.repository.id).then(function(response) {
-                    $scope.repository.name = response.data.name;
+                    $scope.repository = response.data;
                     $scope.breadcrumbs = [
                         {url: '#/admin-dashboard', text: 'Dashboard'},
                         {url: '#/repositories', text: 'Repositories'},
@@ -89,7 +93,7 @@ angular.module('controllers')
                         alert(JSON.stringify(error));
                     });
                 }
-            }
+            };
 
             $scope.cancelSave = function() {
                 $location.path('/repositories');

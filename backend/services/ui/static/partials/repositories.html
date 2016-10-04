@@ -13,8 +13,12 @@
                             <tr class="collection-item"><td><b>Name</b></td><td>{{ repository.name }}</td></tr>
                             <tr class="collection-item">
                                 <td>
-                                    <input class="btn waves-effect waves-light" type="button" ng-click="editRepository(repository)" value="Edit"/>
-                                    <input class="btn waves-effect waves-light" type="button" ng-click="deleteRepository(repository)" value="Delete"/>
+                                    <input class="btn waves-effect waves-light"
+                                           type="button" ng-if="repository.id > 0" ng-click="viewFiles(repository)" value="View files"/>
+                                    <input class="btn waves-effect waves-light"
+                                           type="button" ng-click="editRepository(repository)" value="Edit"/>
+                                    <input class="btn waves-effect waves-light"
+                                           type="button" ng-click="deleteRepository(repository)" value="Delete"/>
                                 </td>
                                 <td></td>
                             </tr>
