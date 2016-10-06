@@ -30,7 +30,7 @@ def test_upload_and_download():
     assert response.status_code == 200
     scan_type_id = response.json()[0]['id']
 
-    name = generate_string(8)
+    name = 'repository-{}'.format(generate_string(8))
     response = requests.post(uri('storage', '/repositories'), json={'name': name}, headers=token_header(token))
     assert response.status_code == 201
     repository_id = response.json()['id']

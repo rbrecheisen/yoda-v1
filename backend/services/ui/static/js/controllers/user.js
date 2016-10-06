@@ -2,11 +2,9 @@
 
 angular.module('controllers')
 
-    .controller('UsersController', ['$scope', '$location', '$route', 'TokenService', 'UserService', 'BackgroundService',
+    .controller('UsersController', ['$scope', '$location', '$route', 'TokenService', 'UserService',
 
-        function($scope, $location, $route, TokenService, UserService, BackgroundService) {
-
-            BackgroundService.setClass('user');
+        function($scope, $location, $route, TokenService, UserService) {
 
             TokenService.check();
 
@@ -64,7 +62,7 @@ angular.module('controllers')
 
         function($scope, $location, $routeParams, TokenService, UserService, BackgroundService) {
 
-            BackgroundService.setClass('user');
+            // BackgroundService.setClass('user');
 
             TokenService.check();
 

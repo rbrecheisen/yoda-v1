@@ -86,10 +86,14 @@ class Repository(BaseModel):
         files = []
         for f in self.files:
             files.append(f.id)
+        file_sets = []
+        for file_set in self.file_sets:
+            file_sets.append(file_set.id)
         obj = super(Repository, self).to_dict()
         obj.update({
             'name': self.name,
             'files': files,
+            'file_sets': file_sets,
         })
         return obj
 

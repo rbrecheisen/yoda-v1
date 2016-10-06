@@ -128,6 +128,16 @@ class RepositoryResource(BaseResource):
         repository = repository_dao.retrieve(id=id)
         if repository is None:
             return self.error_response('Repository {} not found'.format(id), http.NOT_FOUND_404)
+        
+        # Check if repository has files. If not, return an error
+        if len(repository.files) > 0:
+            return self.error_response('Repository {} not empty'.format(id), http.FORBIDDEN_403)
+        
+        # Check if repository has file sets. If so, return an error
+        if len(repository.file_sets) > 0:
+            return self.error_response('Repository {} not empty'.format(id), http.FORBIDDEN_403)
+        
+        # Delete repository
         repository_dao.delete(repository)
 
         return self.response({}, http.NO_CONTENT_204)
@@ -465,12 +475,13 @@ class UploadsResource(BaseResource):
         parser.add_argument('Content-Type', type=str, location='headers')
         args = parser.parse_args()
 
-        # Retrieve file and scan types for this file
+        # Retrieve file type
         file_type_dao = FileTypeDao(self.db_session())
         file_type = file_type_dao.retrieve(id=args['X-File-Type'])
         if file_type is None:
             return self.error_response('File type {} not found'.format(args['X-File-Type']), http.NOT_FOUND_404)
 
+        # Retrieve scan type
         scan_type_dao = ScanTypeDao(self.db_session())
         scan_type = scan_type_dao.retrieve(id=args['X-Scan-Type'])
         if scan_type is None:
@@ -485,11 +496,14 @@ class UploadsResource(BaseResource):
         # Set content type to something generic if it was not specified
         if args['Content-Type'] is None:
             args['Content-Type'] = 'application/octet-stream'
+            
+        # Strip file name from any path-related info
+        name = os.path.basename(args['name'])
 
         # Create the file and return its dictionary info
         f_dao = FileDao(self.db_session())
         f = f_dao.create(
-            name=args['name'], file_type=file_type, scan_type=scan_type, content_type=args['Content-Type'],
+            name=name, file_type=file_type, scan_type=scan_type, content_type=args['Content-Type'],
             size=args['size'], storage_id=args['id'], storage_path=args['path'], repository=repository)
 
         return self.response(f.to_dict(), http.CREATED_201)

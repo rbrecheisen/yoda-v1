@@ -29,7 +29,6 @@ class SupportVectorMachinePrediction(Pipeline):
             classifier = load_model(classifier_file_path)
             # Setup Numpy array to hold the subject data
             X = np.array(params['subjects'])
-
             # Run classifier with the subject data to be predicted
             print('Running prediction')
             y_pred = classifier.predict(X)

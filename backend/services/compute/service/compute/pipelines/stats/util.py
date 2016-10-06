@@ -45,7 +45,7 @@ def get_xy(features, target_column=None, exclude_columns=list()):
 
 # ----------------------------------------------------------------------------------------------------------------------
 def save_model(model, target_dir):
-    file_name = generate_string()
+    file_name = 'model-{}'.format(generate_string(8))
     file_path = os.path.join(target_dir, file_name)
     joblib.dump(model, file_path)
     arch_path = '{}.tar.gz'.format(file_path)

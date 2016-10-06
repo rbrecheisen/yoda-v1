@@ -1,4 +1,12 @@
 .input-field {
+    color: darkgreen;
+}
+
+.input-field-username {
+    color: white;
+}
+
+.input-field-password {
     color: white;
 }
 
@@ -12,6 +20,15 @@
 
 .login {
     background: url('../img/wallpaper.jpg') center center fixed;
+}
+
+.login-div {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    left: 50%;
+    top: 50%;
+    margin: -200px 0 0 -200px;
 }
 
 .permission {

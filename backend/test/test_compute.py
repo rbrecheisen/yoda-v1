@@ -26,7 +26,7 @@ def test_train_classifier():
     token = response.json()['token']
 
     # Create storage repository
-    name = generate_string()
+    name = 'repository-{}'.format(generate_string(8))
     response = requests.post(uri('storage', '/repositories'), headers=token_header(token), json={'name': name})
     assert response.status_code == 201
     repository_id = response.json()['id']

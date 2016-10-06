@@ -1,14 +1,19 @@
 'use strict';
 
 angular.module('services')
+
     .service('BackgroundService', [function() {
-        var currentBackgroundClass = 'admin-dashboard';
+
+        var currentBackgroundClass = '';
+
         return {
-            setClass: function(backgroundClass) {
-                currentBackgroundClass = backgroundClass;
-            },
+
             getClass: function() {
                 return currentBackgroundClass;
+            },
+
+            setClass: function(backgroundClass) {
+                currentBackgroundClass = backgroundClass;
             }
         }
     }]);

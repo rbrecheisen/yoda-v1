@@ -35,6 +35,11 @@ angular.module('controllers')
                     alert($scope.message);
                 });
             };
+
+            // Define callback to disable background image in case user leaves login page
+            $scope.$on('$destroy', function() {
+                BackgroundService.setClass('');
+            });
         }])
 
     .controller('LogoutController', ['$location', 'TokenService', 'UserService',

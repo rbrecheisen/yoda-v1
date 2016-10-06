@@ -30,7 +30,7 @@ def get_storage_id_for_file(repository_id, file_id, token):
 
 # ----------------------------------------------------------------------------------------------------------------------
 def create_task_dir():
-    task_dir = '/tmp/workers/task-{}'.format(generate_string())
+    task_dir = '/tmp/workers/task-{}'.format(generate_string(8))
     if os.path.isdir(task_dir):
         raise RuntimeError('Directory {} already exists'.format(task_dir))
     os.makedirs(task_dir)
