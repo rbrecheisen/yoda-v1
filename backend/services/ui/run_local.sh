@@ -16,13 +16,13 @@ eval $(docker-machine env default)
 docker build -t brecheisen/nginx-base:v1 ../base/nginx
 
 # ----------------------------------------------------------------------------------------
-# Build storage image
-docker build -t brecheisen/storage:v1 ../storage
 # Check if storage containers are still running. If so, kill them
 container=$(docker ps | grep brecheisen/storage:v1 | awk '{print $1}')
 if [ "${container}" != "" ]; then
     docker stop ${container}; docker rm ${container}
 fi
+# Build storage image
+docker build -t brecheisen/storage:v1 ../storage
 # Create temporary container for file storage. This will be used by the Nginx
 # storage proxy as well as the storage app
 container=$(docker ps -a | grep busybox:1.25 | awk '{print $1}')
@@ -44,13 +44,13 @@ docker run -d \
     brecheisen/storage:v1 ./run.sh
 
 # ----------------------------------------------------------------------------------------
-# Build UI image
-docker build -t brecheisen/ui:v1 .
 # Check if UI containers are still running. If so, kill them
 container=$(docker ps | grep brecheisen/ui:v1 | awk '{print $1}')
 if [ "${container}" != "" ]; then
     docker stop ${container}; docker rm ${container}
 fi
+# Build UI image
+docker build -t brecheisen/ui:v1 .
 # Run UI service. Because the storage service is also running inside a
 # container it's IP address is different from the other services which
 # are running directly on the host. We mount the ./static folder so we
@@ -69,6 +69,11 @@ docker run -d \
     brecheisen/ui:v1 ./run.sh
 
 # ----------------------------------------------------------------------------------------
+# Check if RabbitMQ container running. If so, kill it
+container=$(docker ps | grep rabbitmq:3.6 | awk '{print $1}')
+if [ "${container}" != "" ]; then
+    docker stop ${container}; docker rm ${container}
+fi
 # Run RabbitMQ from default Docker registry
 docker run -d \
     --name rabbitmq \
@@ -77,6 +82,11 @@ docker run -d \
     rabbitmq:3.6
 
 # ----------------------------------------------------------------------------------------
+# Check if Redis container still running. If so, kill it
+container=$(docker ps | grep redis:3.0-alpine | awk '{print $1}')
+if [ "${container}" != "" ]; then
+    docker stop ${container}; docker rm ${container}
+fi
 # Run Redis from default Docker registry
 docker run -d \
     --name redis \

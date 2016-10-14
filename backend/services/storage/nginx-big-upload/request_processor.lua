@@ -135,6 +135,11 @@ function new(self, handlers)
         end
         ngx.log(ngx.WARN, "Couldn't extract file name from Content-Disposition:"..content_disposition)
       end
+      local file_name = headers['X-File-Name']
+      if file_name then
+          return file_name
+      end
+      ngx.log(ngx.WARN, "Couldn't find file name in X-File-Name:")
     end
 
     local last_checksum = headers['X-Last-Checksum'] -- checksum of last server-side chunk

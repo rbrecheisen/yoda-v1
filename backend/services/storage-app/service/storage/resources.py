@@ -499,11 +499,28 @@ class UploadsResource(BaseResource):
             
         # Strip file name from any path-related info
         name = os.path.basename(args['name'])
+        
+        # Create media link for downloading the file. The link should refer to the UI_SERVICE
+        # IP address because it will be used by clients.
+        media_link = '{}/{}'.format(self.config()['DOWNLOAD_URI'], args['id'])
 
         # Create the file and return its dictionary info
         f_dao = FileDao(self.db_session())
         f = f_dao.create(
             name=name, file_type=file_type, scan_type=scan_type, content_type=args['Content-Type'],
-            size=args['size'], storage_id=args['id'], storage_path=args['path'], repository=repository)
+            size=args['size'], storage_id=args['id'], storage_path=args['path'],
+            media_link=media_link, repository=repository)
 
         return self.response(f.to_dict(), http.CREATED_201)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class DownloadsResource(BaseResource):
+    
+    URI = '/downloads'
+
+    @token_required
+    def get(self):
+        # This method will only get called by Nginx to pre-authorize file downloads.
+        # We should perform a permission check and return the result.
+        return self.response({})

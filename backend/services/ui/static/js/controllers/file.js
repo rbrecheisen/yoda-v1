@@ -3,9 +3,9 @@
 angular.module('controllers')
 
     .controller('FilesController', [
-        '$scope', '$location', '$routeParams', '$route', 'Upload', 'TokenService', 'UserService', 'RepositoryService', 'FileService',
+        '$scope', '$location', '$routeParams', '$route', 'TokenService', 'UserService', 'RepositoryService', 'FileService',
 
-        function($scope, $location, $routeParams, $route, Upload, TokenService, UserService, RepositoryService, FileService) {
+        function($scope, $location, $routeParams, $route, TokenService, UserService, RepositoryService, FileService) {
 
             TokenService.check();
 
@@ -48,6 +48,26 @@ angular.module('controllers')
                 $location.path('/repositories/' + $scope.repository.id + '/files/0');
             };
 
+            $scope.downloadFile = function(file) {
+                FileService.download(file.media_link).then(function(response) {
+                    try {
+                        // Create temporary anchor element pointing to the downloaded file
+                        var url = window.URL.createObjectURL(new Blob([response.data], { type: file.content_type }));
+                        var elm = document.createElement('a');
+                        elm.setAttribute('href', url);
+                        elm.setAttribute('download', file.name);
+                        // Simulate a click event for the anchor we just created
+                        var event = new MouseEvent('click', {
+                            'view': window, 'bubbles': true, 'cancelable': false});
+                        elm.dispatchEvent(event);
+                    } catch(exception) {
+                        alert(exception);
+                    }
+                }, function(error) {
+                    alert(JSON.stringify(error));
+                })
+            };
+
             $scope.deleteFile = function(file) {
                 FileService.delete($scope.repository.id, file.id).then(function(response) {
                     $route.reload();
@@ -58,9 +78,9 @@ angular.module('controllers')
         }])
 
     .controller('FileController', [
-        '$scope', '$location', '$routeParams', 'Upload', 'TokenService', 'UserService', 'RepositoryService', 'FileService', 'FileTypeService', 'ScanTypeService',
+        '$scope', '$location', '$routeParams', 'TokenService', 'UserService', 'RepositoryService', 'FileService', 'FileTypeService', 'ScanTypeService',
 
-        function($scope, $location, $routeParams, Upload, TokenService, UserService, RepositoryService, FileService, FileTypeService, ScanTypeService) {
+        function($scope, $location, $routeParams, TokenService, UserService, RepositoryService, FileService, FileTypeService, ScanTypeService) {
 
             TokenService.check();
 

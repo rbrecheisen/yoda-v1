@@ -231,6 +231,8 @@ elif [ "${1}" == "up" ]; then
             --env AUTH_SERVICE_PORT=5000 \
             --env STORAGE_SERVICE_HOST=storage \
             --env STORAGE_SERVICE_PORT=5002 \
+            --env UI_SERVICE_HOST=$(docker-machine ip manager) \
+            --env UI_SERVICE_PORT=80 \
             --env DB_NAME=postgres \
             --env DB_USER=postgres \
             --env DB_PASS=postgres \

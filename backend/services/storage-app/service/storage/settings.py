@@ -12,6 +12,10 @@ if not os.getenv('AUTH_SERVICE_HOST'):
 if not os.getenv('STORAGE_APP_SERVICE_HOST'):
     os.environ['STORAGE_APP_SERVICE_HOST'] = '0.0.0.0'
     os.environ['STORAGE_APP_SERVICE_PORT'] = '5003'
+    
+if not os.getenv('UI_SERVICE_HOST'):
+    os.environ['UI_SERVICE_HOST'] = '192.168.99.100'
+    os.environ['UI_SERVICE_PORT'] = '80'
 
 # ------------------------------------------------------------------------------------------------------------------
 # Log settings
@@ -59,7 +63,11 @@ SERVICE_USERNAME = 'storage'
 SERVICE_PASSWORD = 'secret'
 
 # ------------------------------------------------------------------------------------------------------------------
-# Debug settings
+# Miscellaneous settings
 # ------------------------------------------------------------------------------------------------------------------
+
+DOWNLOAD_URI = 'http://{}:{}/storage/downloads'.format(
+    os.getenv('UI_SERVICE_HOST'),
+    os.getenv('UI_SERVICE_PORT'))
 
 STORAGE_ROOT_DIR = os.getenv('STORAGE_ROOT_DIR')

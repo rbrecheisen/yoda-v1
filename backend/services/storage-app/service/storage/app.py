@@ -11,9 +11,9 @@ from models import FileType, ScanType
 from lib.models import Base
 from resources import (
     RootResource, FileTypesResource, ScanTypesResource,
-    RepositoriesResource, RepositoryResource, UploadsResource, RepositoryFileResource, RepositoryFilesResource,
+    RepositoriesResource, RepositoryResource, RepositoryFileResource, RepositoryFilesResource,
     RepositoryFileSetsResource, RepositoryFileSetResource, RepositoryFileSetFilesResource,
-    RepositoryFileSetFileResource)
+    RepositoryFileSetFileResource, UploadsResource, DownloadsResource)
 
 app = Flask(__name__)
 
@@ -28,7 +28,6 @@ api.add_resource(FileTypesResource, FileTypesResource.URI)
 api.add_resource(ScanTypesResource, ScanTypesResource.URI)
 api.add_resource(RepositoriesResource, RepositoriesResource.URI)
 api.add_resource(RepositoryResource, RepositoryResource.URI.format('<int:id>'))
-api.add_resource(UploadsResource, UploadsResource.URI)
 api.add_resource(RepositoryFilesResource, RepositoryFilesResource.URI.format('<int:id>'))
 api.add_resource(RepositoryFileResource, RepositoryFileResource.URI.format('<int:id>', '<int:file_id>'))
 api.add_resource(RepositoryFileSetsResource, RepositoryFileSetsResource.URI.format('<int:id>'))
@@ -37,6 +36,8 @@ api.add_resource(RepositoryFileSetFilesResource,
                  RepositoryFileSetFilesResource.URI.format('<int:id>', '<int:file_set_id>', '<int:file_id>'))
 api.add_resource(RepositoryFileSetFileResource,
                  RepositoryFileSetFileResource.URI.format('<int:id>', '<int:file_set_id>', '<int:file_id>'))
+api.add_resource(UploadsResource, UploadsResource.URI)
+api.add_resource(DownloadsResource, DownloadsResource.URI)
 
 db = SQLAlchemy(app)
 

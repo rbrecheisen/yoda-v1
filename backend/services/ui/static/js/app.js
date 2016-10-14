@@ -8,6 +8,7 @@ angular.module('services', ['ngResource', 'ngCookies']);
 // https://github.com/danialfarid/ng-file-upload
 
 angular.module('app', ['ngRoute', 'ngFileUpload', 'controllers', 'services'])
+// angular.module('app', ['ngRoute', 'controllers', 'services'])
 
     .constant('environ', window.environ)
 

@@ -126,6 +126,8 @@ class File(BaseModel):
     storage_id = Column(String, nullable=False)
     # Storage path in storage backend
     storage_path = Column(String, nullable=False)
+    # Media link for downloading the file
+    media_link = Column(String, nullable=False)
     # File repository ID
     repository_id = Column(Integer, ForeignKey('repository.id'), nullable=False)
     # File repository
@@ -144,6 +146,7 @@ class File(BaseModel):
             'size': self.size,
             'storage_id': self.storage_id,
             'storage_path': self.storage_path,
+            'media_link': self.media_link,
             'repository': self.repository.name,
             'file_sets': file_sets,
         })
