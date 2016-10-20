@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="1469161078">
-    <data-source source="LOCAL" name="Sqlite (Xerial) - yoda.db" uuid="05372bd1-dfc2-471d-9ef2-189db13d79a1">
+  <component name="DataSourceManagerImpl" format="xml" hash="2599896934">
+    <data-source source="LOCAL" name="Sqlite (Xerial) - yoda.db" uuid="9b15df1d-fb09-4be7-a6f0-95cb91e162e9">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
