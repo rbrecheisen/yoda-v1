@@ -103,7 +103,6 @@ angular.module('controllers')
                         $scope.user.last_name = user.last_name;
                         $scope.user.is_admin = user.is_admin ? 'true': 'false';
                         $scope.user.is_active = user.is_active ? 'true': 'false';
-
                         $scope.breadcrumbs = [
                             {url: '#/admin-dashboard', text: 'Dashboard'},
                             {url: '#/users', text: 'Users'},

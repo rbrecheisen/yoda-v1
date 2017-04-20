@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="Sqlite (Xerial) - yoda.db">
+  <database-model serializer="dbm" rdbms="SQLITE" format-version="4.0">
+    <root id="1"/>
+    <schema id="2" parent="1">
+      <Visible>1</Visible>
+    </schema>
+    <table id="3" parent="2" name="base"/>
+    <table id="4" parent="2" name="file"/>
+    <table id="5" parent="2" name="file_quality_check"/>
+    <table id="6" parent="2" name="file_set"/>
+    <table id="7" parent="2" name="file_set_files"/>
+    <table id="8" parent="2" name="file_set_schema"/>
+    <table id="9" parent="2" name="file_type"/>
+    <table id="10" parent="2" name="permission"/>
+    <table id="11" parent="2" name="principal"/>
+    <table id="12" parent="2" name="repository"/>
+    <table id="13" parent="2" name="scan_type"/>
+    <table id="14" parent="2" name="user"/>
+    <table id="15" parent="2" name="user_group"/>
+    <table id="16" parent="2" name="user_group_users"/>
+    <column id="17" parent="3" name="id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="18" parent="3" name="created_by">
+      <DataType>INTEGER(0,-1)|4</DataType>
+    </column>
+    <column id="19" parent="3" name="created_at">
+      <DataType>DATETIME(0,-1)|12</DataType>
+    </column>
+    <column id="20" parent="3" name="updated_by">
+      <DataType>INTEGER(0,-1)|4</DataType>
+    </column>
+    <column id="21" parent="3" name="updated_at">
+      <DataType>DATETIME(0,-1)|12</DataType>
+    </column>
+    <column id="22" parent="3" name="model_type">
+      <DataType>VARCHAR(64) (0,-1)|12</DataType>
+    </column>
+    <key id="23" parent="3">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="24" parent="4" name="id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="25" parent="4" name="name">
+      <DataType>VARCHAR(255) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="4" name="file_type_id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+    </column>
+    <column id="27" parent="4" name="scan_type_id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+    </column>
+    <column id="28" parent="4" name="content_type">
+      <DataType>VARCHAR(64) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="29" parent="4" name="size">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="30" parent="4" name="storage_id">
+      <DataType>VARCHAR(0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="31" parent="4" name="storage_path">
+      <DataType>VARCHAR(0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="32" parent="4" name="media_link">
+      <DataType>VARCHAR(0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="33" parent="4" name="repository_id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="34" parent="4">
+      <ColNames>id)
+foreign key(id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="35" parent="4" name="#FAKE_file_4">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>base</RefTableName>
+      <RefKeyName>#1</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <foreign-key id="36" parent="4" name="#FAKE_file_3">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>file_type_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>file</RefTableName>
+      <RefKeyName>file_type</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <foreign-key id="37" parent="4" name="#FAKE_file_2">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>scan_type_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>file</RefTableName>
+      <RefKeyName>scan_type</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <foreign-key id="38" parent="4" name="#FAKE_file_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>repository_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>file</RefTableName>
+      <RefKeyName>repository</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <column id="39" parent="5" name="id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="40" parent="5" name="file_id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="41" parent="5" name="status">
+      <DataType>VARCHAR(4) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="42" parent="5" name="comments">
+      <DataType>TEXT(0,-1)|12</DataType>
+    </column>
+    <key id="43" parent="5">
+      <ColNames>id)
+foreign key(id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="44" parent="5" name="#FAKE_file_quality_check_2">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>base</RefTableName>
+      <RefKeyName>#1</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <foreign-key id="45" parent="5" name="#FAKE_file_quality_check_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>file_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>file_quality_check</RefTableName>
+      <RefKeyName>file</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <column id="46" parent="6" name="id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="47" parent="6" name="name">
+      <DataType>VARCHAR(255) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="48" parent="6" name="schema_id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+    </column>
+    <column id="49" parent="6" name="schema_enabled">
+      <DataType>BOOLEAN(0,-1)|4</DataType>
+    </column>
+    <column id="50" parent="6" name="repository_id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="51" parent="6">
+      <ColNames>id)
+foreign key(id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="52" parent="6" name="#FAKE_file_set_3">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>base</RefTableName>
+      <RefKeyName>#1</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <foreign-key id="53" parent="6" name="#FAKE_file_set_2">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>schema_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>file_set</RefTableName>
+      <RefKeyName>file_set_schema</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <foreign-key id="54" parent="6" name="#FAKE_file_set_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>repository_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>file_set</RefTableName>
+      <RefKeyName>repository</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <column id="55" parent="7" name="file_set_id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+    </column>
+    <column id="56" parent="7" name="file_id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+    </column>
+    <foreign-key id="57" parent="7" name="#FAKE_file_set_files_2">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>file_set_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>file_set_files</RefTableName>
+      <RefKeyName>file_set</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <foreign-key id="58" parent="7" name="#FAKE_file_set_files_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>file_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>file_set_files</RefTableName>
+      <RefKeyName>file</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <column id="59" parent="8" name="id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="60" parent="8" name="name">
+      <DataType>VARCHAR(255) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="61" parent="8" name="version">
+      <DataType>VARCHAR(16) (0,-1)|12</DataType>
+    </column>
+    <column id="62" parent="8" name="_specification">
+      <DataType>TEXT(0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="63" parent="8">
+      <ColNames>id)
+foreign key(id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="64" parent="8" name="#FAKE_file_set_schema_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>base</RefTableName>
+      <RefKeyName>#1</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <column id="65" parent="9" name="id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="66" parent="9" name="name">
+      <DataType>VARCHAR(64) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="67" parent="9" name="sqlite_autoindex_file_type_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="68" parent="9">
+      <ColNames>id)
+foreign key(id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="69" parent="9" name="#FAKE_file_type_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>base</RefTableName>
+      <RefKeyName>#1</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <column id="70" parent="10" name="id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="71" parent="10" name="action">
+      <DataType>VARCHAR(64) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="72" parent="10" name="principal_id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="73" parent="10" name="resource_id">
+      <DataType>VARCHAR(64) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="74" parent="10" name="granted">
+      <DataType>BOOLEAN(0,-1)|4</DataType>
+    </column>
+    <key id="75" parent="10">
+      <ColNames>id)
+foreign key(id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="76" parent="10" name="#FAKE_permission_2">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>base</RefTableName>
+      <RefKeyName>#1</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <foreign-key id="77" parent="10" name="#FAKE_permission_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>principal_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>permission</RefTableName>
+      <RefKeyName>principal</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <column id="78" parent="11" name="id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="79" parent="11" name="principal_type">
+      <DataType>VARCHAR(64) (0,-1)|12</DataType>
+    </column>
+    <key id="80" parent="11">
+      <ColNames>id)
+foreign key(id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="81" parent="11" name="#FAKE_principal_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>base</RefTableName>
+      <RefKeyName>#1</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <column id="82" parent="12" name="id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="83" parent="12" name="name">
+      <DataType>VARCHAR(255) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="84" parent="12" name="sqlite_autoindex_repository_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="85" parent="12">
+      <ColNames>id)
+foreign key(id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="86" parent="12" name="#FAKE_repository_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>base</RefTableName>
+      <RefKeyName>#1</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <column id="87" parent="13" name="id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="88" parent="13" name="name">
+      <DataType>VARCHAR(64) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="89" parent="13" name="sqlite_autoindex_scan_type_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="90" parent="13">
+      <ColNames>id)
+foreign key(id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="91" parent="13" name="#FAKE_scan_type_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>base</RefTableName>
+      <RefKeyName>#1</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <column id="92" parent="14" name="id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="93" parent="14" name="username">
+      <DataType>VARCHAR(64) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="94" parent="14" name="password">
+      <DataType>VARBINARY(1137) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="95" parent="14" name="email">
+      <DataType>VARCHAR(255) (0,-1)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="96" parent="14" name="first_name">
+      <DataType>VARCHAR(255) (0,-1)|12</DataType>
+    </column>
+    <column id="97" parent="14" name="last_name">
+      <DataType>VARCHAR(255) (0,-1)|12</DataType>
+    </column>
+    <column id="98" parent="14" name="is_superuser">
+      <DataType>BOOLEAN(0,-1)|4</DataType>
+    </column>
+    <column id="99" parent="14" name="is_admin">
+      <DataType>BOOLEAN(0,-1)|4</DataType>
+    </column>
+    <column id="100" parent="14" name="is_active">
+      <DataType>BOOLEAN(0,-1)|4</DataType>
+    </column>
+    <column id="101" parent="14" name="is_visible">
+      <DataType>BOOLEAN(0,-1)|4</DataType>
+    </column>
+    <index id="102" parent="14" name="ix_user_username">
+      <ColNames>username</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="103" parent="14" name="ix_user_email">
+      <ColNames>email</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="104" parent="14">
+      <ColNames>id)
+foreign key(id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="105" parent="14" name="#FAKE_user_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>user</RefTableName>
+      <RefKeyName>principal</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <column id="106" parent="15" name="id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="107" parent="15" name="name">
+      <DataType>VARCHAR(64) (0,-1)|12</DataType>
+    </column>
+    <column id="108" parent="15" name="is_visible">
+      <DataType>BOOLEAN(0,-1)|4</DataType>
+    </column>
+    <index id="109" parent="15" name="sqlite_autoindex_user_group_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="110" parent="15">
+      <ColNames>id)
+foreign key(id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="111" parent="15" name="#FAKE_user_group_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>user_group</RefTableName>
+      <RefKeyName>principal</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <column id="112" parent="16" name="user_group_id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+    </column>
+    <column id="113" parent="16" name="user_id">
+      <DataType>INTEGER(0,-1)|4</DataType>
+    </column>
+    <foreign-key id="114" parent="16" name="#FAKE_user_group_users_2">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>user_group_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>user_group_users</RefTableName>
+      <RefKeyName>user_group</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+    <foreign-key id="115" parent="16" name="#FAKE_user_group_users_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>user_id</ColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <RefTableName>user_group_users</RefTableName>
+      <RefKeyName>user</RefKeyName>
+      <OnDelete>no-action</OnDelete>
+      <OnUpdate>no-action</OnUpdate>
+    </foreign-key>
+  </database-model>
+</dataSource>
